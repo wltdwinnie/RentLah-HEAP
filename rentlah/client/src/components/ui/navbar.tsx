@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 export function Navbar({
   className,
   ...props
-}: React.HTMLAttributes<HTMLElement>) {
+}: React.ComponentProps<"nav">) {
   return (
     <nav
       className={cn(

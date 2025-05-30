@@ -19,7 +19,7 @@ const MainLayout = ({children}: MainLayoutProps) => {
     <html lang="en">
       <body>
         <div className="relative flex min-h-screen flex-col">
-          <div className="fixed top-0 left-0 right-0 z-50 border-b bg-white">
+          <div className="fixed top-0 left-0 right-0 z-50 border-b">
             <Navbar />
           </div>
           <div className="flex min-h-screen pt-[64px]">

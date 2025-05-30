@@ -8,85 +8,72 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { CheckboxGroup } from "./ui/checkbox-group";
 import { useState } from "react";
 
-// Room type options
-const propertyTypes = [
+// Filter options
+const PROPERTY_TYPES = [
   { id: "hdb", label: "HDB" },
   { id: "condo", label: "Condo" },
   { id: "landed", label: "Landed" },
 ];
 
-export function AppSidebar() {
-  const [isRoomTypeOpen, setIsRoomTypeOpen] = useState(true);
-  const [selectedRoomTypes, setSelectedRoomTypes] = useState<string[]>([]);
+const AMENITIES = [
+  { id: "parking", label: "Parking" },
+  { id: "pool", label: "Swimming Pool" },
+  { id: "gym", label: "Gym" },
+  { id: "security", label: "24/7 Security" },
+  { id: "aircon", label: "Air Conditioning" },
+];
 
-  const toggleRoomType = (typeId: string) => {
-    setSelectedRoomTypes((prev) =>
-      prev.includes(typeId)
-        ? prev.filter((id) => id !== typeId)
-        : [...prev, typeId]
-    );
-  };
+export function AppSidebar() {
+  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>(
+    []
+  );
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
   const clearAll = () => {
-    setSelectedRoomTypes([]);
+    setSelectedPropertyTypes([]);
+    setSelectedAmenities([]);
   };
 
   return (
-    <Sidebar className="border-r bg-white" collapsible="offcanvas">
-      <div className="flex flex-col h-[calc(100vh-64px)] mt-[64px]">
-        <SidebarHeader className="pl-5 py-3 border-b">
+    <Sidebar collapsible="offcanvas">
+      <div className="flex flex-col mt-[64px]">
+        <SidebarHeader className="pl-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <span className="font-medium">Filters</span>
             <Button
               variant="ghost"
               size="sm"
-              className="text-gray-500 hover:text-gray-700 text-sm h-6"
+              className="text-gray-500 hover:text-gray-700 text-sm h-7"
               onClick={clearAll}
             >
               Clear All
             </Button>
           </div>
         </SidebarHeader>
-        <SidebarContent className="flex-1 overflow-y-auto">
+        <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
-              <div className="p-2">
-                <button
-                  className="flex items-center justify-between w-full py-1.5 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
-                  onClick={() => setIsRoomTypeOpen(!isRoomTypeOpen)}
-                >
-                  <span className="text-sm font-medium">Room Type</span>
-                  {isRoomTypeOpen ? (
-                    <ChevronDown className="text-gray-500" size={16} />
-                  ) : (
-                    <ChevronRight className="text-gray-500" size={16} />
-                  )}
-                </button>
-
-                {isRoomTypeOpen && (
-                  <div className="mt-1 space-y-1 pl-2">
-                    {propertyTypes.map((type) => (
-                      <label
-                        key={type.id}
-                        className="flex items-center space-x-2 py-1 px-1 cursor-pointer hover:bg-gray-50 rounded-sm text-sm text-gray-700"
-                      >
-                        <input
-                          type="checkbox"
-                          className="w-3.5 h-3.5 rounded border-gray-300 text-blue-600"
-                          checked={selectedRoomTypes.includes(type.id)}
-                          onChange={() => toggleRoomType(type.id)}
-                        />
-                        <span>{type.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <CheckboxGroup
+                title="Property Type"
+                options={PROPERTY_TYPES}
+                selectedValues={selectedPropertyTypes}
+                onChange={setSelectedPropertyTypes}
+              />
             </SidebarGroupContent>
-          </SidebarGroup>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <CheckboxGroup
+                  title="Amenities"
+                  options={AMENITIES}
+                  selectedValues={selectedAmenities}
+                  onChange={setSelectedAmenities}
+                />
+              </SidebarGroupContent>
+            </SidebarGroup>
         </SidebarContent>
       </div>
     </Sidebar>
