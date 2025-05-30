@@ -6,18 +6,16 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
-  SidebarGroupLabel,
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 // Room type options
-const roomTypes = [
-  { id: "entire-unit", label: "Entire Unit" },
-  { id: "private-room", label: "Private Room" },
-  { id: "shared-room", label: "Shared Room" },
-  { id: "studio", label: "Studio" },
+const propertyTypes = [
+  { id: "hdb", label: "HDB" },
+  { id: "condo", label: "Condo" },
+  { id: "landed", label: "Landed" },
 ];
 
 export function AppSidebar() {
@@ -70,7 +68,7 @@ export function AppSidebar() {
 
                 {isRoomTypeOpen && (
                   <div className="mt-1 space-y-1 pl-2">
-                    {roomTypes.map((type) => (
+                    {propertyTypes.map((type) => (
                       <label
                         key={type.id}
                         className="flex items-center space-x-2 py-1 px-1 cursor-pointer hover:bg-gray-50 rounded-sm text-sm text-gray-700"

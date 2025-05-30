@@ -4,20 +4,8 @@ export type Listing = {
 
   // Property Details
   aptType:
-    | "1-room"
-    | "2-room"
-    | "2-room-flexi"
-    | "3-room"
-    | "4-room"
-    | "5-room"
     | "executive"
     | "studio-apartment"
-    | "3gen"
-    | "dbss"
-    | "executive-maisonette"
-    | "jumbo-flat"
-    | "terrace-3room"
-    | "terrace-4room"
     | "studio"
     | "1-bedroom"
     | "2-bedroom"
@@ -25,22 +13,8 @@ export type Listing = {
     | "4-bedroom"
     | "5-bedroom"
     | "penthouse"
-    | "maisonette"
-    | "duplex"
-    | "terrace"
-    | "corner-terrace"
     | "semi-detached"
-    | "detached"
-    | "bungalow"
-    | "cluster-terrace"
-    | "cluster-semi-detached"
-    | "cluster-bungalow"
-    | "good-class-bungalow"
-    | "shophouse"
-    | "conservation-shophouse"
-    | "hudc-flat"
-    | "walk-up-apartment"
-    | "serviced-apartment";
+    | "detached";
 
   propertyType: "HDB" | "Condo" | "Landed";
 

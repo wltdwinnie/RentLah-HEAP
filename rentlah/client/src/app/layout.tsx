@@ -17,13 +17,6 @@ interface MainLayoutProps {
 const MainLayout = ({children}: MainLayoutProps) => {
   return (
     <html lang="en">
-      <head>
-        <title>RentLah!</title>
-        <meta
-          name="description"
-          content="RentLah! - Rent anything, anywhere."
-        />
-      </head>
       <body>
         <div className="relative flex min-h-screen flex-col">
           <div className="fixed top-0 left-0 right-0 z-50 border-b bg-white">
