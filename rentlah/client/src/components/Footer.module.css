@@ -1,0 +1,40 @@
+.footer {
+    background-color: var(--primary-light);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.text {
+    color: var(--primary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.contacts {
+    display: flex;
+    gap: 1rem;
+}
+
+.contactItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: var(--primary);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    font-size: 1.25rem;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.contactItem:hover {
+    background-color: #e6f2ff;
+    transform: scale(1.05);
+}

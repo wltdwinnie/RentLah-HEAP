@@ -1,0 +1,111 @@
+/* Shared Section Styling */
+.section {
+    width: 100%;
+    padding: 4rem 1rem;
+    margin-bottom: 2rem;
+}
+
+.sectionInner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.sectionWhite {
+    background-color: #ffffff;
+}
+
+.sectionLightBlue {
+    background-color: var(--primary-light);
+}
+
+.subTitle {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* Welcome Section */
+.welcomeSection {
+    text-align: center;
+    animation: fadeIn 1.2s ease-out;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.description {
+    font-size: 1.2rem;
+    color: #333;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* Featured Listings */
+.featuredSection {
+    margin-top: 4rem;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.viewAll {
+    color: var(--primary);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Benefits Grid */
+.benefitsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.benefitCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+/* Testimonials */
+.testimonialCard {
+    max-width: 250px;
+    padding: 1rem;
+    background-color: var(--primary-light);
+    border-left: 4px solid var(--primary);
+    border-radius: 6px;
+    font-style: italic;
+    color: #333;
+}
+
+.testimonials {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
