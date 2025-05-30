@@ -1,14 +1,21 @@
+import styles from './Footer.module.css';
+
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="flex flex-col items-center justify-center py-4 bg-gray-50">
-      <div className="mb-2 text-sm text-gray-600">
-        &copy; {new Date().getFullYear()} RentLah. All rights reserved.
+    <footer className={styles.footer}>
+      <div className={styles.contacts}>
+        {/* Temporary links */}
+        <a href="mailto:winleithawdar2005@gmail.com" className={styles.contactItem} title="Email">
+          ✉️
+        </a>
+        <a href="https://instagram.com/winleithawdar" target="_blank" rel="noopener noreferrer" className={styles.contactItem} title="Instagram">
+          🅾
+        </a>
       </div>
-      <div className="flex gap-4">
-        {/* Social media placeholders */}
-        <span className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-500">F</span>
-        <span className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-500">T</span>
-        <span className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-500">I</span>
+      <div className={styles.text}>
+        &copy; {currentYear} RentLah. All rights reserved.
       </div>
     </footer>
   );

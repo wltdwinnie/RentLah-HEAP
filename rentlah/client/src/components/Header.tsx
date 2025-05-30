@@ -1,34 +1,39 @@
-// components/Header.tsx
 import Image from 'next/image';
+import styles from './Header.module.css';
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between px-6 py-4 shadow-md bg-white sticky top-0 z-50">
-      {/* Logo */}
-      <div className="flex items-center">
-        <Image src="/assets/logo.png" alt="RentLah Logo" width={200} height={60} />
+    <header className={styles.header}>
+      {/* Temporary logo */}
+      <div className={styles.logoContainer}>
+        <Image src="/assets/logo.png" alt="RentLah Logo" width={200} height={50} /> 
       </div>
-      {/* Search Bar */}
-      <div className="flex-1 flex justify-center">
-        <input
-          type="text"
-          placeholder="Search for homes, locations..."
-          className="w-full max-w-md px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+
+      {/* Search Bar with Dropdown */}
+      <div className={styles.searchContainer}>
+        <div className={styles.dropdownWrapper}>
+          <input
+            type="text"
+            placeholder="Search your university"
+            className={styles.searchInput}
+            readOnly
+          />
+          <ul className={styles.dropdown}>
+            <li>National University of Singapore (NUS)</li>
+            <li>Nanyang Technological University (NTU)</li>
+            <li>Singapore Management University (SMU)</li>
+            <li>Singapore University of Technology and Design (SUTD)</li>
+            <li>Singapore Institute of Technology (SIT)</li>
+            <li>Singapore University of Social Sciences (SUSS)</li>
+          </ul>
+        </div>
       </div>
-      {/* Icons */}
-      <div className="flex items-center gap-4">
-        {/* Notification Bell */}
-        <button className="p-2 rounded-full hover:bg-gray-100">
-          <span role="img" aria-label="Notifications">&#128276;</span>
-        </button>
-        {/* Login/Signup */}
-        <button className="px-4 py-2 rounded-full border font-semibold hover:bg-gray-100">
-          Login
-        </button>
-        <button className="px-4 py-2 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700">
-          Sign Up
-        </button>
+
+      {/* Action Buttons */}
+      <div className={styles.actions}>
+        <button className={styles.bell}>⩍</button>
+        <button className={styles.login}>Login</button>
+        <button className={styles.signup}>Sign Up</button>
       </div>
     </header>
   );
