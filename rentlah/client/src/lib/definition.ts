@@ -1,6 +1,7 @@
 export type Listing = {
   // Identifier
   id: string;
+  description: string; // Brief description of the property
 
   // Property Details
   aptType:
@@ -35,7 +36,7 @@ export type Listing = {
   address: {
     blk: number;
     street: string;
-    postalCode: number;
+    postalCode: string; // Singapore postal codes should be strings to preserve leading zeros
     floor?: number;
     unit?: number;
   };

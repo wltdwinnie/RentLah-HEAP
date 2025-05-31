@@ -8,7 +8,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
-import { CheckboxGroup } from "./ui/checkbox-group";
+import { CheckboxGroup } from "./checkbox-group";
 import { useState } from "react";
 
 // Filter options

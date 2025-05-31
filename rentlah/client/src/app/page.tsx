@@ -3,6 +3,9 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { UniversityDropdown } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { sampleListings } from "@/lib/sample-data";
+import { Listing } from "@/lib/definition";
+import { PropertyCardGroup } from "@/components/propertycard-group";
 
 export default function FilterPage() {
   const [selectedUniversity, setSelectedUniversity] =
@@ -30,6 +33,10 @@ export default function FilterPage() {
           </div>
         </div>
         <div className="pt-5 font-medium">Filtered Results</div>
+        <div className="mt-2 text-sm text-gray-800">... results found</div>
+        <div className="pt-5">
+          <PropertyCardGroup listings={sampleListings as Listing[]} />
+        </div>
       </div>
     </>
   );
