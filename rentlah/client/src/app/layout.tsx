@@ -1,7 +1,6 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Navbar } from "@/components/ui/navbar";
-import { SlidersHorizontal } from "lucide-react";
 import '@/assets/styles/globals.css';
 
 export const metadata = {
@@ -25,12 +24,7 @@ const MainLayout = ({children}: MainLayoutProps) => {
           <div className="flex min-h-screen pt-[64px]">
             <SidebarProvider>
               <AppSidebar />
-              <main className="flex-1 overflow-auto">
-                <div className="p-4">
-                  <SidebarTrigger>
-                    <SlidersHorizontal className="h-4 w-4" />
-                  </SidebarTrigger>
-                </div>
+              <main>
                 {children}
               </main>
             </SidebarProvider>
