@@ -1,8 +1,12 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import { Listing } from "@/lib/definition";
-
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight, Footprints, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -16,8 +20,8 @@ const Card = React.forwardRef<
     )}
     {...props}
   />
-))
-Card.displayName = "Card"
+));
+Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
@@ -28,8 +32,8 @@ const CardHeader = React.forwardRef<
     className={cn("flex flex-col space-y-1.5 p-6", className)}
     {...props}
   />
-))
-CardHeader.displayName = "CardHeader"
+));
+CardHeader.displayName = "CardHeader";
 
 const CardTitle = React.forwardRef<
   HTMLDivElement,
@@ -40,8 +44,8 @@ const CardTitle = React.forwardRef<
     className={cn("font-semibold leading-none tracking-tight", className)}
     {...props}
   />
-))
-CardTitle.displayName = "CardTitle"
+));
+CardTitle.displayName = "CardTitle";
 
 const CardDescription = React.forwardRef<
   HTMLDivElement,
@@ -52,16 +56,16 @@ const CardDescription = React.forwardRef<
     className={cn("text-sm text-muted-foreground", className)}
     {...props}
   />
-))
-CardDescription.displayName = "CardDescription"
+));
+CardDescription.displayName = "CardDescription";
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
+  <div ref={ref} className={cn("px-6 pb-1", className)} {...props} />
+));
+CardContent.displayName = "CardContent";
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
@@ -69,56 +73,149 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
+    className={cn("flex items-center px-6 pb-1", className)}
     {...props}
   />
-))
-CardFooter.displayName = "CardFooter"
+));
+CardFooter.displayName = "CardFooter";
 
 interface PropertyCardProps {
   listing: Listing;
 }
 const PropertyCard = ({ listing }: PropertyCardProps) => {
+  const router = useRouter();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Temporary array of images - replace this with listing.images when available
+  const images = [
+    "/pexels-photo-106399.jpeg",
+    "/pexels-photo-106399.jpeg",
+    "/pexels-photo-106399.jpeg",
+  ];
+
+  const handleClick = () => {
+    router.push(`/properties/${listing.id}`, { scroll: false });
+  };
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const previousImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{listing.address.blk} {listing.address.street}</CardTitle>
-        <CardDescription>{listing.description.substring(0,50)} ...</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col space-y-1">
-          <p>Postal Code: {listing.address.postalCode}</p>
-          <p>Property Type: {listing.propertyType}</p>
-          <p>Apartment Type: {listing.aptType}</p>
-          <p>Size: {listing.sqft} sqft</p>
-          <p>Furnishing: {listing.furnishing}</p>
-          <div>
-            <p>Rooms:</p>
-            <ul className="list-disc list-inside">
-              <li>{listing.roomConfig.bedrooms} Bedrooms</li>
-              <li>{listing.roomConfig.bathrooms} Bathrooms</li>
-              {listing.roomConfig.study && <li>Study Room</li>}
-              {listing.roomConfig.helper && <li>Helper{"'"}s Room</li>}
-              {listing.roomConfig.balcony && <li>Balcony</li>}
-            </ul>
+    <div onClick={handleClick} className="h-[460px]">
+      <Card className="h-full overflow-hidden">
+        <div className="relative w-full h-[200px] group">
+          <Image
+            src={images[currentImageIndex]}
+            fill
+            style={{ objectFit: "cover" }}
+            className="rounded-t-xl transition-opacity duration-300"
+            alt={`Property image ${currentImageIndex + 1}`}
+          />
+          {/* Navigation Buttons - Only show on hover */}
+          <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button
+              size="icon"
+              variant="secondary"
+              className="rounded-full bg-black/50 hover:bg-black/70"
+              onClick={previousImage}
+            >
+              <ChevronLeft className="h-4 w-4 text-white" />
+            </Button>
+            <Button
+              size="icon"
+              variant="secondary"
+              className="rounded-full bg-black/50 hover:bg-black/70"
+              onClick={nextImage}
+            >
+              <ChevronRight className="h-4 w-4 text-white" />
+            </Button>
+          </div>
+
+          {/* Image Indicators */}
+          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
+            {images.map((_, index) => (
+              <div
+                key={index}
+                className={`h-1.5 w-1.5 rounded-full transition-all ${
+                  index === currentImageIndex ? "w-3 bg-white" : "bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start">
+            <div className="bg-black/50 text-white px-3 py-2 rounded-lg text-sm font-semibold">
+              ${listing.perMonth}/mo
+            </div>
+            <Button
+              size="icon"
+              className="bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                // TODO: Implement save functionality
+              }}
+            >
+              <Heart className="h-5 w-5 text-white" />
+            </Button>
           </div>
         </div>
-      </CardContent>
-      <CardFooter>
-          <div className="text-sm">
-            MRT: {listing.nearbyMRT[0]?.distance + "m from " + listing.nearbyMRT[0]?.name || "N/A"}
+        <CardHeader>
+          <CardTitle className="truncate">
+            {listing.address.blk} {listing.address.street},{" "}
+            {listing.address.postalCode}
+          </CardTitle>
+          <CardDescription className="line-clamp-2">
+            {listing.description}
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <div className="flex flex-wrap gap-2 mb-4">
+            <Card className="px-3 py-1 w-fit text-sm">
+              {listing.propertyType}
+            </Card>
+            <Card className="px-3 py-1 w-fit text-sm">
+              {listing.furnishing}
+            </Card>
+            <Card className="px-3 py-1 w-fit text-sm">{listing.aptType}</Card>
+            <Card className="px-3 py-1 w-fit text-sm">{listing.sqft} sqft</Card>
           </div>
-          <div>
+        </CardContent>
+
+        <CardFooter className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 w-full">
+            <Footprints className="h-5 w-5 flex-shrink-0" />
+            <span className="text-sm truncate">
+              {listing.nearbyMRT[0]?.distance +
+                "m from " +
+                listing.nearbyMRT[0]?.name || "N/A"}
+            </span>
+          </div>
+
           {listing.facilities && listing.facilities.length > 0 && (
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-muted-foreground truncate w-full">
               Facilities: {listing.facilities.join(", ")}
             </div>
           )}
-          </div>
-      </CardFooter>
-    </Card>
-  )
-}
-export { PropertyCard }
+        </CardFooter>
+      </Card>
+    </div>
+  );
+};
+export { PropertyCard };
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+};
