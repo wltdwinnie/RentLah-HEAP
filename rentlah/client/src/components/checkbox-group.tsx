@@ -21,7 +21,7 @@ export function CheckboxGroup({
   selectedValues,
   onChange,
 }: CheckboxGroupProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleOption = (optionId: string) => {
     const newValues = selectedValues.includes(optionId)
@@ -34,17 +34,17 @@ export function CheckboxGroup({
     <div className="p-2">
       <button
         className="flex items-center justify-between w-full py-1.5 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsExpanded(!isExpanded)}
       >
         <span className="text-sm font-medium">{title}</span>
-        {isOpen ? (
+        {isExpanded ? (
           <ChevronDown className="text-gray-500" size={16} />
         ) : (
           <ChevronRight className="text-gray-500" size={16} />
         )}
       </button>
 
-      {isOpen && (
+      {isExpanded && (
         <div className="mt-1 space-y-1 pl-2">
           {options.map((option) => (
             <label

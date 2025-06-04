@@ -7,8 +7,9 @@ import {
   SidebarGroupContent,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { Button } from "./ui/button";
-import { CheckboxGroup } from "./checkbox-group";
+import { Button } from "@/components/ui/button";
+import { CheckboxGroup } from "@/components/checkbox-group";
+import { PriceRangeGroup } from "@/components/price-range-group";
 import { useState } from "react";
 
 // Filter options
@@ -31,10 +32,12 @@ export function AppSidebar() {
     []
   );
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([500, 3000]);
 
   const clearAll = () => {
     setSelectedPropertyTypes([]);
     setSelectedAmenities([]);
+    setPriceRange([500, 3000]);
   };
 
   return (
@@ -63,17 +66,28 @@ export function AppSidebar() {
                 onChange={setSelectedPropertyTypes}
               />
             </SidebarGroupContent>
-            </SidebarGroup>
-            <SidebarGroup>
-              <SidebarGroupContent>
-                <CheckboxGroup
-                  title="Amenities"
-                  options={AMENITIES}
-                  selectedValues={selectedAmenities}
-                  onChange={setSelectedAmenities}
-                />
-              </SidebarGroupContent>
-            </SidebarGroup>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <PriceRangeGroup
+                title="Price Range"
+                value={priceRange}
+                onChange={(value) => setPriceRange(value)}
+              />
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <CheckboxGroup
+                title="Amenities"
+                options={AMENITIES}
+                selectedValues={selectedAmenities}
+                onChange={setSelectedAmenities}
+              />
+            </SidebarGroupContent>
+          </SidebarGroup>
         </SidebarContent>
       </div>
     </Sidebar>
