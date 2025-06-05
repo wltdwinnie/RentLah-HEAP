@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base Colors */
+    --background: 0, 0%, 100%; /* #ffffff */
+    --foreground: 0, 0%, 9%; /* #171717 */
+
+    /* Brand Colors */
+    --primary: 230, 72%, 35%; /* #192f9b - deep blue */
+    --primary-light: 208, 97%, 88%; /* #c4e3fe - light blue */
+    --primary-foreground: 230, 72%, 90%; /* high-contrast light for deep blue */
+
+    /* UI Elements */
+    --card: 0, 0%, 100%;
+    --card-foreground: 0, 0%, 9%;
+    --popover: 0, 0%, 100%;
+    --popover-foreground: 0, 0%, 9%;
+    --secondary: 230, 72%, 95%; /* lighter shade of primary */
+    --secondary-foreground: 230, 72%, 15%;
+    --muted: 230, 10%, 96%;
+    --muted-foreground: 230, 10%, 45%;
+    --accent: 208, 97%, 92%; /* slightly darker than primary-light */
+    --accent-foreground: 230, 72%, 15%;
+    --destructive: 0, 84%, 60%;
+    --destructive-foreground: 0, 0%, 98%;
+
+    /* Input & Borders */
+    --border: 230, 20%, 90%;
+    --input: 230, 20%, 90%;
+    --ring: 230, 72%, 35%; /* same as primary */
+    --radius: 0.5rem;
+
+    /* Chart Colors */
+    --chart-1: 230, 72%, 50%;
+    --chart-2: 208, 97%, 60%;
+    --chart-3: 230, 72%, 70%;
+    --chart-4: 208, 97%, 70%;
+    --chart-5: 230, 72%, 80%;
+
+    /* Sidebar Theme */
+    --sidebar-background: 0, 0%, 98%;
+    --sidebar-foreground: 230, 72%, 25%;
+    --sidebar-primary: 230, 72%, 35%;
+    --sidebar-primary-foreground: 0, 0%, 100%;
+    --sidebar-accent: 208, 97%, 92%;
+    --sidebar-accent-foreground: 230, 72%, 25%;
+    --sidebar-border: 230, 20%, 90%;
+    --sidebar-ring: 230, 72%, 60%;
+  }
+
+  .dark {
+    /* Base Colors */
+    --background: 230, 20%, 10%;
+    --foreground: 0, 0%, 98%;
+
+    /* UI Elements */
+    --card: 230, 20%, 10%;
+    --card-foreground: 0, 0%, 98%;
+    --popover: 230, 20%, 10%;
+    --popover-foreground: 0, 0%, 98%;
+    --primary: 230, 72%, 60%;
+    --primary-light: 208, 97%, 30%;
+    --primary-foreground: 0, 0%, 98%;
+    --secondary: 230, 72%, 20%;
+    --secondary-foreground: 0, 0%, 98%;
+    --muted: 230, 20%, 20%;
+    --muted-foreground: 230, 20%, 70%;
+    --accent: 208, 97%, 20%;
+    --accent-foreground: 0, 0%, 98%;
+    --destructive: 0, 84%, 40%;
+    --destructive-foreground: 0, 0%, 98%;
+
+    /* Input & Borders */
+    --border: 230, 20%, 20%;
+    --input: 230, 20%, 20%;
+    --ring: 230, 72%, 60%;
+
+    /* Chart Colors */
+    --chart-1: 230, 72%, 60%;
+    --chart-2: 208, 97%, 50%;
+    --chart-3: 230, 72%, 40%;
+    --chart-4: 208, 97%, 40%;
+    --chart-5: 230, 72%, 50%;
+
+    /* Sidebar Theme */
+    --sidebar-background: 230, 20%, 15%;
+    --sidebar-foreground: 0, 0%, 98%;
+    --sidebar-primary: 230, 72%, 60%;
+    --sidebar-primary-foreground: 0, 0%, 100%;
+    --sidebar-accent: 230, 20%, 20%;
+    --sidebar-accent-foreground: 0, 0%, 98%;
+    --sidebar-border: 230, 20%, 25%;
+    --sidebar-ring: 230, 72%, 60%;
+  }
+}
+
+/* Base Styles */
+body {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
