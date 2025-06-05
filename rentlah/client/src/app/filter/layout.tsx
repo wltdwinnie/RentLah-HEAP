@@ -1,7 +1,7 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/features/filter/app-sidebar";
 import { Navbar } from "@/components/ui/navbar";
-import '@/assets/styles/globals.css';
+import "@/styles/globals.css";
 
 export const metadata = {
   title: "RentLah!",
@@ -10,23 +10,18 @@ export const metadata = {
 };
 
 interface MainLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-const FilterLayout = ({children}: MainLayoutProps) => {
+const FilterLayout = ({ children }: MainLayoutProps) => {
   return (
     <html lang="en">
       <body>
         <div className="relative flex min-h-screen flex-col">
-          <div className="fixed top-0 left-0 right-0 z-50 border-b">
-            <Navbar />
-          </div>
-          <div className="flex min-h-screen pt-[64px]">
+          <div className="flex min-h-screen">
             <SidebarProvider>
               <AppSidebar />
-              <main>
-                {children}
-              </main>
+              <main>{children}</main>
             </SidebarProvider>
           </div>
         </div>

@@ -65,7 +65,6 @@ export function PriceRangeGroup({
                 min={value[0]}
                 max={10000}
                 step={50}
-                className="h-7 w-20"
               />
             </div>
           </div>

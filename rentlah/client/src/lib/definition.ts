@@ -68,6 +68,8 @@ export type Listing = {
     occupation?: string[];
     maxOccupants: number;
   };
+
+  images: string[]; // Array of image URLs
 };
 
 export type MRTInfo = {

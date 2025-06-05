@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -86,25 +88,22 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Temporary array of images - replace this with listing.images when available
-  const images = [
-    "/pexels-photo-106399.jpeg",
-    "/pexels-photo-106399.jpeg",
-    "/pexels-photo-106399.jpeg",
-  ];
-
   const handleClick = () => {
     router.push(`/properties/${listing.id}`, { scroll: false });
   };
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    if (listing.images && listing.images.length > 0) {
+      setCurrentImageIndex((prev) => (prev + 1) % listing.images.length);
+    }
   };
 
   const previousImage = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    if (listing.images && listing.images.length > 0) {
+      setCurrentImageIndex((prev) => (prev - 1 + listing.images.length) % listing.images.length);
+    }
   };
 
   return (
@@ -112,11 +111,15 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
       <Card className="h-full overflow-hidden">
         <div className="relative w-full h-[200px] group">
           <Image
-            src={images[currentImageIndex]}
+            src={listing.images && listing.images.length > 0 && listing.images[currentImageIndex]
+              ? listing.images[currentImageIndex]
+              : '/assets/placeholder-property.webp'
+            }
             fill
             style={{ objectFit: "cover" }}
             className="rounded-t-xl transition-opacity duration-300"
             alt={`Property image ${currentImageIndex + 1}`}
+            priority
           />
           {/* Navigation Buttons - Only show on hover */}
           <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -139,16 +142,18 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
           </div>
 
           {/* Image Indicators */}
-          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
-            {images.map((_, index) => (
-              <div
-                key={index}
-                className={`h-1.5 w-1.5 rounded-full transition-all ${
-                  index === currentImageIndex ? "w-3 bg-white" : "bg-white/50"
-                }`}
-              />
-            ))}
-          </div>
+          {listing.images && listing.images.length > 0 && (
+            <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
+              {listing.images.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-1.5 w-1.5 rounded-full transition-all ${
+                    index === currentImageIndex ? "w-3 bg-white" : "bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
 
           <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start">
             <div className="bg-black/50 text-white px-3 py-2 rounded-lg text-sm font-semibold">
@@ -193,9 +198,9 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
           <div className="flex items-center gap-2 w-full">
             <Footprints className="h-5 w-5 flex-shrink-0" />
             <span className="text-sm truncate">
-              {listing.nearbyMRT[0]?.distance +
-                "m from " +
-                listing.nearbyMRT[0]?.name || "N/A"}
+              {listing.nearbyMRT && listing.nearbyMRT.length > 0
+                ? `${listing.nearbyMRT[0].distance}m from ${listing.nearbyMRT[0].name}`
+                : "No nearby MRT information"}
             </span>
           </div>
 

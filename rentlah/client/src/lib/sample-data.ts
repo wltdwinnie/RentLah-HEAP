@@ -56,6 +56,7 @@ export const sampleListings: Listing[] = [
     tenantPreferences: {
       maxOccupants: 4,
     },
+    images: ["/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
   },
   {
     id: "listing-002",
@@ -120,6 +121,7 @@ export const sampleListings: Listing[] = [
       occupation: ["Student", "Young Professional"],
       maxOccupants: 2,
     },
+    images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
   },
   {
     id: "listing-003",
@@ -177,6 +179,7 @@ export const sampleListings: Listing[] = [
       nationality: "No Preference",
       maxOccupants: 8,
     },
+    images: ["/sample-photo-3.jpeg"],
   },
   {
     id: "listing-004",
@@ -229,6 +232,7 @@ export const sampleListings: Listing[] = [
     tenantPreferences: {
       maxOccupants: 4,
     },
+    images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
   },
   {
     id: "listing-005",
@@ -300,6 +304,7 @@ export const sampleListings: Listing[] = [
       occupation: ["Professional", "Expat"],
       maxOccupants: 6,
     },
+    images: ["/sample-photo-3.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
   },
   {
     id: "listing-006",
@@ -369,6 +374,7 @@ export const sampleListings: Listing[] = [
       occupation: ["Professional", "Expat"],
       maxOccupants: 6,
     },
+    images: ["/sample-photo-1.jpeg"],
   },
   {
     id: "listing-007",
@@ -422,6 +428,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 2,
       occupation: ["Student", "Young Professional"],
     },
+    images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
   },
   {
     id: "listing-008",
@@ -479,6 +486,7 @@ export const sampleListings: Listing[] = [
       nationality: "No Preference",
       maxOccupants: 8,
     },
+    images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg"],
   },
   {
     id: "listing-009",
@@ -535,6 +543,7 @@ export const sampleListings: Listing[] = [
     tenantPreferences: {
       maxOccupants: 6,
     },
+    images: ["/sample-photo-3.jpeg", "/sample-photo-1.jpeg"],
   },
   {
     id: "listing-010",
@@ -594,5 +603,6 @@ export const sampleListings: Listing[] = [
       occupation: ["Student"],
       maxOccupants: 2,
     },
+    images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg"],
   },
 ];

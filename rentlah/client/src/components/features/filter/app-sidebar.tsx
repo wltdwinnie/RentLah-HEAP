@@ -8,8 +8,8 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { CheckboxGroup } from "@/components/checkbox-group";
-import { PriceRangeGroup } from "@/components/price-range-group";
+import { CheckboxGroup } from "@/components/features/filter/checkbox-group";
+import { PriceRangeGroup } from "@/components/features/filter/price-range-group";
 import { useState } from "react";
 
 // Filter options
@@ -42,7 +42,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="offcanvas">
-      <div className="flex flex-col mt-[64px]">
+      <div className="flex flex-col mt-[90px]">
         <SidebarHeader className="pl-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <span className="font-medium">Filters</span>
