@@ -1,12 +1,22 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { Navbar } from "@/components/ui/navbar";
-import '@/assets/styles/globals.css';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-export const metadata = {
-  title: "RentLah!",
-  keywords: ["RentLah", "rent", "rental", "listing", "housing", "property"],
-  description: "RentLah! - Rent anything, anywhere.",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: 'RentLah',
+  description: 'Find your next home easily!',
 };
 
 interface MainLayoutProps {
@@ -16,20 +26,12 @@ interface MainLayoutProps {
 const MainLayout = ({children}: MainLayoutProps) => {
   return (
     <html lang="en">
-      <body>
-        <div className="relative flex min-h-screen flex-col">
-          <div className="fixed top-0 left-0 right-0 z-50 border-b">
-            <Navbar />
-          </div>
-          <div className="flex min-h-screen pt-[64px]">
-            <SidebarProvider>
-              <AppSidebar />
-              <main>
-                {children}
-              </main>
-            </SidebarProvider>
-          </div>
-        </div>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

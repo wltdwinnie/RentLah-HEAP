@@ -1,0 +1,109 @@
+.header {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.logoContainer {
+    flex-shrink: 0;
+}
+
+.searchContainer {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 1.5rem;
+}
+
+.dropdownWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--primary-light);
+    border-radius: 9999px;
+    outline: none;
+    background: white;
+    cursor: pointer;
+}
+
+.searchInput:focus + .dropdown,
+.searchInput:hover + .dropdown {
+    display: block;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 105%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--primary-light);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.dropdown li {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    color: black;
+    background-color: white;
+    font-weight: 500;
+}
+
+.dropdown li:hover {
+    background-color: var(--primary-light);
+    color: #000;
+}
+
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.bell {
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.login {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid var(--primary);
+    background-color: white;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login:hover {
+    background-color: #f0f4ff;
+}
+
+.signup {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.signup:hover {
+    background-color: #143188;
+}
