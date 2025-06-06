@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import styles from './Header.module.css';
+import { SettingsMenu } from '@/components/settings-menu';
 import { UniversityDropdown } from '@/components/features/university-select';
 import { usePathname, useRouter } from 'next/navigation';
 import AuthModal from '../features/login/sign up/AuthModal';
@@ -46,6 +47,10 @@ export default function Header() {
         <button className={styles.bell}>⩍</button>
         <button className={styles.login} onClick={() => openModal('login')}>Login</button>
         <button className={styles.signup} onClick={() => openModal('signup')}>Sign Up</button>
+        {/* Settings icon dropdown */}
+        <div style={{ marginLeft: '1rem' }}>
+          <SettingsMenu />
+        </div>
       </div>
 
       {/* Auth Modal */}
