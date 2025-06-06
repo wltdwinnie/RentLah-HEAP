@@ -1,0 +1,111 @@
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+}
+
+.modal h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form input {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.submitBtn {
+  padding: 0.75rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background-color: #2563eb;
+}
+
+.divider {
+  text-align: center;
+  margin: 1rem 0;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.googleBtn:hover {
+  background-color: #f1f1f1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.socialLogin {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
