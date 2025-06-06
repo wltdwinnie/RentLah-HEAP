@@ -56,7 +56,7 @@ export default function Home() {
       {/* 4. Testimonials */}
       <section className={`${styles.sectionWhite} ${styles.section}`}>
         <div className={styles.sectionInner}>
-          <h2 className={styles.subTitle}>Students' Testimonials</h2>
+          <h2 className={styles.subTitle}>`Students' Testimonials`</h2>
           <div className={styles.testimonials}>
             <div className={styles.testimonialCard}>
               <p>"Super convenient! I found a room near NUS in just 3 days."</p>
