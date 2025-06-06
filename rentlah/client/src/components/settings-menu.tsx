@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { Settings } from 'lucide-react';
 
-export default function SettingsMenu() {
+// export default function SettingsMenu() {
+const SettingsMenu = () => {
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<null | 'language' | 'account'>(null);
   const [darkMode, setDarkMode] = useState(false); 
@@ -85,3 +86,5 @@ export default function SettingsMenu() {
     </div>
   );
 }
+
+export { SettingsMenu };

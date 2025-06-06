@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from './Header.module.css';
-import SettingsMenu from './SettingsMenu';
+import { SettingsMenu } from './settings-menu';
 
 
 
