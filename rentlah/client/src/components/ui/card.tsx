@@ -102,7 +102,9 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
   const previousImage = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (listing.images && listing.images.length > 0) {
-      setCurrentImageIndex((prev) => (prev - 1 + listing.images.length) % listing.images.length);
+      setCurrentImageIndex(
+        (prev) => (prev - 1 + listing.images.length) % listing.images.length
+      );
     }
   };
 
@@ -111,9 +113,12 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
       <Card className="h-full overflow-hidden">
         <div className="relative w-full h-[200px] group">
           <Image
-            src={listing.images && listing.images.length > 0 && listing.images[currentImageIndex]
-              ? listing.images[currentImageIndex]
-              : '/assets/placeholder-property.webp'
+            src={
+              listing.images &&
+              listing.images.length > 0 &&
+              listing.images[currentImageIndex]
+                ? listing.images[currentImageIndex]
+                : "/assets/placeholder-property.webp"
             }
             fill
             style={{ objectFit: "cover" }}
