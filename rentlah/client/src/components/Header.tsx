@@ -1,12 +1,16 @@
 import Image from 'next/image';
 import styles from './Header.module.css';
+import SettingsMenu from './SettingsMenu';
+
+
+
 
 export default function Header() {
   return (
     <header className={styles.header}>
       {/* Temporary logo */}
       <div className={styles.logoContainer}>
-        <Image src="/assets/logo.png" alt="RentLah Logo" width={200} height={50} /> 
+        <Image src="/assets/logo.png" alt="RentLah Logo" width={200} height={50} />
       </div>
 
       {/* Search Bar with Dropdown */}
@@ -34,7 +38,12 @@ export default function Header() {
         <button className={styles.bell}>⩍</button>
         <button className={styles.login}>Login</button>
         <button className={styles.signup}>Sign Up</button>
+        {/* Settings icon dropdown */}
+        <div style={{ marginLeft: '1rem' }}>
+          <SettingsMenu />
+      
       </div>
-    </header>
+    </div>
+    </header >
   );
 }
