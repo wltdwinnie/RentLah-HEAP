@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
+import { ClerkProvider } from "@clerk/nextjs";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,15 +27,19 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Header />
-        <main className="flex-1 pt-[64px]">{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <TooltipProvider>
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <Header />
+            <main className="flex-1 pt-[64px]">{children}</main>
+            <Footer />
+          </body>
+        </html>
+      </TooltipProvider>
+    </ClerkProvider>
   );
 };
 
