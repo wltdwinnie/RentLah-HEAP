@@ -1,19 +1,32 @@
 import styles from './Home.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 export default function Home() {
   return (
     <main>
       {/* 1. Welcome Section */}
-      <section className={`${styles.sectionLightBlue} ${styles.section}`}>
+      <section className={`${styles.section} ${styles.sectionLightBlue}`}>
         <div className={styles.sectionInner}>
           <div className={styles.welcomeSection}>
             <h1 className={styles.title}>Welcome to RentLah!</h1>
             <p className={styles.description}>
-              We are a housing app for SG students. Explore listings by selecting your university in the search bar and find your ideal student accommodation easily.
+              Looking for a place to stay while studying in Singapore? You've come to the right place. RentLah is built <i>for students, by students</i> — making your search for affordable and convenient housing easier than ever.
+            </p>
+            <p className={styles.description}>
+              Start by selecting your university from the search bar. We'll show you listings located near your campus, so you can focus on what matters most: your studies, friends, and the student experience.
+            </p>
+            <p className={styles.description}>
+              Whether you're new to SG or just moving to a new area, RentLah helps you find a place that feels like home — fast, simple, and reliable.
+            </p>
+            <p className={styles.description}>
+              Your next student home is just a few clicks away. Start exploring today!
             </p>
           </div>
+        </div>
+        <div className={styles.imageContainer}>
+          <Image src="/assets/building.png" alt="Decoration" width={600} height={1000} priority/>
         </div>
       </section>
 
