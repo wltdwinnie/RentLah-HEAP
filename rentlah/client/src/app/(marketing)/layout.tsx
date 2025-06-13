@@ -27,7 +27,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <>
       <Header />
-      <main className="flex-1 pt-[64px]">{children}</main>
+      <main className="flex-1">{children}</main>
       <Footer />
     </>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { UniversityDropdown } from "@/components/features/university-select";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -8,6 +8,7 @@ import { sampleListings } from "@/lib/sample-data";
 import { UNIVERSITIES } from "@/lib/constants";
 import { Listing } from "@/lib/definition";
 import { PropertyCardGroup } from "@/components/propertycard-group";
+import { AppSidebar } from "@/components/features/filter/app-sidebar";
 
 export default function FilterPage() {
   const searchParams = useSearchParams();
@@ -44,6 +45,8 @@ export default function FilterPage() {
 
   return (
     <>
+      <SidebarProvider>
+        <AppSidebar />
       <div className="pt-10 p-4">
         <div className="flow-root">
           <SidebarTrigger className="float-left" />
@@ -71,6 +74,7 @@ export default function FilterPage() {
         </Suspense>
         
       </div>
+      </SidebarProvider>
     </>
   );
 }

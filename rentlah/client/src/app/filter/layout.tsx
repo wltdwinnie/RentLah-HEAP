@@ -13,14 +13,14 @@ const FilterLayout = ({ children }: FilterLayoutProps) => {
   return (
     <>
       <Header />
-      <div className="relative flex min-h-screen flex-col pt-[70px]">
-        <SidebarProvider>
-          <AppSidebar />
+      <div className="relative flex min-h-screen flex-col">
+        {/* <SidebarProvider>
+          <AppSidebar /> */}
           <div>
             <main>{children}</main>
             <Footer />
           </div>
-        </SidebarProvider>
+        {/* </SidebarProvider> */}
       </div>
     </>
   );

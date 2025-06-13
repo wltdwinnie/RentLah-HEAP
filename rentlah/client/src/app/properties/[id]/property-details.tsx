@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import Image from "next/image";
 import { Listing } from "@/lib/definition";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,11 +28,16 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
   const [isSaved, setIsSaved] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
 
+  // Load Google Maps API
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: "AIzaSyAW24sAPqAFCNETLXe5Gt_QJB-rHtekod4",
+  });
+
   // Calculate deterministic coordinates based on the listing id
   // const idNum = parseInt(listing.id, 10);
   const center = {
     lat: 1.2963, // lat: 1.3521 + (idNum % 10) * 0.01,
-    lng: 103.8502// lng: 103.8198 + (idNum % 10) * 0.01,
+    lng: 103.8502, // lng: 103.8198 + (idNum % 10) * 0.01,
   };
 
   const nextImage = () => {
@@ -88,7 +93,11 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
           className="absolute top-4 right-4 bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors"
           onClick={() => setIsSaved(!isSaved)}
         >
-          <Heart className={`h-6 w-6 ${isSaved ? 'text-red-500 fill-red-500' : 'text-white'}`} />
+          <Heart
+            className={`h-6 w-6 ${
+              isSaved ? "text-red-500 fill-red-500" : "text-white"
+            }`}
+          />
         </Button>
         {/* Image Indicators */}
         {listing.images && listing.images.length > 0 && (
@@ -197,7 +206,9 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Location</h2>
-              <LoadScript googleMapsApiKey="AIzaSyAW24sAPqAFCNETLXe5Gt_QJB-rHtekod4">
+              {loadError ? (
+                <div>Error loading maps</div>
+              ) : isLoaded ? (
                 <GoogleMap
                   mapContainerStyle={containerStyle}
                   center={center}
@@ -205,7 +216,9 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                 >
                   <Marker position={center} />
                 </GoogleMap>
-              </LoadScript>
+              ) : (
+                <div>Loading maps...</div>
+              )}
               <div className="mt-4 space-y-2">
                 {listing.nearbyMRT.map((mrt) => (
                   <div key={mrt.name} className="flex items-center text-sm">
@@ -266,7 +279,10 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                     </p>
                   </div>
                 )}
-                <Button className="w-full" onClick={() => setShowContactForm(true)}>
+                <Button
+                  className="w-full"
+                  onClick={() => setShowContactForm(true)}
+                >
                   Contact Agent
                 </Button>
               </div>
