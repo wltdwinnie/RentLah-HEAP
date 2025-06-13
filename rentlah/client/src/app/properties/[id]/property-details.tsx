@@ -29,10 +29,10 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
   const [showContactForm, setShowContactForm] = useState(false);
 
   // Calculate deterministic coordinates based on the listing id
-  const idNum = parseInt(listing.id, 10);
+  // const idNum = parseInt(listing.id, 10);
   const center = {
-    lat: 1.3521 + (idNum % 10) * 0.01,
-    lng: 103.8198 + (idNum % 10) * 0.01,
+    lat: 1.2963, // lat: 1.3521 + (idNum % 10) * 0.01,
+    lng: 103.8502// lng: 103.8198 + (idNum % 10) * 0.01,
   };
 
   const nextImage = () => {
@@ -197,7 +197,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Location</h2>
-              <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+              <LoadScript googleMapsApiKey="AIzaSyAW24sAPqAFCNETLXe5Gt_QJB-rHtekod4">
                 <GoogleMap
                   mapContainerStyle={containerStyle}
                   center={center}

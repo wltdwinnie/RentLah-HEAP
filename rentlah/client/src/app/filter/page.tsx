@@ -2,7 +2,7 @@
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { UniversityDropdown } from "@/components/features/university-select";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { sampleListings } from "@/lib/sample-data";
 import { UNIVERSITIES } from "@/lib/constants";
@@ -11,13 +11,16 @@ import { PropertyCardGroup } from "@/components/propertycard-group";
 
 export default function FilterPage() {
   const searchParams = useSearchParams();
-  const [selectedUniversity, setSelectedUniversity] = useState<string>("Select University");
+  const [selectedUniversity, setSelectedUniversity] =
+    useState<string>("Select University");
 
   // Utility function to convert short name to full format
   const getFullUniversityName = (shortName: string) => {
     if (shortName === "Select University") return shortName;
-    const university = UNIVERSITIES.find(uni => uni.shortName === shortName);
-    return university ? `${university.name} (${university.shortName})` : shortName;
+    const university = UNIVERSITIES.find((uni) => uni.shortName === shortName);
+    return university
+      ? `${university.name} (${university.shortName})`
+      : shortName;
   };
 
   // Update selected university when URL parameter changes
@@ -58,11 +61,15 @@ export default function FilterPage() {
         </div>
         <div className="pt-5 font-medium">Filtered Results</div>
         <div className="mt-2 text-sm text-gray-800">
-          {filteredListings.length} {filteredListings.length === 1 ? 'result' : 'results'} found
+          {filteredListings.length}{" "}
+          {filteredListings.length === 1 ? "result" : "results"} found
         </div>
-        <div className="pt-5">
-          <PropertyCardGroup listings={filteredListings as Listing[]} />
-        </div>
+        <Suspense fallback={<div className="center">Loading...</div>}>
+          <div className="pt-5">
+            <PropertyCardGroup listings={filteredListings as Listing[]} />
+          </div>
+        </Suspense>
+        
       </div>
     </>
   );

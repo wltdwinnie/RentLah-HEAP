@@ -3,6 +3,7 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/features/filter/app-sidebar";
 import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
 
 interface FilterLayoutProps {
   children: React.ReactNode;
@@ -13,12 +14,13 @@ const FilterLayout = ({ children }: FilterLayoutProps) => {
     <>
       <Header />
       <div className="relative flex min-h-screen flex-col pt-[70px]">
-        {/* <div className="flex min-h-screen"> */}
-          <SidebarProvider>
-            <AppSidebar />
+        <SidebarProvider>
+          <AppSidebar />
+          <div>
             <main>{children}</main>
-          </SidebarProvider>
-        {/* </div> */}
+            <Footer />
+          </div>
+        </SidebarProvider>
       </div>
     </>
   );
