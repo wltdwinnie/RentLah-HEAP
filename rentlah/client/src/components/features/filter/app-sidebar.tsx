@@ -41,8 +41,8 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="offcanvas">
-      <div className="flex flex-col mt-[90px]">
+    <Sidebar collapsible="offcanvas" className="sticky">
+      <div className="flex flex-col">
         <SidebarHeader className="pl-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <span className="font-medium">Filters</span>
