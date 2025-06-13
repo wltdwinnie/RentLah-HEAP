@@ -6,7 +6,7 @@ import styles from './Header.module.css';
 import { SettingsMenu } from '@/components/settings-menu';
 import { UniversityDropdown } from '@/components/features/university-select';
 import { usePathname, useRouter } from 'next/navigation';
-import AuthModal from '../features/login/sign up/AuthModal';
+import AuthModal from '../features/login/AuthModal';
 
 export default function Header() {
   const [showModal, setShowModal] = useState(false);

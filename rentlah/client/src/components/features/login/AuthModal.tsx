@@ -16,7 +16,8 @@ export default function AuthModal({ onClose, type }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const endpoint = type === 'signup' ? '/api/auth/register' : '/api/auth/login';
+    const endpoint = type === 'signup' ? '/auth/signup' : '/auth/login';
+    console.log(`http://localhost:5000${endpoint}`);
     const res = await fetch(`http://localhost:5000${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
