@@ -52,6 +52,45 @@
   border-radius: 8px;
 }
 
+/* Password input container with toggle button */
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.passwordInput {
+  width: 100%;
+  padding-right: 2.5rem !important;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  padding: 0.25rem;
+}
+
+.passwordToggle:hover {
+  color: #000;
+}
+
+.eyeIcon {
+  opacity: 0.6;
+}
+
+.passwordToggle:hover .eyeIcon {
+  opacity: 1;
+}
+
 .submitBtn {
   padding: 0.75rem;
   background-color: #3b82f6;
@@ -108,4 +147,26 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+
+.errorMessage {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.form input:disabled,
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitBtn:disabled:hover {
+  background-color: inherit;
 }
