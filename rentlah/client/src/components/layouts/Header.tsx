@@ -23,23 +23,55 @@ export default function Header() {
   const router = useRouter();
   const isHomePage = pathname === "/";
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
   // Check authentication status
   useEffect(() => {
     const checkAuth = async () => {
-      
-        console.log("Checking auth status...");
-        const session = await authClient.getSession();
-        console.log("Session response:", session); // Debugging
-        if(session && session.data && 'user' in session.data){
-            console.log("Authenticated user:", session.data.user);
-            setUser(session.data.user);
-        } else{
-          setUser(null);
-        }
-        setAuthLoading(false); 
+      console.log("Checking auth status...");
+      const session = await authClient.getSession();
+      console.log("Session response:", session); // Debugging
+      if (session && session.data && "user" in session.data) {
+        console.log("Authenticated user:", session.data.user);
+        setUser(session.data.user);
+      } else {
+        setUser(null);
+      }
+      setAuthLoading(false);
     };
     checkAuth();
   }, []);
+
+  useEffect(() => {
+  const autoLoginAfterVerification = async () => {
+    try {
+      const email = localStorage.getItem("auth_email");
+      const password = localStorage.getItem("auth_password");
+
+      if (email && password) {
+        const result = await authClient.signIn.email({ email, password });
+
+        if (!result.error) {
+          const session = await authClient.getSession();
+          setUser(session?.data?.user ?? null);
+
+          localStorage.removeItem("auth_email");
+          localStorage.removeItem("auth_password");
+
+          
+        } else {
+          console.error("Auto-login failed:", result.error);
+        }
+      }
+    } catch (err: any) {
+      console.error("Auto-login error:", err);
+    } finally {
+      // Clean URL
+      router.replace("/");
+    }
+  };
+
+  autoLoginAfterVerification();
+}, [router]);
 
   const openModal = (type: "login" | "signup") => {
     setAuthType(type);
@@ -52,7 +84,7 @@ export default function Header() {
     setTimeout(async () => {
       try {
         const session = await authClient.getSession();
-        setUser(session && 'user' in session ? session.user : null);
+        setUser(session && "user" in session ? session.user : null);
       } catch (error) {
         console.error("Auth refresh failed:", error);
       }
@@ -113,13 +145,13 @@ export default function Header() {
           </button>
 
           {/* Auth buttons or user profile */}
-          {!authLoading && (
-            user ? (
+          {!authLoading &&
+            (user ? (
               // Show Google logo as profile icon when authenticated
               <div className={styles.profileSection}>
                 <div className={styles.profileDropdown}>
-                  <Image 
-                    src="/assets/google-logo.png"
+                  <Image
+                    src="/assets/profile_pic.jpg"
                     alt="Profile"
                     width={32}
                     height={32}
@@ -128,13 +160,17 @@ export default function Header() {
                   <div className={styles.profileMenu}>
                     <div className={styles.profileEmail}>{user.email}</div>
                     <hr className={styles.profileDivider} />
-                    <button className={styles.profileButton}>
-                      My Profile
-                    </button>
-                    <button className={styles.profileButton} onClick={() => router.push('/settings')}>
+                    <button className={styles.profileButton}>My Profile</button>
+                    <button
+                      className={styles.profileButton}
+                      onClick={() => router.push("/settings")}
+                    >
                       Settings
                     </button>
-                    <button className={styles.logoutButton} onClick={handleLogout}>
+                    <button
+                      className={styles.logoutButton}
+                      onClick={handleLogout}
+                    >
                       Logout
                     </button>
                   </div>
@@ -143,15 +179,20 @@ export default function Header() {
             ) : (
               // Show login/signup when not authenticated
               <>
-                <button className={styles.login} onClick={() => openModal("login")}>
+                <button
+                  className={styles.login}
+                  onClick={() => openModal("login")}
+                >
                   Login
                 </button>
-                <button className={styles.signup} onClick={() => openModal("signup")}>
+                <button
+                  className={styles.signup}
+                  onClick={() => openModal("signup")}
+                >
                   Sign Up
                 </button>
               </>
-            )
-          )}
+            ))}
         </div>
 
         {/* Notification popup */}
@@ -161,9 +202,7 @@ export default function Header() {
         />
 
         {/* Auth modal */}
-        {showModal && (
-          <AuthModal type={authType} onClose={handleModalClose} />
-        )}
+        {showModal && <AuthModal type={authType} onClose={handleModalClose} />}
       </header>
     </>
   );

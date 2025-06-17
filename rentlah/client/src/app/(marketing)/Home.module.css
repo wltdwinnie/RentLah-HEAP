@@ -1,0 +1,128 @@
+/* Shared Section Styling */
+.section {
+    width: 100%;
+    padding: 4rem 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.sectionInner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.sectionWhite {
+    background-color: hsl(var(--background));
+}
+
+.sectionLightBlue {
+    background-color: hsl(var(--primary-light));
+}
+
+.subTitle {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    color: hsl(var(--primary));
+}
+
+/* Welcome Section */
+.welcomeSection {
+    text-align: left;
+    animation: fadeIn 1.2s ease-out;
+    position: relative;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: flex-start;
+    overflow: hidden;
+    background-color: hsl(var(--primary-light));
+}
+
+.title {
+    font-size: 4rem;
+    font-weight: bold;
+    color: hsl(var(--primary));
+    margin-bottom: 1rem;
+}
+
+.description {
+    font-size: 1.2rem;
+    color: #333;
+    max-width: 600px;
+    margin: 0 0 2rem 0;
+}
+
+.imageContainer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: auto;
+  z-index: 10;
+}
+
+/* Featured Listings */
+.featuredSection {
+    margin-top: 4rem;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.viewAll {
+    color: var(--primary);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Benefits Grid */
+.benefitsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.benefitCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+/* Testimonials */
+.testimonialCard {
+    max-width: 250px;
+    padding: 1rem;
+    background-color: hsl(var(--primary-light));
+    border-left: 4px solid hsl(var(--primary));
+    border-radius: 6px;
+    font-style: italic;
+    color: #333;
+}
+
+.testimonials {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
