@@ -8,6 +8,8 @@ import {
 } from "nuqs";
 import { UNIVERSITIES } from "@/lib/constants";
 import { Listing } from "@/lib/definition";
+import { useDebouncedCallback } from 'use-debounce';
+
 
 /**
  * Comprehensive filtering hook using nuqs for robust search params management
@@ -37,7 +39,7 @@ export function useListingFilters() {
   // University-specific handlers
   const selectedUniversity = getFullUniversityName(filters.university);
 
-  const handleUniversityChange = (uni: string) => {
+  const handleUniversityChange = useDebouncedCallback((uni: string) => {
     if (uni === "Select University") {
       setFilters({ university: "" });
     } else {
@@ -46,35 +48,35 @@ export function useListingFilters() {
       const shortName = match ? match[1] : uni;
       setFilters({ university: shortName });
     }
-  };
+  }, 300);
 
   // Property type handler
-  const handlePropertyTypeChange = (type: string) => {
+  const handlePropertyTypeChange = useDebouncedCallback((type: string) => {
     setFilters({ propertyType: type === "All" ? "" : type });
-  };
+  }, 300);
 
   // Price range handlers
-  const handlePriceRangeChange = (min: number, max: number) => {
+  const handlePriceRangeChange = useDebouncedCallback((min: number, max: number) => {
     setFilters({
       minPrice: min || 0,
       maxPrice: max || 0,
     });
-  };
+  }, 300);
 
   // Bedroom count handler (now supports multiple selections)
-  const handleBedroomChange = (bedrooms: string[]) => {
+  const handleBedroomChange = useDebouncedCallback((bedrooms: string[]) => {
     setFilters({ bedrooms });
-  };
+  }, 300);
 
   // Furnishing handler (now supports multiple selections)
-  const handleFurnishingChange = (furnishing: string[]) => {
+  const handleFurnishingChange = useDebouncedCallback((furnishing: string[]) => {
     setFilters({ furnishing });
-  };
+  }, 300);
 
   // Amenities handler
-  const handleAmenitiesChange = (amenities: string[]) => {
+  const handleAmenitiesChange = useDebouncedCallback((amenities: string[]) => {
     setFilters({ amenities });
-  };
+  }, 300);
 
   // Clear all filters
   const clearAllFilters = () => {

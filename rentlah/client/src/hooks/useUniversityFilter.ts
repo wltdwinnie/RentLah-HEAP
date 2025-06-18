@@ -2,6 +2,8 @@
 
 import { useQueryState, parseAsString } from "nuqs";
 import { UNIVERSITIES } from "@/lib/constants";
+import { useDebouncedCallback } from 'use-debounce';
+
 
 /**
  * Utility functions for university display formatting
@@ -81,7 +83,7 @@ export function useUniversityFilter() {
     universityDisplayUtils.getFullUniversityName(universityParam);
 
   // Handler to update university filter
-  const handleUniversityChange = (uni: string) => {
+  const handleUniversityChange = useDebouncedCallback((uni: string) => {
     if (uni === "Select University") {
       setUniversityParam(null); // Remove the parameter
     } else {
@@ -89,7 +91,7 @@ export function useUniversityFilter() {
       const shortName = universityDisplayUtils.extractShortName(uni);
       setUniversityParam(shortName);
     }
-  };
+  }, 300);
 
   // Clear filter
   const clearUniversityFilter = () => {
