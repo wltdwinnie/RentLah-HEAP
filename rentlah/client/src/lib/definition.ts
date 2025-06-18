@@ -15,7 +15,8 @@ export type Listing = {
     | "5-bedroom"
     | "penthouse"
     | "semi-detached"
-    | "detached";
+    | "detached"
+    | "others";
 
   propertyType: "HDB" | "Condo" | "Landed";
 
@@ -44,7 +45,7 @@ export type Listing = {
 
   facilities?: string[]; // ["Swimming Pool", "Gym", "Tennis Court", "BBQ Pit", "Playground"]
 
-  parking?: {
+  parking: {
     available: boolean;
     type?: "Covered" | "Open" | "Mechanical";
     spaces?: number;
@@ -70,13 +71,6 @@ export type Listing = {
   };
 
   images: string[]; // Array of image URLs
-
-  userId: string; // User ID of the person who created the listing
-  createdAt: Date; // Timestamp of when the listing was created
-  updatedAt: Date; // Timestamp of when the listing was last updated
-  isActive: boolean; // Whether the listing is currently active
-  isFeatured: boolean; // Whether the listing is featured
-  isVerified: boolean; // Whether the listing has been verified by an admin
 };
 
 export type MRTInfo = {
