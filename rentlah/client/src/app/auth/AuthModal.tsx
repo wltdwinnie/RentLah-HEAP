@@ -80,8 +80,8 @@ export default function AuthModal({ onClose, type }: Props) {
         return;
       }
 
-      localStorage.setItem("auth_email", email);
-      localStorage.setItem("auth_password", password);
+      // localStorage.setItem("auth_email", email);
+      // localStorage.setItem("auth_password", password);
 
       setJustSignedUp(true);
       setLoading(false);

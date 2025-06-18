@@ -33,6 +33,11 @@ export default function Header() {
         console.log("Authenticated user:", session.data.user);
         setUser(session.data.user);
       } else {
+        //Temporaty. Will add GUI later
+        if(!isHomePage){
+          alert("Please log in to access this page. Redirecting...");
+          router.push("/");
+        }
         setUser(null);
       }
       setAuthLoading(false);
@@ -40,36 +45,35 @@ export default function Header() {
     checkAuth();
   }, []);
 
-  useEffect(() => {
-  const autoLoginAfterVerification = async () => {
-    try {
-      const email = localStorage.getItem("auth_email");
-      const password = localStorage.getItem("auth_password");
+  // useEffect(() => {
+  // const autoLoginAfterVerification = async () => {
+  //   try {
+  //     const email = localStorage.getItem("auth_email");
+  //     const password = localStorage.getItem("auth_password");
 
-      if (email && password) {
-        const result = await authClient.signIn.email({ email, password });
+  //     if (email && password) {
+  //       const result = await authClient.signIn.email({ email, password });
 
-        if (!result.error) {
-          const session = await authClient.getSession();
-          setUser(session?.data?.user ?? null);
+  //       if (!result.error) {
+  //         const session = await authClient.getSession();
+  //         setUser(session?.data?.user ?? null);
 
-          localStorage.removeItem("auth_email");
-          localStorage.removeItem("auth_password");
+  //         localStorage.removeItem("auth_email");
+  //         localStorage.removeItem("auth_password");
           
-        } else {
-          console.log("Auto-login failed:", result.error);
-        }
-      }
-    } catch (err: any) {
-      console.log("Auto-login error:", err);
-    } finally {
-      // Clean URL
-      router.replace("/");
-    }
-  };
-
-  autoLoginAfterVerification();
-}, [router]);
+  //       } else {
+  //         console.log("Auto-login failed:", result.error);
+  //       }
+  //     }
+  //   } catch (err: any) {
+  //     console.log("Auto-login error:", err);
+  //   } finally {
+  //     // Clean URL
+  //     router.replace("/");
+  //   }
+  // };
+//   autoLoginAfterVerification();
+// }, [router]);
 
   const openModal = (type: "login" | "signup") => {
     setAuthType(type);
