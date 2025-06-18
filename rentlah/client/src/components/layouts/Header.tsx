@@ -5,13 +5,12 @@ import Image from "next/image";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import { SettingsMenu } from "@/components/settings-menu";
-import { UniversityDropdown } from "@/components/features/university-select";
+import { UniversityDropdown } from "../quickfilters/university-filter";
 import { usePathname, useRouter } from "next/navigation";
 import AuthModal from "@/app/auth/AuthModal";
 import { Bell } from "lucide-react";
 import Notification from "../features/Notification";
 import { authClient } from "@/lib/authClient";
-import { set } from "better-auth";
 
 export default function Header() {
   const [showModal, setShowModal] = useState(false);
@@ -111,7 +110,7 @@ export default function Header() {
   return (
     <>
       <header className={styles.header}>
-        {/* Logo */}
+        {/* Temporary logo */}
         <div className={styles.logoContainer}>
           <Image
             src="/assets/logo.png"
@@ -121,7 +120,7 @@ export default function Header() {
           />
         </div>
 
-        {/* University dropdown (only show on home page) */}
+        {/* Search Bar with Dropdown - only show on home page */}
         {isHomePage && (
           <UniversityDropdown
             className="w-[400px] mx-6"
@@ -131,12 +130,10 @@ export default function Header() {
 
         {/* Action Buttons */}
         <div className={styles.actions}>
-          {/* Settings dropdown */}
+          {/* Settings icon dropdown */}
           <div style={{ marginLeft: "1rem" }}>
             <SettingsMenu />
           </div>
-
-          {/* Notification bell */}
           <button
             className={styles.bell}
             onClick={() => setIsNotificationOpen(!isNotificationOpen)}
@@ -194,8 +191,6 @@ export default function Header() {
               </>
             ))}
         </div>
-
-        {/* Notification popup */}
         <Notification
           isOpen={isNotificationOpen}
           onClose={() => setIsNotificationOpen(false)}

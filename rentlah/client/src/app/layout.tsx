@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import "@/styles/globals.css";
-import Header from "@/components/layouts/Header";
-import Footer from "@/components/layouts/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +28,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <main className="flex-1 pt-[64px]">{children}</main>
-        <Footer />
+        <NuqsAdapter>{children}</NuqsAdapter>
       </body>
     </html>
   );
