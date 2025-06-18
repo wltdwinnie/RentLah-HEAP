@@ -7,6 +7,7 @@ import {
   jsonb,
   decimal,
   pgEnum,
+  timestamp,
 } from "drizzle-orm/pg-core";
 
 // Define enums for better type safety
@@ -71,6 +72,9 @@ export const listingTable = pgTable("listing", {
   id: varchar({ length: 255 }).primaryKey(),
   description: text().notNull(),
 
+  // User relationship
+  userId: varchar({ length: 255 }).notNull(),
+
   // Property Details
   aptType: aptTypeEnum().notNull(),
   propertyType: propertyTypeEnum().notNull(),
@@ -108,7 +112,7 @@ export const listingTable = pgTable("listing", {
   facilities: jsonb().$type<string[]>(),
 
   // Parking
-  parkingAvailable: boolean().notNull(),
+  parkingAvailable: boolean(),
   parkingType: parkingTypeEnum(),
   parkingSpaces: integer(),
 
@@ -137,9 +141,14 @@ export const listingTable = pgTable("listing", {
   // Images
   images: jsonb().$type<string[]>().notNull(),
 
+  // Status and Metadata
+  isActive: boolean().notNull().default(true),
+  isFeatured: boolean().notNull().default(false),
+  isVerified: boolean().notNull().default(false),
+
   // Timestamps
-  createdAt: integer().notNull().default(Date.now()),
-  updatedAt: integer().notNull().default(Date.now()),
+  createdAt: timestamp().notNull().defaultNow(),
+  updatedAt: timestamp().notNull().defaultNow()
 });
 
 export type InsertListing = typeof listingTable.$inferInsert;
