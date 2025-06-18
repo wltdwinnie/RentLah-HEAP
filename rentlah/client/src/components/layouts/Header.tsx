@@ -7,7 +7,7 @@ import Link from "next/link";
 import { SettingsMenu } from "@/components/settings-menu";
 import { UniversityDropdown } from "@/components/features/university-select";
 import { usePathname, useRouter } from "next/navigation";
-import AuthModal from "@/auth/AuthModal";
+import AuthModal from "@/app/auth/AuthModal";
 import { Bell } from "lucide-react";
 import Notification from "../features/Notification";
 import { authClient } from "@/lib/authClient";
@@ -86,7 +86,7 @@ export default function Header() {
         const session = await authClient.getSession();
         setUser(session && "user" in session ? session.user : null);
       } catch (error) {
-        console.error("Auth refresh failed:", error);
+        console.log("Auth refresh failed:", error);
       }
     }, 100);
   };

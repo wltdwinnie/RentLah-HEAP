@@ -23,6 +23,9 @@ export default function AuthModal({ onClose, type }: Props) {
   const [resendLoading, setResendLoading] = useState(false);
   const [resendSuccess, setResendSuccess] = useState("");
 
+  const [forgotMode, setForgotMode] = useState(false);
+  const [forgotEmailSent, setForgotEmailSent] = useState(false);
+
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,7 +84,6 @@ export default function AuthModal({ onClose, type }: Props) {
       localStorage.setItem("auth_password", password);
 
       setJustSignedUp(true);
-
       setLoading(false);
       return;
     }
@@ -100,6 +102,29 @@ export default function AuthModal({ onClose, type }: Props) {
     }
 
     setLoading(false);
+  };
+
+  const handleForgotPassword = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setError("");
+    setForgotMode(true);
+  };
+
+  const handleForgotSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      await authClient.requestPasswordReset({
+        email,
+        redirectTo: "/reset-password",
+      });
+      setForgotEmailSent(true);
+    } catch (err: any) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleResendVerification = async () => {
@@ -132,7 +157,13 @@ export default function AuthModal({ onClose, type }: Props) {
         <button onClick={onClose} className={styles.close}>
           ×
         </button>
-        <h2>{type === "signup" ? "Create Account" : "Login"}</h2>
+        <h2>
+          {forgotMode
+            ? "Reset Password"
+            : type === "signup"
+            ? "Create Account"
+            : "Login"}
+        </h2>
 
         {justSignedUp ? (
           <div className={styles.verificationNotice}>
@@ -148,68 +179,104 @@ export default function AuthModal({ onClose, type }: Props) {
               {resendLoading ? "Resending..." : "Resend Verification Email"}
             </button>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className={styles.form}>
+        ) : forgotMode ? (
+          <form onSubmit={handleForgotSubmit} className={styles.form}>
             {error && <div className={styles.errorMessage}>{error}</div>}
 
-            {type === "signup" && (
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                disabled={loading}
-              />
+            {forgotEmailSent ? (
+              <div className={styles.success}>
+                ✅ A reset link has been sent.
+              </div>
+            ) : (
+              <>
+                <p className={styles.instructions}>
+                  Enter your email to receive a password reset link.
+                </p>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <button
+                  type="submit"
+                  className={styles.submitBtn}
+                  disabled={loading}
+                >
+                  {loading ? "Sending..." : "Send Reset Link"}
+                </button>
+              </>
             )}
+          </form>
+        ) : (
+          <>
+            <form onSubmit={handleSubmit} className={styles.form}>
+              {error && <div className={styles.errorMessage}>{error}</div>}
 
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={loading}
-            />
-            <div className={styles.passwordInputContainer}>
+              {type === "signup" && (
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  disabled={loading}
+                />
+              )}
+
               <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
-                className={styles.passwordInput}
               />
+              <div className={styles.passwordInputContainer}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={loading}
+                  className={styles.passwordInput}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={styles.passwordToggle}
+                  tabIndex={-1}
+                >
+                  {showPassword ? (
+                    <EyeOff size={20} className={styles.eyeIcon} />
+                  ) : (
+                    <Eye size={20} className={styles.eyeIcon} />
+                  )}
+                </button>
+              </div>
+              {type === "login" && (
+                <button
+                  onClick={handleForgotPassword}
+                  className={styles.forgotPasswordBtn}
+                  type="button"
+                >
+                  Forgot Password?
+                </button>
+              )}
               <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className={styles.passwordToggle}
-                tabIndex={-1}
+                type="submit"
+                className={styles.submitBtn}
+                disabled={loading}
               >
-                {showPassword ? (
-                  <EyeOff size={20} className={styles.eyeIcon} />
-                ) : (
-                  <Eye size={20} className={styles.eyeIcon} />
-                )}
+                {loading
+                  ? "Please wait..."
+                  : type === "signup"
+                  ? "Sign Up"
+                  : "Login"}
               </button>
-            </div>
-            <button
-              type="submit"
-              className={styles.submitBtn}
-              disabled={loading}
-            >
-              {loading
-                ? "Please wait..."
-                : type === "signup"
-                ? "Sign Up"
-                : "Login"}
-            </button>
-          </form>
-        )}
-
-        {!justSignedUp && (
-          <>
+            </form>
             <div className={styles.divider}>or</div>
             <div className={styles.socialLogin}>
               <button onClick={handleGoogleSignIn} className={styles.googleBtn}>
