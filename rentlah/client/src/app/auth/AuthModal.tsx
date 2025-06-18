@@ -90,15 +90,19 @@ export default function AuthModal({ onClose, type }: Props) {
 
     if (type === "login") {
       const result = await authClient.signIn.email({ email, password });
-
+      console.log(result);
       if (result.error !== null) {
-        setError("Invalid Email or Password. Please try again.");
+        if(result.error.message === "Email not verified") {
+          setError("Email not verified. Please check your inbox.");
+        } else{
+          setError("Invalid Email or Password. Please try again.");
+        }
         setLoading(false);
         return;
       }
 
       onClose();
-      window.location.reload();
+      router.push("/");
     }
 
     setLoading(false);
@@ -114,6 +118,10 @@ export default function AuthModal({ onClose, type }: Props) {
     e.preventDefault();
     setLoading(true);
     setError("");
+    if (!email.includes("@")) {
+      setError("Please enter a valid email.");
+      return;
+    }
     try {
       await authClient.requestPasswordReset({
         email,

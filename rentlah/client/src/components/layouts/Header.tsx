@@ -55,14 +55,13 @@ export default function Header() {
 
           localStorage.removeItem("auth_email");
           localStorage.removeItem("auth_password");
-
           
         } else {
-          console.error("Auto-login failed:", result.error);
+          console.log("Auto-login failed:", result.error);
         }
       }
     } catch (err: any) {
-      console.error("Auto-login error:", err);
+      console.log("Auto-login error:", err);
     } finally {
       // Clean URL
       router.replace("/");
