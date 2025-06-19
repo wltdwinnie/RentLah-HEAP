@@ -39,7 +39,7 @@ export function useListingFilters() {
   // University-specific handlers
   const selectedUniversity = getFullUniversityName(filters.university);
 
-  const handleUniversityChange = useDebouncedCallback((uni: string) => {
+  const handleUniversityChange = (uni: string) => {
     if (uni === "Select University") {
       setFilters({ university: "" });
     } else {
@@ -48,35 +48,35 @@ export function useListingFilters() {
       const shortName = match ? match[1] : uni;
       setFilters({ university: shortName });
     }
-  }, 300);
+  };
 
   // Property type handler
-  const handlePropertyTypeChange = useDebouncedCallback((type: string) => {
+  const handlePropertyTypeChange = (type: string) => {
     setFilters({ propertyType: type === "All" ? "" : type });
-  }, 300);
+  };
 
   // Price range handlers
-  const handlePriceRangeChange = useDebouncedCallback((min: number, max: number) => {
+  const handlePriceRangeChange = (min: number, max: number) => {
     setFilters({
       minPrice: min || 0,
       maxPrice: max || 0,
     });
-  }, 300);
+  };
 
   // Bedroom count handler (now supports multiple selections)
-  const handleBedroomChange = useDebouncedCallback((bedrooms: string[]) => {
+  const handleBedroomChange = (bedrooms: string[]) => {
     setFilters({ bedrooms });
-  }, 300);
+  };
 
   // Furnishing handler (now supports multiple selections)
-  const handleFurnishingChange = useDebouncedCallback((furnishing: string[]) => {
+  const handleFurnishingChange = (furnishing: string[]) => {
     setFilters({ furnishing });
-  }, 300);
+  };
 
   // Amenities handler
-  const handleAmenitiesChange = useDebouncedCallback((amenities: string[]) => {
+  const handleAmenitiesChange = (amenities: string[]) => {
     setFilters({ amenities });
-  }, 300);
+  };
 
   // Clear all filters
   const clearAllFilters = () => {

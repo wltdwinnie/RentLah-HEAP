@@ -37,14 +37,14 @@ export function PriceRangeFilter({
   const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find(
     (range) =>
       range.min === minPrice &&
-      (range.max === maxPrice || (range.max === 999999 && maxPrice === 0))
+      (range.max === maxPrice || range.max === 5000)
   );
 
   const displayValue =
     currentRange?.label ||
-    (minPrice > 0 || maxPrice > 0
+    ((minPrice > 0 && minPrice < 5000) || (maxPrice > 5000 && maxPrice > minPrice)
       ? `$${minPrice.toLocaleString()} - $${
-          maxPrice > 999999 ? "∞" : maxPrice.toLocaleString()
+          maxPrice > 5000 ? "∞" : maxPrice.toLocaleString()
         }`
       : "All Prices");
 

@@ -45,7 +45,7 @@ export function PriceRangeGroup({
                   }
                 }}
                 min={0}
-                max={value[1]}
+                max={5000}
                 step={50}
                 className="h-7 w-20"
               />
@@ -62,8 +62,8 @@ export function PriceRangeGroup({
                     onChange([value[0], newValue]);
                   }
                 }}
-                min={value[0]}
-                max={10000}
+                min={0}
+                max={5000}
                 step={50}
               />
             </div>
@@ -71,7 +71,7 @@ export function PriceRangeGroup({
           <Slider
             value={value}
             min={0}
-            max={10000}
+            max={5000}
             step={50}
             onValueChange={onChange}
             className="mt-2"

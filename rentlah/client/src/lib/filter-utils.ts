@@ -38,13 +38,24 @@ export const FILTER_OPTIONS = {
 // Quick filter configurations (single selection for UI buttons)
 export const QUICK_FILTER_CONFIGS = {
   PRICE_RANGES: [
-    { label: "All Prices", min: 0, max: 0 },
-    { label: "Under $2,000", min: 0, max: 2000 },
+    { label: "All Prices", min: 0, max: 5000 },
+    { label: "Under $1,000", min: 0, max: 1000 },
+    { label: "$1,000 - $2,000", min: 1000, max: 2000 },
     { label: "$2,000 - $3,000", min: 2000, max: 3000 },
-    { label: "$3,000 - $5,000", min: 3000, max: 5000 },
-    { label: "$5,000 - $8,000", min: 5000, max: 8000 },
-    { label: "Above $8,000", min: 8000, max: 999999 },
+    { label: "$3,000 - $4,000", min: 3000, max: 4000 },
+    { label: "Above $4,000", min: 4000, max: 5000 },
   ],
+} as const;
+
+export const ADVANCED_FILTER_CONFIGS = {
+  PRICE_RANGE: {
+    title: "Price Range",
+    type: "range",
+    min: 0,
+    max: 5000,
+    step: 50,
+    defaultValue: [500, 3000],
+  }
 } as const;
 
 // Utility functions for filter transformations
