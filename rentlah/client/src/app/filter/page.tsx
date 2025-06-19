@@ -29,46 +29,46 @@ export default function FilterPage() {
   const activeFilterCount = getActiveFilterCount();
 
   return (
-    <>
-      <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
+      <div className="flex w-full">
         <AppSidebar />
-        <div className="pt-10 p-4">
-          <div className="flow-root">
-            <SidebarTrigger className="float-left" />
+        <main className="pt-5 p-4 w-full min-w-0">
+          <div className="flex justify-between items-center w-full min-h-[40px]">
+            <div className="flex items-center gap-4">
+              <SidebarTrigger className="h-9 w-9 border border-gray-400 bg-white hover:bg-gray-50" />
+              
+              {/* Filter status and clear button */}
+              {hasActiveFilters && (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">
+                    {activeFilterCount} filter{activeFilterCount !== 1 ? "s" : ""}{" "}
+                    active
+                  </span>
+                  <button
+                    onClick={clearAllFilters}
+                    className="text-xs text-blue-600 hover:text-blue-800 underline"
+                  >
+                    Clear all
+                  </button>
+                </div>
+              )}
+            </div>
 
-            {/* Filter status and clear button */}
-            {hasActiveFilters && (
-              <div className="float-left ml-4 flex items-center gap-2">
-                <span className="text-sm text-gray-600">
-                  {activeFilterCount} filter{activeFilterCount !== 1 ? "s" : ""}{" "}
-                  active
-                </span>
-                <button
-                  onClick={clearAllFilters}
-                  className="text-xs text-blue-600 hover:text-blue-800 underline"
-                >
-                  Clear all
-                </button>
-              </div>
-            )}
-
-            <div className="float-right flow-root">
-              <div className="float-left pl-2 pt-1.5 font-medium">Filters:</div>
-              <div className="float-right flex gap-2 pl-2">
-                <UniversityDropdown
-                  value={selectedUniversity}
-                  onChange={handleUniversityChange}
-                />
-                <PropertyTypeFilter
-                  value={filters.propertyType}
-                  onChange={handlePropertyTypeChange}
-                />
-                <PriceRangeFilter
-                  minPrice={filters.minPrice}
-                  maxPrice={filters.maxPrice}
-                  onChange={handlePriceRangeChange}
-                />
-              </div>
+            <div className="flex items-center gap-2 ml-auto">
+              <div className="font-medium whitespace-nowrap">Filters:</div>
+              <UniversityDropdown
+                value={selectedUniversity}
+                onChange={handleUniversityChange}
+              />
+              <PropertyTypeFilter
+                value={filters.propertyType}
+                onChange={handlePropertyTypeChange}
+              />
+              <PriceRangeFilter
+                minPrice={filters.minPrice}
+                maxPrice={filters.maxPrice}
+                onChange={handlePriceRangeChange}
+              />
             </div>
           </div>
           <div className="pt-5 font-medium">
@@ -89,8 +89,8 @@ export default function FilterPage() {
               <PropertyCardGroup listings={filteredListings as Listing[]} />
             </div>
           </Suspense>
-        </div>
-      </SidebarProvider>
-    </>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }

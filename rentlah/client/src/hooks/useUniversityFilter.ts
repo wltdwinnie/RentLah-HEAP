@@ -83,7 +83,7 @@ export function useUniversityFilter() {
     universityDisplayUtils.getFullUniversityName(universityParam);
 
   // Handler to update university filter
-  const handleUniversityChange = useDebouncedCallback((uni: string) => {
+  const handleUniversityChange = (uni: string) => {
     if (uni === "Select University") {
       setUniversityParam(null); // Remove the parameter
     } else {
@@ -91,7 +91,7 @@ export function useUniversityFilter() {
       const shortName = universityDisplayUtils.extractShortName(uni);
       setUniversityParam(shortName);
     }
-  }, 300);
+  };
 
   // Clear filter
   const clearUniversityFilter = () => {

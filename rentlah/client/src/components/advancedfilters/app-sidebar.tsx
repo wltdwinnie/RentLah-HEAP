@@ -25,8 +25,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      collapsible="icon"
-      className="sticky top-[80px] h-[calc(100vh-80px)]"
+      collapsible="offcanvas"
+      className="[&>div:last-child]:top-[80px] [&>div:last-child]:h-[calc(100vh-80px)] z-30"
     >
       <div className="flex flex-col h-full">
         <SidebarHeader className="pl-4 py-3 border-b">
@@ -49,7 +49,7 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <PriceRangeGroup
                 title="Price Range"
-                value={[filters.minPrice || 0, filters.maxPrice || 0]}
+                value={[filters.minPrice || 0, filters.maxPrice || 5000]}
                 onChange={(value) => handlePriceRangeChange(value[0], value[1])}
               />
             </SidebarGroupContent>
