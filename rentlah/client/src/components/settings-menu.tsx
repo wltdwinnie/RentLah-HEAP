@@ -1,90 +1,107 @@
 "use client";
-import { useState } from 'react';
-import { Settings } from 'lucide-react';
 
-// export default function SettingsMenu() {
+import { useState, useRef, useEffect } from "react";
+import { Settings } from "lucide-react";
+import { useTheme } from "next-themes";
+
 const SettingsMenu = () => {
+  
   const [open, setOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState<null | 'language' | 'account'>(null);
-  const [darkMode, setDarkMode] = useState(false); 
+  const [activeMenu, setActiveMenu] = useState<null | "language" | "account">(null);
 
+  const { theme, setTheme } = useTheme();
+  const toggleDarkMode = () => setTheme(theme === "dark" ? "light" : "dark");
 
-  const toggleMenu = (menu: 'language' | 'account') => {
-    setActiveMenu(prev => (prev === menu ? null : menu));
-  };
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const toggleDarkMode = () => {
-    setDarkMode(prev => !prev);
-  };
+  useEffect(() => {
+    function handleClickOutside(ev: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(ev.target as Node)) {
+        setOpen(false);
+        setActiveMenu(null);
+      }
+    }
+
+    function handleScroll() {
+      setOpen(false);
+      setActiveMenu(null);
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll, true); // true = capture inside scrollable containers
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, []);
+
+  const toggleMenu = (menu: "language" | "account") =>
+    setActiveMenu((prev) => (prev === menu ? null : menu));
 
   return (
-    <div className="relative inline-block text-left">
-      {/* Settings Icon */}
-      <button onClick={() => setOpen(!open)} className="p-2">
-        <Settings className="w-6 h-6 text-black" />
+    <div ref={wrapperRef} className="relative inline-block text-left">
+      {/* gear icon */}
+      <button onClick={() => setOpen(!open)} className="p-2 transition-colors">
+        <Settings className="w-6 h-6 text-black dark:text-white" />
       </button>
 
-      {/* Dropdown Menu */}
       {open && (
-        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded p-2 z-50 text-sm">
-
-          {/* Language */}
+        <div className="absolute right-0 mt-2 w-48 rounded bg-white text-black dark:bg-zinc-800 dark:text-white shadow-lg p-2 z-50 text-sm">
+          {/* account */}
           <div>
             <div
-              onClick={() => toggleMenu('language')}
-              className="hover:bg-blue-100 px-2 py-1 cursor-pointer flex items-center gap-2"
+              onClick={() => toggleMenu("account")}
+              className="flex items-center gap-2 px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-zinc-700"
             >
-              <span>{activeMenu === 'language' ? '▴' : '▾'}</span>
-              <span>Language</span>
-            </div>
-            {activeMenu === 'language' && (
-              <div className="ml-6 mt-1">
-                <p className="hover:bg-blue-100 px-2 py-1 cursor-pointer">English</p>
-                <p className="hover:bg-blue-100 px-2 py-1 cursor-pointer">Chinese</p>
-              </div>
-            )}
-          </div>
-
-          {/* My Account */}
-          <div>
-            <div
-              onClick={() => toggleMenu('account')}
-              className="hover:bg-blue-100 px-2 py-1 cursor-pointer flex items-center gap-2"
-            >
-              <span>{activeMenu === 'account' ? '▴' : '▾'}</span>
+              <span>{activeMenu === "account" ? "▴" : "▾"}</span>
               <span>My Account</span>
             </div>
-            {activeMenu === 'account' && (
+            {activeMenu === "account" && (
               <div className="ml-6 mt-1">
-                <p className="hover:bg-blue-100 px-2 py-1 cursor-pointer">View Profile</p>
-                <p className="hover:bg-blue-100 px-2 py-1 cursor-pointer">Edit Info</p>
+                <p className="px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-zinc-700">View Profile</p>
+                <p className="px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-zinc-700">Edit Info</p>
               </div>
             )}
           </div>
 
-          {/* Dark Mode Switch */}
-          <div className="flex justify-between items-center px-2 py-1 hover:bg-blue-100 cursor-pointer">
+          {/* language */}
+          <div>
+            <div
+              onClick={() => toggleMenu("language")}
+              className="flex items-center gap-2 px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-zinc-700"
+            >
+              <span>{activeMenu === "language" ? "▴" : "▾"}</span>
+              <span>Language</span>
+            </div>
+            {activeMenu === "language" && (
+              <div className="ml-6 mt-1">
+                <p className="px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-zinc-700">English</p>
+
+                <p className="px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-zinc-700">中文</p>
+              </div>
+            )}
+          </div>
+
+          {/* dark‑mode switch */}
+          <div className="flex justify-between items-center px-2 py-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-zinc-700">
             <span>Dark Mode</span>
             <div
               onClick={toggleDarkMode}
-              className={`w-10 h-5 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${
-                darkMode ? 'bg-black' : 'bg-gray-300'
-              }`}
+              className={`w-10 h-5 flex items-center p-1 rounded-full transition-colors duration-300 ${theme === "dark" ? "bg-black" : "bg-gray-300"}`}
             >
               <div
-                className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                  darkMode ? 'translate-x-5' : 'translate-x-0'
-                }`}
+                className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${theme === "dark" ? "translate-x-5" : "translate-x-0"}`}
               />
             </div>
           </div>
 
-          {/* Log Out */}
-          <p className="hover:bg-blue-100 px-2 py-1 text-red-500 cursor-pointer">Log Out</p>
+          {/* log out */}
+          <p className="px-2 py-1 cursor-pointer text-red-500 hover:bg-blue-100 dark:hover:bg-zinc-700">Log Out</p>
         </div>
       )}
     </div>
   );
-}
+};
 
 export { SettingsMenu };
