@@ -5,7 +5,9 @@
     justify-content: space-between;
     padding: 1rem 1.5rem;
     position: sticky;
+    top: 0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    z-index: 100; /* Add z-index for proper stacking */
 }
 
 .logoContainer {
@@ -48,7 +50,7 @@
     border: 1px solid hsl(var(--primary-light));
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    z-index: 10;
+    z-index: 1000; /* Increased z-index to be above content */
 }
 
 .dropdown li {
@@ -104,4 +106,107 @@
 
 .signup:hover {
     background-color: #143188;
+}
+/* Profile section styles */
+.profileSection {
+    position: relative;
+    margin-left: 1rem;
+}
+
+.profileIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2px solid white;
+    transition: all 0.2s ease;
+}
+
+.profileIcon:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+}
+
+.profileDropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profileMenu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    min-width: 220px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 0;
+    z-index: 100;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.profileDropdown:hover .profileMenu {
+    display: block;
+}
+
+.profileEmail {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profileDivider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 0.5rem 0;
+}
+
+.profileButton {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.profileButton:hover {
+    background-color: #f6f6f6;
+}
+
+.logoutButton {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    color: #f44336;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    margin-top: 0.5rem;
+    border-top: 1px solid #eee;
+}
+
+.logoutButton:hover {
+    background-color: #ffebee;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
