@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import "@/styles/globals.css";
-import Header from "@/components/layouts/Header";
-import Footer from "@/components/layouts/Footer";
-import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,16 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300 antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          <main className="pt-[64px]">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <NuqsAdapter>{children}</NuqsAdapter>
       </body>
     </html>
   );

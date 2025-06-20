@@ -70,6 +70,8 @@ export type Listing = {
   };
 
   images: string[]; // Array of image URLs
+
+  userId: string;
 };
 
 export type MRTInfo = {

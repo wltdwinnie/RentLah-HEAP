@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-
+import styles from "./Notification.module.css";
 
 type NotificationProps = {
   isOpen: boolean;
@@ -20,19 +20,18 @@ export default function Notification({ isOpen, onClose }: NotificationProps) {
 
   return (
     <div
-      className={`fixed inset-y-0 right-0 w-80 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-40
-        ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      className={`${styles.notificationPanel} ${isOpen ? styles.open : ""}`}
     >
-      <div className="p-4 flex justify-between items-center border-b">
-        <h2 className="font-bold text-lg">Notifications</h2>
+      <div className={styles.notificationHeader}>
+        <h2>Notifications</h2>
         <button
           onClick={onClose}
-          className="p-1 rounded-full hover:bg-gray-100"
+          className={styles.closeButton}
         >
           ✕
         </button>
       </div>
-      <div className="p-4 text-gray-500">
+      <div className={styles.notificationContent}>
         No notifications yet.
       </div>
     </div>
