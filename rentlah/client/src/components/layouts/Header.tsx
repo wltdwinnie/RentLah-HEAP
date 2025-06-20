@@ -134,9 +134,9 @@ export default function Header() {
         {/* Action Buttons */}
         <div className={styles.actions}>
           {/* Settings icon dropdown */}
-          <div style={{ marginLeft: "1rem" }}>
+          {/* <div style={{ marginLeft: "1rem" }}>
             <SettingsMenu />
-          </div>
+          </div> */}
           <button
             className={styles.bell}
             onClick={() => setIsNotificationOpen(!isNotificationOpen)}
