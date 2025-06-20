@@ -39,15 +39,11 @@ export default function Header() {
         <button className={styles.bell}>⩍</button>
        
 
-        <button className="px-4 py-2 rounded bg-white text-black hover:bg-gray-100 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-700 transition-colors">
-          Login
-        </button>
+        <button className={styles.login}>Login</button>
+  <button className={styles.signup}>Sign Up</button>
 
-
-        <button className={styles.signup}>Sign Up</button>
-        {/* Settings icon dropdown */}
-        <div className="ml-4 bg-white dark:bg-zinc-900 rounded p-1 transition-colors">
-          <SettingsMenu />
+  <div className="ml-4 bg-white dark:bg-zinc-900 rounded p-1 transition-colors">
+    <SettingsMenu />
         </div>
 
       </div>
