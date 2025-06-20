@@ -11,7 +11,7 @@ export const sampleListings: Listing[] = [
       unit: 123,
     },
     description:
-      "Spacious 3-bedroom HDB flat in the heart of Serangoon, perfect for families. Features a bright and airy layout with a dedicated study room and balcony. Conveniently located just 5 minutes walk to Serangoon MRT and NEX Mall. Recently renovated with modern furnishings and excellent natural lighting throughout.",
+      "[SAMPLE] Spacious 3-bedroom HDB flat in the heart of Serangoon, perfect for families. Features a bright and airy layout with a dedicated study room and balcony. Conveniently located just 5 minutes walk to Serangoon MRT and NEX Mall. Recently renovated with modern furnishings and excellent natural lighting throughout.",
     aptType: "3-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -57,7 +57,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 4,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-001",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-15T10:30:00Z"),
     updatedAt: new Date("2024-12-20T14:45:00Z"),
     isActive: true,
@@ -74,7 +74,7 @@ export const sampleListings: Listing[] = [
       unit: 8,
     },
     description:
-      "Modern studio apartment in prime city location, ideal for students or young professionals. Stunning city views from the 15th floor. Full condo facilities including pool and gym. Walking distance to SMU, Bencoolen MRT, and multiple shopping destinations. Thoughtfully designed to maximize space with high-end furnishings.",
+      "[SAMPLE] Modern studio apartment in prime city location, ideal for students or young professionals. Stunning city views from the 15th floor. Full condo facilities including pool and gym. Walking distance to SMU, Bencoolen MRT, and multiple shopping destinations. Thoughtfully designed to maximize space with high-end furnishings.",
     aptType: "studio",
     propertyType: "Condo",
     roomConfig: {
@@ -128,7 +128,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 2,
     },
     images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-002",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-10T09:15:00Z"),
     updatedAt: new Date("2024-12-18T16:30:00Z"),
     isActive: true,
@@ -143,7 +143,7 @@ export const sampleListings: Listing[] = [
       postalCode: "278880",
     },
     description:
-      "Luxurious 5-bedroom landed property in prestigious Holland Grove. Features private swimming pool and landscaped garden. Spacious layout with helper's room and multiple living areas. Close to Holland Village's dining and shopping amenities. Perfect for large families seeking privacy and comfort in a prime district.",
+      "[SAMPLE] Luxurious 5-bedroom landed property in prestigious Holland Grove. Features private swimming pool and landscaped garden. Spacious layout with helper's room and multiple living areas. Close to Holland Village's dining and shopping amenities. Perfect for large families seeking privacy and comfort in a prime district.",
     aptType: "5-bedroom",
     propertyType: "Landed",
     roomConfig: {
@@ -192,7 +192,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 8,
     },
     images: ["/sample-photo-3.jpeg"],
-    userId: "user-003",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-11-20T14:00:00Z"),
     updatedAt: new Date("2024-12-15T11:20:00Z"),
     isActive: true,
@@ -209,7 +209,7 @@ export const sampleListings: Listing[] = [
       unit: 456,
     },
     description:
-      "Cozy 2-bedroom HDB flat in Tampines, ideal for small families or couples. Well-maintained unit with practical layout. Located in a mature estate with excellent amenities nearby including Tampines Mall and Our Tampines Hub. Good connectivity with bus services and Tampines MRT station within walking distance.",
+      "[SAMPLE] Cozy 2-bedroom HDB flat in Tampines, ideal for small families or couples. Well-maintained unit with practical layout. Located in a mature estate with excellent amenities nearby including Tampines Mall and Our Tampines Hub. Good connectivity with bus services and Tampines MRT station within walking distance.",
     aptType: "2-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -251,7 +251,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 4,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-004",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-05T08:45:00Z"),
     updatedAt: new Date("2024-12-05T08:45:00Z"),
     isActive: true,
@@ -268,7 +268,7 @@ export const sampleListings: Listing[] = [
       unit: 1,
     },
     description:
-      "Spectacular penthouse in Marina Bay with breathtaking views of the city skyline and sea. Premium finishes throughout with 4 bedrooms and entertainment areas. Floor-to-ceiling windows, private lift access, and exclusive facilities including sky garden and jacuzzi. Minutes to Downtown and Marina Bay MRT stations.",
+      "[SAMPLE] Spectacular penthouse in Marina Bay with breathtaking views of the city skyline and sea. Premium finishes throughout with 4 bedrooms and entertainment areas. Floor-to-ceiling windows, private lift access, and exclusive facilities including sky garden and jacuzzi. Minutes to Downtown and Marina Bay MRT stations.",
     aptType: "penthouse",
     propertyType: "Condo",
     roomConfig: {
@@ -329,7 +329,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-3.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-005",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-11-25T12:00:00Z"),
     updatedAt: new Date("2024-12-10T09:30:00Z"),
     isActive: true,
@@ -346,7 +346,7 @@ export const sampleListings: Listing[] = [
       unit: 8,
     },
     description:
-      "Elegant 4-bedroom condominium in River Valley, offering the perfect blend of luxury and convenience. Well-appointed interiors with quality fittings. Full facilities including pool, gym, and tennis court. Steps away from Great World City and various dining options. Ideal for families seeking a prestigious address.",
+      "[SAMPLE] Elegant 4-bedroom condominium in River Valley, offering the perfect blend of luxury and convenience. Well-appointed interiors with quality fittings. Full facilities including pool, gym, and tennis court. Steps away from Great World City and various dining options. Ideal for families seeking a prestigious address.",
     aptType: "4-bedroom",
     propertyType: "Condo",
     roomConfig: {
@@ -405,7 +405,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-1.jpeg"],
-    userId: "user-006",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-01T16:15:00Z"),
     updatedAt: new Date("2024-12-12T10:00:00Z"),
     isActive: true,
@@ -422,7 +422,7 @@ export const sampleListings: Listing[] = [
       unit: 145,
     },
     description:
-      "Affordable 1-bedroom HDB flat in Jurong East, perfect for students or young professionals. Fully furnished with modern appliances. Great location near Chinese Garden MRT and multiple shopping malls. Well-maintained unit with good ventilation and city views. Convenient access to amenities and public transport.",
+      "[SAMPLE] Affordable 1-bedroom HDB flat in Jurong East, perfect for students or young professionals. Fully furnished with modern appliances. Great location near Chinese Garden MRT and multiple shopping malls. Well-maintained unit with good ventilation and city views. Convenient access to amenities and public transport.",
     aptType: "1-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -465,7 +465,7 @@ export const sampleListings: Listing[] = [
       occupation: ["Student", "Young Professional"],
     },
     images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-007",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-08T13:20:00Z"),
     updatedAt: new Date("2024-12-16T15:45:00Z"),
     isActive: true,
@@ -480,7 +480,7 @@ export const sampleListings: Listing[] = [
       postalCode: "456038",
     },
     description:
-      "Stunning semi-detached house in Siglap with resort-style living. Generous 6 bedrooms with helper's quarters. Private pool and landscaped garden perfect for entertaining. Minutes to East Coast Park and popular eateries. Prestigious east coast address with excellent potential for appreciation.",
+      "[SAMPLE] Stunning semi-detached house in Siglap with resort-style living. Generous 6 bedrooms with helper's quarters. Private pool and landscaped garden perfect for entertaining. Minutes to East Coast Park and popular eateries. Prestigious east coast address with excellent potential for appreciation.",
     aptType: "semi-detached",
     propertyType: "Landed",
     roomConfig: {
@@ -529,7 +529,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 8,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg"],
-    userId: "user-008",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-11-30T11:00:00Z"),
     updatedAt: new Date("2024-12-14T17:30:00Z"),
     isActive: true,
@@ -546,7 +546,7 @@ export const sampleListings: Listing[] = [
       unit: 87,
     },
     description:
-      "Spacious executive HDB apartment in Bukit Batok with excellent views. Family-friendly layout with 4 bedrooms and study room. Well-maintained with partial furnishing and modern renovations. Close to amenities including West Mall and Bukit Batok Polyclinic. Ideal for large families seeking comfort and convenience.",
+      "[SAMPLE] Spacious executive HDB apartment in Bukit Batok with excellent views. Family-friendly layout with 4 bedrooms and study room. Well-maintained with partial furnishing and modern renovations. Close to amenities including West Mall and Bukit Batok Polyclinic. Ideal for large families seeking comfort and convenience.",
     aptType: "executive",
     propertyType: "HDB",
     roomConfig: {
@@ -592,7 +592,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-3.jpeg", "/sample-photo-1.jpeg"],
-    userId: "user-009",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-03T07:30:00Z"),
     updatedAt: new Date("2024-12-11T12:15:00Z"),
     isActive: true,
@@ -609,7 +609,7 @@ export const sampleListings: Listing[] = [
       unit: 12,
     },
     description:
-      "Cozy studio apartment near NUS, perfect for students. Fully furnished with modern design and efficient layout. Condo facilities include pool and gym. Convenient location with easy access to West Coast Plaza and public transport. Quiet environment ideal for studying with good amenities nearby.",
+      "[SAMPLE] Cozy studio apartment near NUS, perfect for students. Fully furnished with modern design and efficient layout. Condo facilities include pool and gym. Convenient location with easy access to West Coast Plaza and public transport. Quiet environment ideal for studying with good amenities nearby.",
     aptType: "studio",
     propertyType: "Condo",
     roomConfig: {
@@ -658,7 +658,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 2,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg"],
-    userId: "user-010",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-07T18:00:00Z"),
     updatedAt: new Date("2024-12-17T20:30:00Z"),
     isActive: true,
@@ -675,7 +675,7 @@ export const sampleListings: Listing[] = [
       unit: 15,
     },
     description:
-      "Modern 3-bedroom BTO flat in vibrant Punggol New Town. Featuring contemporary design with open concept living. Close to Punggol MRT and Waterway Point shopping mall. Perfect for young families with nearby schools and recreational facilities. Bright and airy with excellent Punggol Waterway views.",
+      "[SAMPLE] Modern 3-bedroom BTO flat in vibrant Punggol New Town. Featuring contemporary design with open concept living. Close to Punggol MRT and Waterway Point shopping mall. Perfect for young families with nearby schools and recreational facilities. Bright and airy with excellent Punggol Waterway views.",
     aptType: "3-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -721,7 +721,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 4,
     },
     images: ["/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-011",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-12T14:30:00Z"),
     updatedAt: new Date("2024-12-12T14:30:00Z"),
     isActive: true,
@@ -738,7 +738,7 @@ export const sampleListings: Listing[] = [
       unit: 10,
     },
     description:
-      "Luxurious 2-bedroom apartment in the heart of Orchard Road. Premium location with unparalleled shopping and dining options at your doorstep. High-end finishes and full condo facilities. Perfect for professionals seeking prestige and convenience in Singapore's premier shopping district.",
+      "[SAMPLE] Luxurious 2-bedroom apartment in the heart of Orchard Road. Premium location with unparalleled shopping and dining options at your doorstep. High-end finishes and full condo facilities. Perfect for professionals seeking prestige and convenience in Singapore's premier shopping district.",
     aptType: "2-bedroom",
     propertyType: "Condo",
     roomConfig: {
@@ -792,7 +792,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 3,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-012",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-09T10:45:00Z"),
     updatedAt: new Date("2024-12-13T16:20:00Z"),
     isActive: true,
@@ -809,7 +809,7 @@ export const sampleListings: Listing[] = [
       unit: 89,
     },
     description:
-      "Charming 4-bedroom flat in mature Toa Payoh estate. Recently renovated with modern amenities while maintaining classic charm. Close to Toa Payoh MRT and multiple food courts. Great for families with established schools and medical facilities nearby. Peaceful neighbourhood with good community spirit.",
+      "[SAMPLE] Charming 4-bedroom flat in mature Toa Payoh estate. Recently renovated with modern amenities while maintaining classic charm. Close to Toa Payoh MRT and multiple food courts. Great for families with established schools and medical facilities nearby. Peaceful neighbourhood with good community spirit.",
     aptType: "4-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -855,7 +855,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg"],
-    userId: "user-013",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-11-28T09:00:00Z"),
     updatedAt: new Date("2024-12-08T14:45:00Z"),
     isActive: true,
@@ -870,7 +870,7 @@ export const sampleListings: Listing[] = [
       postalCode: "098292",
     },
     description:
-      "Exclusive waterfront bungalow in prestigious Sentosa Cove. Panoramic sea views with private beach access. Spacious 5-bedroom layout with entertainment areas and wine cellar. Resort-style living with marina berth included. Ultimate luxury for discerning tenants seeking privacy and exclusivity.",
+      "[SAMPLE] Exclusive waterfront bungalow in prestigious Sentosa Cove. Panoramic sea views with private beach access. Spacious 5-bedroom layout with entertainment areas and wine cellar. Resort-style living with marina berth included. Ultimate luxury for discerning tenants seeking privacy and exclusivity.",
     aptType: "detached",
     propertyType: "Landed",
     roomConfig: {
@@ -920,7 +920,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 8,
     },
     images: ["/sample-photo-3.jpeg", "/sample-photo-1.jpeg"],
-    userId: "user-014",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-11-15T11:30:00Z"),
     updatedAt: new Date("2024-12-06T13:15:00Z"),
     isActive: true,
@@ -937,7 +937,7 @@ export const sampleListings: Listing[] = [
       unit: 234,
     },
     description:
-      "Affordable 1-bedroom flat in well-connected Ang Mo Kio. Ideal for singles or couples starting their journey. Recently painted with basic furnishing. Good transport links to city and Orchard Road. Mature estate with established amenities and friendly neighbourhood atmosphere.",
+      "[SAMPLE] Affordable 1-bedroom flat in well-connected Ang Mo Kio. Ideal for singles or couples starting their journey. Recently painted with basic furnishing. Good transport links to city and Orchard Road. Mature estate with established amenities and friendly neighbourhood atmosphere.",
     aptType: "1-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -980,7 +980,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 2,
     },
     images: ["/sample-photo-2.jpeg"],
-    userId: "user-015",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-04T15:45:00Z"),
     updatedAt: new Date("2024-12-09T08:30:00Z"),
     isActive: true,
@@ -997,7 +997,7 @@ export const sampleListings: Listing[] = [
       unit: 5,
     },
     description:
-      "Stylish studio apartment in trendy Katong area. Modern furnishing with efficient space utilization. Walking distance to East Coast Park and famous Katong laksa stalls. Great for young professionals who appreciate heritage charm mixed with contemporary living. Excellent recreational facilities nearby.",
+      "[SAMPLE] Stylish studio apartment in trendy Katong area. Modern furnishing with efficient space utilization. Walking distance to East Coast Park and famous Katong laksa stalls. Great for young professionals who appreciate heritage charm mixed with contemporary living. Excellent recreational facilities nearby.",
     aptType: "studio",
     propertyType: "Condo",
     roomConfig: {
@@ -1049,7 +1049,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 2,
     },
     images: ["/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-016",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-02T12:00:00Z"),
     updatedAt: new Date("2024-12-19T10:15:00Z"),
     isActive: true,
@@ -1066,7 +1066,7 @@ export const sampleListings: Listing[] = [
       unit: 178,
     },
     description:
-      "Spacious executive maisonette in peaceful Bedok Reservoir area. Two-storey layout with 4 bedrooms and generous living spaces. Family-friendly environment with playground and park nearby. Good value for money with ample space for growing families. Easy access to Bedok town centre and amenities.",
+      "[SAMPLE] Spacious executive maisonette in peaceful Bedok Reservoir area. Two-storey layout with 4 bedrooms and generous living spaces. Family-friendly environment with playground and park nearby. Good value for money with ample space for growing families. Easy access to Bedok town centre and amenities.",
     aptType: "executive",
     propertyType: "HDB",
     roomConfig: {
@@ -1112,7 +1112,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-017",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-11-22T16:30:00Z"),
     updatedAt: new Date("2024-12-01T14:20:00Z"),
     isActive: true,
@@ -1129,7 +1129,7 @@ export const sampleListings: Listing[] = [
       unit: 2,
     },
     description:
-      "Prestigious penthouse in prime Cairnhill location. Breathtaking city skyline views from every room. Luxurious fittings and premium appliances throughout. Private rooftop terrace perfect for entertaining. Walking distance to Orchard Road shopping and Newton MRT. Truly exceptional living experience.",
+      "[SAMPLE] Prestigious penthouse in prime Cairnhill location. Breathtaking city skyline views from every room. Luxurious fittings and premium appliances throughout. Private rooftop terrace perfect for entertaining. Walking distance to Orchard Road shopping and Newton MRT. Truly exceptional living experience.",
     aptType: "penthouse",
     propertyType: "Condo",
     roomConfig: {
@@ -1183,7 +1183,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 5,
     },
     images: ["/sample-photo-3.jpeg", "/sample-photo-2.jpeg"],
-    userId: "user-018",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-11-18T13:45:00Z"),
     updatedAt: new Date("2024-12-07T11:30:00Z"),
     isActive: true,
@@ -1200,7 +1200,7 @@ export const sampleListings: Listing[] = [
       unit: 67,
     },
     description:
-      "Comfortable 3-bedroom flat in Woodlands near the causeway. Recently renovated with modern fixtures. Convenient for those working in Johor Bahru. Close to Woodlands MRT and shopping amenities. Good for families seeking affordable housing with easy access to Malaysia. Quiet residential area.",
+      "[SAMPLE] Comfortable 3-bedroom flat in Woodlands near the causeway. Recently renovated with modern fixtures. Convenient for those working in Johor Bahru. Close to Woodlands MRT and shopping amenities. Good for families seeking affordable housing with easy access to Malaysia. Quiet residential area.",
     aptType: "3-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -1245,7 +1245,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 4,
     },
     images: ["/sample-photo-1.jpeg"],
-    userId: "user-019",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-11T09:15:00Z"),
     updatedAt: new Date("2024-12-11T09:15:00Z"),
     isActive: true,
@@ -1262,7 +1262,7 @@ export const sampleListings: Listing[] = [
       unit: 456,
     },
     description:
-      "Family-friendly 4-bedroom flat in scenic Pasir Ris. Close to beach and Pasir Ris Park for weekend recreation. Well-maintained unit with practical layout. Good schools in the vicinity and easy access to Changi Airport. Perfect for families who enjoy outdoor activities and peaceful seaside living.",
+      "[SAMPLE] Family-friendly 4-bedroom flat in scenic Pasir Ris. Close to beach and Pasir Ris Park for weekend recreation. Well-maintained unit with practical layout. Good schools in the vicinity and easy access to Changi Airport. Perfect for families who enjoy outdoor activities and peaceful seaside living.",
     aptType: "4-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -1308,7 +1308,7 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
-    userId: "user-020",
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
     createdAt: new Date("2024-12-06T17:00:00Z"),
     updatedAt: new Date("2024-12-15T19:45:00Z"),
     isActive: true,
