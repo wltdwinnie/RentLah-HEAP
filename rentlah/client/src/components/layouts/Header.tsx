@@ -5,7 +5,6 @@ import Image from "next/image";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import { SettingsMenu } from "@/components/settings-menu";
-import { UniversityDropdown } from "../quickfilters/university-filter";
 import { usePathname, useRouter } from "next/navigation";
 import AuthModal from "@/app/auth/AuthModal";
 import { Bell } from "lucide-react";
@@ -19,7 +18,6 @@ export default function Header() {
   const [authLoading, setAuthLoading] = useState(true);
 
   const pathname = usePathname();
-  const router = useRouter();
   const isHomePage = pathname === "/";
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
@@ -104,32 +102,19 @@ export default function Header() {
     }
   };
 
-  const handleUniversitySelect = (uni: string) => {
-    const match = uni.match(/\(([^)]+)\)/);
-    const shortName = match ? match[1] : uni;
-    router.push(`/filter?university=${encodeURIComponent(shortName)}`);
-  };
-
   return (
-    <>
       <header className={styles.header}>
         {/* Temporary logo */}
         <div className={styles.logoContainer}>
-          <Image
-            src="/assets/logo.png"
-            alt="RentLah Logo"
-            width={200}
-            height={50}
-          />
+          <Link href="/">
+            <Image 
+              src="/assets/logo.png" 
+              alt="RentLah Logo" 
+              width={200} 
+              height={50}
+            />
+          </Link>
         </div>
-
-        {/* Search Bar with Dropdown - only show on home page */}
-        {isHomePage && (
-          <UniversityDropdown
-            className="w-[400px] mx-6"
-            onSelect={handleUniversitySelect}
-          />
-        )}
 
         {/* Action Buttons */}
         <div className={styles.actions}>
@@ -202,6 +187,5 @@ export default function Header() {
         {/* Auth modal */}
         {showModal && <AuthModal type={authType} onClose={handleModalClose} />}
       </header>
-    </>
   );
 }
