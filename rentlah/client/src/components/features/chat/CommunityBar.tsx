@@ -1,35 +1,94 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Card } from "@/components/ui/card";
 
 const communities = [
-  { name: "NUS", description: "National University of Singapore" },
-  { name: "NTU", description: "Nanyang Technological University" },
-  { name: "SMU", description: "Singapore Management University" },
-  { name: "SIT", description: "Singapore Institute of Technology" },
-  { name: "SUTD", description: "Singapore University of Technology and Design" },
+  {
+    name: "NUS",
+    logo: "/logos/NUS.jpg",
+    fallbackLogo: "https://ui-avatars.com/api/?name=NUS&size=64&background=003d7a&color=ffffff&format=png",
+    fullName: "National University of Singapore"
+  },
+  {
+    name: "NTU",
+    logo: "https://logo.clearbit.com/ntu.edu.sg",
+    fallbackLogo: "https://ui-avatars.com/api/?name=NTU&size=64&background=e31837&color=ffffff&format=png",
+    fullName: "Nanyang Technological University"
+  },
+  {
+    name: "SMU",
+    logo: "https://logo.clearbit.com/smu.edu.sg",
+    fallbackLogo: "https://ui-avatars.com/api/?name=SMU&size=64&background=8b0000&color=ffffff&format=png",
+    fullName: "Singapore Management University"
+  },
+  {
+    name: "SIT",
+    logo: "/logos/SIT.png",
+    fallbackLogo: "https://ui-avatars.com/api/?name=SIT&size=64&background=0066cc&color=ffffff&format=png",
+    fullName: "Singapore Institute of Technology"
+  },
+  {
+    name: "SUTD",
+    logo: "/logos/SUTD.png",
+    fallbackLogo: "https://ui-avatars.com/api/?name=SUTD&size=64&background=ff6b35&color=ffffff&format=png",
+    fullName: "Singapore University of Technology and Design"
+  },
 ];
 
 const CommunityBar = () => {
-  return (
-    <div className="w-full px-4 py-4 border-b border-gray-200 bg-white">
-      <h2 className="text-xl font-bold mb-3">Communities</h2>
+  const [open, setOpen] = useState(true);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
-      <div className="flex flex-wrap gap-3 justify-center">
-        {communities.map((community) => (
-          <div
-            key={community.name}
-            className="border rounded-lg px-4 py-2 w-48 shadow-sm bg-gray-50"
-          >
-            <h3 className="text-md font-semibold">{community.name}</h3>
-            <p className="text-sm text-gray-600">{community.description}</p>
-          </div>
-        ))}
-        <Button variant="ghost" className="text-blue-500 self-center">
-          View All
-        </Button>
+  const handleImageError = (communityName: string) => {
+    setImageErrors(prev => ({ ...prev, [communityName]: true }));
+  };
+
+  return (
+    <Card className="p-4 w-full max-w-full">
+
+      <div
+        className="flex items-center justify-between cursor-pointer select-none"
+        onClick={() => setOpen(!open)}
+      >
+        <h2 className="text-2xl font-bold tracking-tight text-[#192e9a]">Communities</h2>
+        <ChevronDown
+          className={`h-4 w-4 text-gray-500 transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
+        />
       </div>
-    </div>
+
+
+      {open && (
+        <div className="mt-2 space-y-1">
+          {communities.map((comm) => (
+            <Link
+              key={comm.name}
+              href={`/community/${comm.name.toLowerCase()}`}
+              className="flex items-center gap-3 overflow-hidden hover:bg-gray-100 p-2 rounded-md transition-colors duration-200 w-full group"
+              title={comm.fullName}
+            >
+            <div className="relative w-10 h-10 flex-shrink-0">
+                <Image
+                  src={imageErrors[comm.name] ? comm.fallbackLogo : comm.logo}
+                  alt={`${comm.name} logo`}
+                  width={40}
+                  height={40}
+                  className="object-contain group-hover:scale-105 transition-transform duration-200 rounded"
+                  onError={() => handleImageError(comm.name)}
+                />
+              </div>
+              <span className="text-sm font-medium text-ellipsis whitespace-nowrap overflow-hidden group-hover:text-blue-600 transition-colors duration-200">
+                {comm.name}
+              </span>
+            </Link>
+          ))}
+        </div>
+      )}
+    </Card>
   );
 };
 

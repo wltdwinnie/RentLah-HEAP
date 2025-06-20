@@ -20,6 +20,9 @@ const Header = ({imageUrl, name}) => {
                 {name.substring(0, 1)}
               </AvatarFallback>
             </Avatar>
+            <h2 className = "font-semibold">
+              {name}
+            </h2>
         </div>
     </Card>
   )
