@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:socket": "set NODE_OPTIONS=--loader ts-node/esm --trace-warnings --no-warnings && ts-node server.mts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -27,10 +28,12 @@
     "lucide-react": "^0.511.0",
     "next": "^15.3.3",
     "nodemailer": "^7.0.3",
-    "pg": "^8.16.0",
     "nuqs": "^2.4.3",
+    "pg": "^8.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -40,10 +43,12 @@
     "@types/pg": "^8.15.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^7.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.1.8",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
