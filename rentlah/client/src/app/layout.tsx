@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import "@/styles/globals.css";
-import Header from "@/components/layouts/Header";
-import Footer from "@/components/layouts/Footer";
-import { ClerkProvider } from "@clerk/nextjs";
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,19 +24,13 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <ClerkProvider>
-      <TooltipProvider>
-        <html lang="en">
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-            <Header />
-            <main className="flex-1 pt-[64px]">{children}</main>
-            <Footer />
-          </body>
-        </html>
-      </TooltipProvider>
-    </ClerkProvider>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <NuqsAdapter>{children}</NuqsAdapter>
+      </body>
+    </html>
   );
 };
 

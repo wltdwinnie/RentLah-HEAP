@@ -88,6 +88,15 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Debug logging
+  console.log("PropertyCard listing:", {
+    id: listing.id,
+    images: listing.images,
+    hasImages: listing.images && listing.images.length > 0,
+    currentImageIndex,
+    currentImage: listing.images?.[currentImageIndex],
+  });
+
   const handleClick = () => {
     router.push(`/properties/${listing.id}`, { scroll: false });
   };
@@ -121,10 +130,18 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
                 : "/assets/placeholder-property.webp"
             }
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             style={{ objectFit: "cover" }}
             className="rounded-t-xl transition-opacity duration-300"
-            alt={`Property image ${currentImageIndex + 1}`}
-            priority
+            alt={
+              listing.images && listing.images.length > 0
+                ? `Property image ${currentImageIndex + 1}`
+                : "Property placeholder"
+            }
+            onError={(e) => {
+              console.log("Image failed to load:", e.currentTarget.src);
+              e.currentTarget.src = "/assets/placeholder-property.webp";
+            }}
           />
           {/* Navigation Buttons - Only show on hover */}
           <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity">

@@ -1,19 +1,49 @@
+"use client";
 import styles from './Home.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
+import { UniversityDropdown } from '@/components/quickfilters/university-filter';
+import { useRouter } from 'next/navigation';
 
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleUniversitySelect = (uni: string) => {
+    const match = uni.match(/\(([^)]+)\)/);
+    const shortName = match ? match[1] : uni;
+    router.push(`/filter?university=${encodeURIComponent(shortName)}`);
+  };
+
   return (
     <main>
       {/* 1. Welcome Section */}
-      <section className={`${styles.sectionLightBlue} ${styles.section}`}>
+      <section className={`${styles.section} ${styles.sectionLightBlue}`}>
         <div className={styles.sectionInner}>
           <div className={styles.welcomeSection}>
             <h1 className={styles.title}>Welcome to RentLah!</h1>
             <p className={styles.description}>
-              We are a housing app for SG students. Explore listings by selecting your university in the search bar and find your ideal student accommodation easily.
+              Looking for a place to stay while studying in Singapore? You've come to the right place. RentLah is built <i>for students, by students</i> — making your search for affordable and convenient housing easier than ever.
             </p>
+            <p className={styles.description}>
+              Start by selecting your university from the search bar. We'll show you listings located near your campus, so you can focus on what matters most: your studies, friends, and the student experience.
+            </p>
+            <p className={styles.description}>
+              Your next student home is just a few clicks away. Start exploring today!
+            </p>
+            <UniversityDropdown 
+              className="w-[400px] my-6" 
+              onSelect={handleUniversitySelect}
+            />
           </div>
+        </div>
+        <div className={styles.imageContainer}>
+          <Image 
+            src="/assets/building.png" 
+            alt="Decoration" 
+            width={500} height={1000} 
+            className="max-w-full h-auto object-contain"
+            priority/>
         </div>
       </section>
 
@@ -56,7 +86,7 @@ export default function Home() {
       {/* 4. Testimonials */}
       <section className={`${styles.sectionWhite} ${styles.section}`}>
         <div className={styles.sectionInner}>
-          <h2 className={styles.subTitle}>`Students' Testimonials`</h2>
+          <h2 className={styles.subTitle}>Students' Testimonials</h2>
           <div className={styles.testimonials}>
             <div className={styles.testimonialCard}>
               <p>"Super convenient! I found a room near NUS in just 3 days."</p>

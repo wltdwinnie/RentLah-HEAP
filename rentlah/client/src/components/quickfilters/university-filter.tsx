@@ -3,6 +3,8 @@
 import * as React from "react";
 import { UNIVERSITIES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { universityDisplayUtils } from "@/hooks/useUniversityFilter";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +26,9 @@ export function UniversityDropdown({
   className,
 }: UniversityDropdownProps) {
   const [mounted, setMounted] = React.useState(false);
-  const [selectedUniversity, setSelectedUniversity] = React.useState<string>(value);
+  const [selectedUniversity, setSelectedUniversity] =
+    React.useState<string>(value);
+  const isMobile = useIsMobile();
 
   React.useEffect(() => {
     setMounted(true);
@@ -45,15 +49,22 @@ export function UniversityDropdown({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className={cn(
-        "inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-        className
-      )}>
-        {mounted ? selectedUniversity : value}
+      <DropdownMenuTrigger
+        className={cn(
+          "inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-auto",
+          className
+        )}
+      >
+        {mounted
+          ? universityDisplayUtils.getResponsiveDisplayText(selectedUniversity, isMobile)
+          : universityDisplayUtils.getResponsiveDisplayText(value, isMobile)}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-xl">
         {UNIVERSITIES.map((uni) => (
-          <DropdownMenuItem key={uni.id} onClick={() => handleSelect(uni.name + " (" + uni.shortName + ")")}>
+          <DropdownMenuItem
+            key={uni.id}
+            onClick={() => handleSelect(uni.name + " (" + uni.shortName + ")")}
+          >
             {uni.name} ({uni.shortName})
           </DropdownMenuItem>
         ))}
