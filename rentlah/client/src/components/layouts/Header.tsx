@@ -21,6 +21,7 @@ export default function Header() {
   const isHomePage = pathname === "/";
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
+  const router = useRouter();
   // Check authentication status
   useEffect(() => {
     const checkAuth = async () => {
