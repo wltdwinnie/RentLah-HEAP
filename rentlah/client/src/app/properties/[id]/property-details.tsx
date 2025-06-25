@@ -30,7 +30,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
 
   // Load Google Maps API
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyAW24sAPqAFCNETLXe5Gt_QJB-rHtekod4",
+    googleMapsApiKey: "" + process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
   // Calculate deterministic coordinates based on the listing id
