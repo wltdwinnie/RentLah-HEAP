@@ -7,7 +7,7 @@
     position: sticky;
     top: 0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    z-index: 100; /* Add z-index for proper stacking */
+    z-index: 20; /* Add z-index for proper stacking */
 }
 
 .logoContainer {

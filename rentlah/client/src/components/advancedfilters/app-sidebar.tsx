@@ -26,7 +26,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="offcanvas"
-      className="[&>div:last-child]:top-[80px] [&>div:last-child]:h-[calc(100vh-80px)] z-30"
+      className="[&>div:last-child]:top-[80px] [&>div:last-child]:h-[calc(100vh-80px)] z-50"
     >
       <div className="flex flex-col h-full">
         <SidebarHeader className="pl-4 py-3 border-b">
