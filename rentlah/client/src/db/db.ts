@@ -1,16 +1,16 @@
-import 'dotenv/config';
-import { neonConfig } from '@neondatabase/serverless';
-import { drizzle } from "drizzle-orm/neon-serverless";
-import ws from 'ws';
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
+import { config } from 'dotenv';
 
-neonConfig.webSocketConstructor = ws;
+// Load environment variables
+config({ path: '.env' });
 
-console.log("Database connection string:", process.env.DATABASE_URL? "exists" : "Not set");
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL is not defined');
+}
 
-// Initialize Drizzle with Neon adapter
-const db = drizzle(process.env.DATABASE_URL!);
+// Create Neon SQL client - specific to Neon
+const sql = neon(process.env.DATABASE_URL);
 
-console.log("db: ", db ? "Created successfully" : "Failed to create pool");
-
-
-export { db };
+// Create Drizzle instance with neon-http adapter
+export const db = drizzle({ client: sql, casing: 'snake_case' });
