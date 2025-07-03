@@ -38,7 +38,7 @@ export const FILTER_OPTIONS = {
 // Quick filter configurations (single selection for UI buttons)
 export const QUICK_FILTER_CONFIGS = {
   PRICE_RANGES: [
-    { label: "All Prices", min: 0, max: 5000 },
+    { label: "All Prices", min: 0, max: 0 }, // min=0, max=0 means no price filter
     { label: "Under $1,000", min: 0, max: 1000 },
     { label: "$1,000 - $2,000", min: 1000, max: 2000 },
     { label: "$2,000 - $3,000", min: 2000, max: 3000 },

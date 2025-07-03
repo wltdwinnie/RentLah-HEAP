@@ -35,14 +35,19 @@ export function PriceRangeFilter({
 
   // Find the current selected range
   const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find(
-    (range) =>
-      range.min === minPrice &&
-      (range.max === maxPrice || range.max === 5000)
+    (range) => {
+      // For "All Prices", both min and max should be 0
+      if (range.label === "All Prices") {
+        return minPrice === 0 && maxPrice === 0;
+      }
+      // For other ranges, match normally
+      return range.min === minPrice && range.max === maxPrice;
+    }
   );
 
   const displayValue =
     currentRange?.label ||
-    ((minPrice > 0 && minPrice < 5000) || (maxPrice > 5000 && maxPrice > minPrice)
+    ((minPrice > 0 || maxPrice > 0) && minPrice !== maxPrice
       ? `$${minPrice.toLocaleString()} - $${
           maxPrice > 5000 ? "∞" : maxPrice.toLocaleString()
         }`

@@ -13,9 +13,9 @@ export const universityDisplayUtils = {
   getFullUniversityName: (shortName: string) => {
     if (!shortName || shortName === "Select University")
       return "Select University";
-    const university = UNIVERSITIES.find((uni) => uni.shortName === shortName);
+    const university = UNIVERSITIES.find((uni) => uni.shortname === shortName);
     return university
-      ? `${university.name} (${university.shortName})`
+      ? `${university.name} (${university.shortname})`
       : "Select University";
   },
 

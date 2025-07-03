@@ -1,3 +1,5 @@
+import { MRT_LINES } from "./constants";
+
 export type Listing = {
   // Identifier
   id: string;
@@ -40,12 +42,16 @@ export type Listing = {
     postalCode: string; // Singapore postal codes should be strings to preserve leading zeros
     floor?: number;
     unit?: number;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
   };
   nearbyMRT: MRTInfo[];
 
   facilities?: string[]; // ["Swimming Pool", "Gym", "Tennis Court", "BBQ Pit", "Playground"]
 
-  parking?: {
+  parking: {
     available: boolean;
     type?: "Covered" | "Open" | "Mechanical";
     spaces?: number;
@@ -80,15 +86,11 @@ export type Listing = {
   isVerified: boolean; // Whether the listing has been verified by an admin
 };
 
+export type MRTLine = typeof MRT_LINES[number];
+
 export type MRTInfo = {
   name: string;
-  line:
-    | "red-northsouth"
-    | "green-eastwest"
-    | "brown-thomson-east-coast"
-    | "purple-northeast"
-    | "yellow-circle"
-    | "blue-downtown";
+  line: [MRTLine, ...MRTLine[]]; // ensure at least one line is added
   distance: number; // in meters
 };
 

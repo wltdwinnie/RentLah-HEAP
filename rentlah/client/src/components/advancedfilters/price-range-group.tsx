@@ -36,7 +36,9 @@ export function PriceRangeGroup({
         <div className="mt-4 px-2">
           <div className="flex items-center gap-2 mb-6">
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-muted-foreground">min $/month</label>
+              <label className="text-xs text-muted-foreground">
+                min $/month
+              </label>
               <CurrencyInput
                 value={value[0]}
                 onChange={(newValue) => {
@@ -65,6 +67,7 @@ export function PriceRangeGroup({
                 min={0}
                 max={5000}
                 step={50}
+                className="h-7 w-20"
               />
             </div>
           </div>
