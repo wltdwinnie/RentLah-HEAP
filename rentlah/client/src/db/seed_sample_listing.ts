@@ -1,4 +1,4 @@
-import { createListings, createListing } from "./queries/insert";
+import { createListings } from "./queries/insert";
 import { sampleListings } from '@/lib/sample-data';
 import { transformListingForDB } from '@/lib/utils';
 import { deleteAllListings } from "./queries/delete";
@@ -11,11 +11,12 @@ import { deleteAllListings } from "./queries/delete";
     
     // Transform sample listings to database format
     const transformedListings = sampleListings.map(transformListingForDB);
-    // const transformedListing = transformListingForDB(sampleListings);
+    // const transformedListing = transformListingForDB(sampleListings[0]);
     
     // Call the function to seed sample listings
     await createListings(transformedListings);
     console.log(`Successfully seeded ${transformedListings.length} sample listings.`);
+    // console.log(`Successfully seeded sample listings.`);
   } catch (error) {
     console.error('Error during seeding:', error);
     process.exit(1);
