@@ -36,8 +36,8 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
   // Calculate deterministic coordinates based on the listing id
   // const idNum = parseInt(listing.id, 10);
   const center = {
-    lat: 1.2963, // lat: 1.3521 + (idNum % 10) * 0.01,
-    lng: 103.8502, // lng: 103.8198 + (idNum % 10) * 0.01,
+    lat: listing.address.coordinates.lat,
+    lng: listing.address.coordinates.lng,
   };
 
   const nextImage = () => {
