@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import "@/styles/globals.css";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,20 +19,15 @@ export const metadata: Metadata = {
   description: "Find your next home easily!",
 };
 
-interface MainLayoutProps {
-  children: React.ReactNode;
-}
-
-const MainLayout = ({ children }: MainLayoutProps) => {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300 antialiased`}
       >
         <NuqsAdapter>{children}</NuqsAdapter>
       </body>
     </html>
   );
-};
-
-export default MainLayout;
+}
