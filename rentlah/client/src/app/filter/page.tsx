@@ -4,8 +4,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { UniversityDropdown } from "@/components/quickfilters/university-filter";
 import { PropertyTypeFilter } from "@/components/quickfilters/property-type-filter";
 import { PriceRangeFilter } from "@/components/quickfilters/price-range-filter";
-import { Suspense } from "react";
-import { sampleListings } from "@/lib/sample-data";
+import { Suspense, useEffect, useState } from "react";
+import { getListingsWithFilter } from "@/db/queries/getListingsWithFilter";
 import { Listing } from "@/lib/definition";
 import { PropertyCardGroup } from "@/components/propertycard-group";
 import { AppSidebar } from "@/components/advancedfilters/app-sidebar";
@@ -17,15 +17,35 @@ export default function FilterPage() {
     handleUniversityChange,
     handlePropertyTypeChange,
     handlePriceRangeChange,
-    filterListings,
     getActiveFilterCount,
     hasActiveFilters,
     clearAllFilters,
     filters,
   } = useListingFilters();
 
-  // Apply all filters to the listings
-  const filteredListings = filterListings(sampleListings);
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    // Map filters to DB query
+    const fetchListings = async () => {
+      const dbListings = await getListingsWithFilter({
+        university: filters.university,
+        propertyType: ["HDB", "Condo", "Landed"].includes(filters.propertyType) ? filters.propertyType as "HDB" | "Condo" | "Landed" : undefined,
+        minPrice: filters.minPrice || undefined,
+        maxPrice: filters.maxPrice || undefined,
+        bedrooms: filters.bedrooms.length > 0 ? filters.bedrooms.map(Number) : undefined,
+        furnishing: filters.furnishing.length > 0 ? filters.furnishing as ("Unfurnished" | "Partially Furnished" | "Fully Furnished")[] : undefined,
+        amenities: filters.amenities.length > 0 ? filters.amenities : undefined,
+        distanceFromUniversity: filters.distanceFromUniversity ? Number(filters.distanceFromUniversity) : undefined,
+      });
+      setListings(dbListings);
+      setLoading(false);
+    };
+    fetchListings();
+  }, [filters]);
+
   const activeFilterCount = getActiveFilterCount();
 
   return (
@@ -81,11 +101,11 @@ export default function FilterPage() {
             )}
           </div>
           <div className="mt-2 text-sm text-gray-800">
-            {filteredListings.length} {filteredListings.length === 1 ? "result" : "results"} found
+            {loading ? "Loading..." : `${listings.length} ${listings.length === 1 ? "result" : "results"} found`}
           </div>
           <Suspense fallback={<div className="center">Loading...</div>}>
             <div className="pt-5">
-              <PropertyCardGroup listings={filteredListings as Listing[]} />
+              <PropertyCardGroup listings={listings as Listing[]} />
             </div>
           </Suspense>
         </main>
