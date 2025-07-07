@@ -51,6 +51,10 @@ export function transformListingForDB(listing: Listing): InsertListing {
     isActive: listing.isActive,
     isFeatured: listing.isFeatured,
     isVerified: listing.isVerified,
+    // Add universityTravelTimes to transformed listing if present
+    ...(listing.universityTravelTimes && {
+      universityTravelTimes: listing.universityTravelTimes,
+    }),
   };
 }
 
@@ -108,6 +112,10 @@ export function transformListingFromDB(dbListing: InsertListing): Listing {
     isVerified: dbListing.isVerified || false, // Default to false if not specified
     createdAt: dbListing.createdAt || new Date(), // Default to current date if not specified
     updatedAt: dbListing.updatedAt || new Date(), // Default to current date if not specified
+    // Add universityTravelTimes to transformed listing if present
+    ...(dbListing.universityTravelTimes && {
+      universityTravelTimes: dbListing.universityTravelTimes,
+    }),
   };
 }
 

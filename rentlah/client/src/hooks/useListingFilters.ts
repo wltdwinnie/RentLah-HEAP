@@ -8,7 +8,7 @@ import {
 } from "nuqs";
 import { UNIVERSITIES } from "@/lib/constants";
 import { Listing } from "@/lib/definition";
-import { isWithinTravelTime, parseDistanceFilter, filterListingsWithGoogleTravelTime } from "@/lib/distance-utils";
+import { parseDistanceFilter } from "@/lib/distance-utils";
 
 
 /**
@@ -112,7 +112,7 @@ export function useListingFilters() {
     }
   };
 
-  // Filter function for listings
+  // Filter function for listings (uses precomputed travel times)
   const filterListings = (listings: Listing[]) => {
     return listings.filter((listing) => {
       // University filter
@@ -163,42 +163,17 @@ export function useListingFilters() {
         if (!hasAllAmenities) return false;
       }
 
-      // Distance from university filter
+      // Distance from university filter (use precomputed travel times)
       if (filters.university) {
-        // Default: 60 min if not set
         const maxTravelTime = parseDistanceFilter(filters.distanceFromUniversity) ?? 60;
-        const listingCoords = {
-          lat: listing.address.coordinates.lat,
-          lng: listing.address.coordinates.lng
-        };
-        const isWithinDistance = isWithinTravelTime(
-          listingCoords,
-          filters.university,
-          maxTravelTime
-        );
-        if (!isWithinDistance) return false;
+        const travelTimes = listing.universityTravelTimes || {};
+        const uniTime = travelTimes[filters.university];
+        if (!uniTime || uniTime.durationMin > maxTravelTime) return false;
       }
 
       return true;
     });
   };
-
-  // Async filter using Google API for travel time
-  async function filterListingsWithGoogleAPI(listings: Listing[], apiKey: string) {
-    if (filters.distanceFromUniversity && filters.university) {
-      const maxTravelTime = parseDistanceFilter(filters.distanceFromUniversity);
-      if (maxTravelTime !== null) {
-        return await filterListingsWithGoogleTravelTime(
-          listings,
-          filters.university,
-          maxTravelTime,
-          apiKey
-        );
-      }
-    }
-    // fallback to normal filter
-    return filterListings(listings);
-  }
 
   // Get active filter count
   const getActiveFilterCount = () => {
@@ -232,7 +207,6 @@ export function useListingFilters() {
 
     // Utility functions
     filterListings,
-    filterListingsWithGoogleAPI,
     clearAllFilters,
     clearFilter,
     getActiveFilterCount,
