@@ -62,10 +62,10 @@ export function UniversityDropdown({
       <DropdownMenuContent className="rounded-xl">
         {UNIVERSITIES.map((uni) => (
           <DropdownMenuItem
-            key={uni.id}
-            onClick={() => handleSelect(uni.name + " (" + uni.shortName + ")")}
+            key={uni.postalCode}
+            onClick={() => handleSelect(uni.name + " (" + uni.shortname + ")")}
           >
-            {uni.name} ({uni.shortName})
+            {uni.name} ({uni.shortname})
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

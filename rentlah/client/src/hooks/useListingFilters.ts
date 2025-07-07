@@ -8,6 +8,8 @@ import {
 } from "nuqs";
 import { UNIVERSITIES } from "@/lib/constants";
 import { Listing } from "@/lib/definition";
+import { parseDistanceFilter } from "@/lib/distance-utils";
+
 
 /**
  * Comprehensive filtering hook using nuqs for robust search params management
@@ -23,14 +25,15 @@ export function useListingFilters() {
     bedrooms: parseAsArrayOf(parseAsString).withDefault([]),
     furnishing: parseAsArrayOf(parseAsString).withDefault([]),
     amenities: parseAsArrayOf(parseAsString).withDefault([]),
+    distanceFromUniversity: parseAsString.withDefault(""),
   });
 
   // Utility function to convert short name to full format
-  const getFullUniversityName = (shortName: string) => {
-    if (!shortName) return "Select University";
-    const university = UNIVERSITIES.find((uni) => uni.shortName === shortName);
+  const getFullUniversityName = (shortname: string) => {
+    if (!shortname) return "Select University";
+    const university = UNIVERSITIES.find((uni) => uni.shortname === shortname);
     return university
-      ? `${university.name} (${university.shortName})`
+      ? `${university.name} (${university.shortname})`
       : "Select University";
   };
 
@@ -43,8 +46,8 @@ export function useListingFilters() {
     } else {
       // Extract short name for clean URLs
       const match = uni.match(/\(([^)]+)\)/);
-      const shortName = match ? match[1] : uni;
-      setFilters({ university: shortName });
+      const shortname = match ? match[1] : uni;
+      setFilters({ university: shortname });
     }
   };
 
@@ -76,6 +79,11 @@ export function useListingFilters() {
     setFilters({ amenities });
   };
 
+  // Distance from university handler
+  const handleDistanceFromUniversityChange = (distance: string) => {
+    setFilters({ distanceFromUniversity: distance });
+  };
+
   // Clear all filters
   const clearAllFilters = () => {
     setFilters({
@@ -86,6 +94,7 @@ export function useListingFilters() {
       bedrooms: [],
       furnishing: [],
       amenities: [],
+      distanceFromUniversity: "",
     });
   };
 
@@ -103,7 +112,7 @@ export function useListingFilters() {
     }
   };
 
-  // Filter function for listings
+  // Filter function for listings (uses precomputed travel times)
   const filterListings = (listings: Listing[]) => {
     return listings.filter((listing) => {
       // University filter
@@ -154,6 +163,14 @@ export function useListingFilters() {
         if (!hasAllAmenities) return false;
       }
 
+      // Distance from university filter (use precomputed travel times)
+      if (filters.university) {
+        const maxTravelTime = parseDistanceFilter(filters.distanceFromUniversity) ?? 60;
+        const travelTimes = listing.universityTravelTimes || {};
+        const uniTime = travelTimes[filters.university];
+        if (!uniTime || uniTime.durationMin > maxTravelTime) return false;
+      }
+
       return true;
     });
   };
@@ -167,6 +184,7 @@ export function useListingFilters() {
     if (filters.bedrooms.length > 0) count++;
     if (filters.furnishing.length > 0) count++;
     if (filters.amenities.length > 0) count++;
+    if (filters.distanceFromUniversity) count++;
     return count;
   };
 
@@ -185,6 +203,7 @@ export function useListingFilters() {
     handleBedroomChange,
     handleFurnishingChange,
     handleAmenitiesChange,
+    handleDistanceFromUniversityChange,
 
     // Utility functions
     filterListings,

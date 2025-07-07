@@ -6,7 +6,7 @@ import styles from "./Header.module.css";
 import Link from "next/link";
 import { SettingsMenu } from "@/components/settings-menu";
 import { usePathname, useRouter } from "next/navigation";
-import AuthModal from "@/app/auth/AuthModal";
+import AuthModal from "@/components/auth/AuthModal";
 import { Bell } from "lucide-react";
 import Notification from "../features/Notification";
 import { authClient } from "@/lib/authClient";

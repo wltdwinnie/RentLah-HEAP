@@ -36,7 +36,9 @@ export function PriceRangeGroup({
         <div className="mt-4 px-2">
           <div className="flex items-center gap-2 mb-6">
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-muted-foreground">min $/month</label>
+              <label className="text-xs text-muted-foreground">
+                min $/month
+              </label>
               <CurrencyInput
                 value={value[0]}
                 onChange={(newValue) => {
@@ -45,7 +47,7 @@ export function PriceRangeGroup({
                   }
                 }}
                 min={0}
-                max={value[1]}
+                max={5000}
                 step={50}
                 className="h-7 w-20"
               />
@@ -62,16 +64,17 @@ export function PriceRangeGroup({
                     onChange([value[0], newValue]);
                   }
                 }}
-                min={value[0]}
-                max={10000}
+                min={0}
+                max={5000}
                 step={50}
+                className="h-7 w-20"
               />
             </div>
           </div>
           <Slider
             value={value}
             min={0}
-            max={10000}
+            max={5000}
             step={50}
             onValueChange={onChange}
             className="mt-2"

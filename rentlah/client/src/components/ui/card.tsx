@@ -178,9 +178,9 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
           )}
 
           <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start">
-            <div className="bg-black/50 text-white px-3 py-2 rounded-lg text-sm font-semibold">
+            {/* <div className="bg-black/50 text-white px-3 py-2 rounded-lg text-sm font-semibold">
               ${listing.perMonth}/mo
-            </div>
+            </div> */}
             <Button
               size="icon"
               className="bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors"
@@ -194,11 +194,13 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
           </div>
         </div>
         <CardHeader>
-          <CardTitle className="truncate">
-            {listing.address.blk} {listing.address.street},{" "}
-            {listing.address.postalCode}
-          </CardTitle>
-          <CardDescription className="line-clamp-2">
+          <CardTitle className="truncate">${listing.perMonth}/month</CardTitle>
+          <CardDescription className="line-clamp-3">
+            <b>
+              {listing.address.blk} {listing.address.street},{" "}
+              {listing.address.postalCode}
+            </b>
+            <br />
             {listing.description}
           </CardDescription>
         </CardHeader>
