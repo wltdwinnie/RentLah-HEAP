@@ -66,43 +66,53 @@ export const parkingTypeEnum = pgEnum("parking_type", [
   "Mechanical",
 ]);
 
+export const amenityTypeEnum = pgEnum("amenity_type", [
+  "School",
+  "Mall", 
+  "Hawker Centre",
+  "Clinic",
+  "Gym",
+]);
 
-export const listingTable = pgTable("listing", {
+export const listings = pgTable("listing", {
   // Identifier
   id: varchar({ length: 255 }).primaryKey(),
   description: text().notNull(),
 
   // User relationship
-  userId: varchar({ length: 255 }).notNull(),
+  userId: text("user_id").notNull(),
 
   // Property Details
-  aptType: aptTypeEnum().notNull(),
-  propertyType: propertyTypeEnum().notNull(),
+  aptType: aptTypeEnum("apt_type").notNull(),
+  propertyType: propertyTypeEnum("property_type").notNull(),
 
   // Room Configuration
   bedrooms: integer().notNull(),
   bathrooms: integer().notNull(),
-  hasStudy: boolean().default(false),
-  hasHelper: boolean().default(false),
-  hasBalcony: boolean().default(false),
+  hasStudy: boolean("has_study").default(false),
+  hasHelper: boolean("has_helper").default(false),
+  hasBalcony: boolean("has_balcony").default(false),
 
   // Furnishing & Area
   furnishing: furnishingEnum().notNull(),
-  sqft: integer().notNull(),
+  sqft: integer("sq_ft").notNull(),
 
   // Location & Address
-  addressBlk: integer().notNull(),
-  addressStreet: varchar({ length: 255 }).notNull(),
-  addressPostalCode: varchar({ length: 6 }).notNull(),
-  addressFloor: integer(),
-  addressUnit: integer(),
+  addressBlk: integer("address_blk").notNull(),
+  addressStreet: varchar("address_street", { length: 255 }).notNull(),
+  addressPostalCode: varchar("address_postal_code", { length: 6 }).notNull(),
+  addressFloor: integer("address_floor"),
+  addressUnit: integer("address_unit"),
+  coordinates: jsonb("coordinates")
+    .$type<{ lat: number; lng: number }>()
+    .notNull(),
 
   // Nearby MRT (stored as JSONB for flexibility)
-  nearbyMRT: jsonb()
+  nearbyMRT: jsonb("nearby_mrt")
     .$type<
       Array<{
         name: string;
-        line: string;
+        line: string[]; // Changed from string to string[] to match MRTInfo type
         distance: number;
       }>
     >()
@@ -112,44 +122,60 @@ export const listingTable = pgTable("listing", {
   facilities: jsonb().$type<string[]>(),
 
   // Parking
-  parkingAvailable: boolean(),
-  parkingType: parkingTypeEnum(),
-  parkingSpaces: integer(),
+  parkingAvailable: boolean("parking_available"),
+  parkingType: parkingTypeEnum("parking_type"),
+  parkingSpaces: integer("parking_spaces").default(0),
 
   // Nearby Amenities
-  nearbyAmenities: jsonb().$type<
+  nearbyAmenities: jsonb("nearby_amenities").$type<
     Array<{
       name: string;
       distance: number;
-      type: string;
+      type: "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym"; // Updated to match LocationInfo type
     }>
   >(),
 
   // Financial Terms
-  perMonth: decimal({ precision: 10, scale: 2 }).notNull(),
-  utilitiesIncluded: jsonb().$type<string[]>().notNull(),
-  securityDeposit: decimal({ precision: 10, scale: 2 }).notNull(),
-  agentFee: decimal({ precision: 10, scale: 2 }),
-  leasePeriod: leasePeriodEnum().notNull(),
+  perMonth: decimal("per_month", { precision: 10, scale: 2 }).notNull(),
+  utilitiesIncluded: jsonb("utilities_included").$type<string[]>().notNull(),
+  securityDeposit: decimal("security_deposit", { precision: 10, scale: 2 }).notNull(),
+  agentFee: decimal("agent_fee", { precision: 10, scale: 2 }),
+  leasePeriod: leasePeriodEnum("lease_period").notNull(),
 
   // Tenant Preferences
-  preferredGender: genderEnum(),
-  preferredNationality: nationalityEnum(),
-  preferredOccupation: jsonb().$type<string[]>(),
-  maxOccupants: integer().notNull(),
+  preferredGender: genderEnum("preferred_gender"),
+  preferredNationality: nationalityEnum("preferred_nationality"),
+  preferredOccupation: jsonb("preferred_occupation").$type<string[]>(),
+  maxOccupants: integer("max_occupants").notNull(),
 
   // Images
   images: jsonb().$type<string[]>().notNull(),
 
   // Status and Metadata
-  isActive: boolean().notNull().default(true),
-  isFeatured: boolean().notNull().default(false),
-  isVerified: boolean().notNull().default(false),
+  isActive: boolean("is_active").notNull().default(true),
+  isFeatured: boolean("is_featured").notNull().default(false),
+  isVerified: boolean("is_verified").notNull().default(false),
 
   // Timestamps
-  createdAt: timestamp().notNull().defaultNow(),
-  updatedAt: timestamp().notNull().defaultNow()
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+
+  // University travel times
+  universityTravelTimes: jsonb("university_travel_times").$type<Record<string, { distanceKm: number; durationMin: number }>>(),
 });
 
-export type InsertListing = typeof listingTable.$inferInsert;
-export type SelectListing = typeof listingTable.$inferSelect;
+export type InsertListing = typeof listings.$inferInsert;
+export type SelectListing = typeof listings.$inferSelect;
+
+export const universities = pgTable("university", {
+  postalCode: text("postal_code").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  shortname: varchar("short_name", { length: 50 }).notNull(),
+  coordinates: jsonb("coordinates").$type<{
+    latitude: number;
+    longitude: number;
+  }>().notNull(),
+});
+
+export type InsertUniversity = typeof universities.$inferInsert;
+export type SelectUniversity = typeof universities.$inferSelect;
