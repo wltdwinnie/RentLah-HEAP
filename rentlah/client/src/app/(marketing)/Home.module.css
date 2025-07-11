@@ -30,16 +30,44 @@
 
 /* Welcome Section */
 .welcomeSection {
-    text-align: left;
-    animation: fadeIn 1.2s ease-out;
     position: relative;
-    height: 75vh;
+    width: 100vw;
+    max-width: 100vw;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 60vh;
     box-sizing: border-box;
-    align-items: flex-start;
     overflow: hidden;
-    background-color: hsl(var(--primary-light));
+    animation: fadeIn 1.2s ease-out;
+    background: none;
+}
+
+.welcomeSection::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/sgp-landscape.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    z-index: 0;
+    transform: scale(1.05);
+}
+
+.welcomeSection > * {
+    position: relative;
+    z-index: 1;
 }
 
 .title {
@@ -47,6 +75,16 @@
     font-weight: bold;
     color: hsl(var(--primary));
     margin-bottom: 1rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+.welcdescription {
+    font-size: 1.2rem;
+    color: #000;
+    max-width: 600px;
+    margin: 0 0 2rem 0;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+    ;
 }
 
 .description {
@@ -89,12 +127,21 @@
 }
 
 .benefitCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     background: white;
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    text-align: center;
 }
+
+.benefitCard svg {
+    margin-bottom: 0.75rem;       /* Space below icon */
+}
+
 
 /* Testimonials */
 .testimonialCard {
@@ -115,6 +162,16 @@
     margin-top: 1.5rem;
 }
 
+.whitetext {
+    color: #fff;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+.lightbluetext {
+    color: hsl(var(--primary-light));
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
 /* Animation */
 @keyframes fadeIn {
     from {
@@ -126,3 +183,5 @@
         transform: translateY(0);
     }
 }
+
+
