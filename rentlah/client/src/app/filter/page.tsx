@@ -5,11 +5,11 @@ import { UniversityDropdown } from "@/components/quickfilters/university-filter"
 import { PropertyTypeFilter } from "@/components/quickfilters/property-type-filter";
 import { PriceRangeFilter } from "@/components/quickfilters/price-range-filter";
 import { Suspense, useEffect, useState } from "react";
-import { getListingsWithFilter } from "@/db/queries/getListingsWithFilter";
 import { Listing } from "@/lib/definition";
 import { PropertyCardGroup } from "@/components/propertycard-group";
 import { AppSidebar } from "@/components/advancedfilters/app-sidebar";
 import { useListingFilters } from "@/hooks/useListingFilters";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function FilterPage() {
   const {
@@ -26,24 +26,39 @@ export default function FilterPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchListings = async () => {
     setLoading(true);
-    // Map filters to DB query
-    const fetchListings = async () => {
-      const dbListings = await getListingsWithFilter({
+    const res = await fetch("/api/listings/filter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         university: filters.university,
-        propertyType: ["HDB", "Condo", "Landed"].includes(filters.propertyType) ? filters.propertyType as "HDB" | "Condo" | "Landed" : undefined,
+        propertyType: ["HDB", "Condo", "Landed"].includes(filters.propertyType)
+          ? (filters.propertyType as "HDB" | "Condo" | "Landed")
+          : undefined,
         minPrice: filters.minPrice || undefined,
         maxPrice: filters.maxPrice || undefined,
         bedrooms: filters.bedrooms.length > 0 ? filters.bedrooms.map(Number) : undefined,
-        furnishing: filters.furnishing.length > 0 ? filters.furnishing as ("Unfurnished" | "Partially Furnished" | "Fully Furnished")[] : undefined,
+        furnishing:
+          filters.furnishing.length > 0
+            ? (filters.furnishing as ("Unfurnished" | "Partially Furnished" | "Fully Furnished")[])
+            : undefined,
         amenities: filters.amenities.length > 0 ? filters.amenities : undefined,
-        distanceFromUniversity: filters.distanceFromUniversity ? Number(filters.distanceFromUniversity) : undefined,
-      });
-      setListings(dbListings);
-      setLoading(false);
-    };
-    fetchListings();
+        distanceFromUniversity: filters.distanceFromUniversity
+          ? Number(filters.distanceFromUniversity)
+          : undefined,
+      }),
+    });
+    const dbListings = await res.json();
+    setListings(dbListings);
+    setLoading(false);
+  };
+
+  const debouncedFetchListings = useDebouncedCallback(fetchListings, 400);
+
+  useEffect(() => {
+    debouncedFetchListings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
   const activeFilterCount = getActiveFilterCount();

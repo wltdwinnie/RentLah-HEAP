@@ -16,6 +16,7 @@ import {
   Ruler,
   Car,
   WavesLadder,
+  X,
 } from "lucide-react";
 
 const containerStyle = {
@@ -27,6 +28,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
 
   // Load Google Maps API
   const { isLoaded, loadError } = useLoadScript({
@@ -64,16 +66,17 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
             "/assets/placeholder-property.webp"
           }
           fill
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: "cover", cursor: "zoom-in" }}
           alt={`Property image ${currentImageIndex + 1}`}
           priority
+          onClick={() => setZoomed(true)}
         />
         {/* Navigation Buttons */}
-        <div className="absolute inset-0 flex items-center justify-between p-4">
+        <div className="absolute inset-0 flex items-center justify-between p-4 pointer-events-none">
           <Button
             size="icon"
             variant="secondary"
-            className="rounded-full bg-black/50 hover:bg-black/70"
+            className="rounded-full bg-black/50 hover:bg-black/70 pointer-events-auto"
             onClick={previousImage}
           >
             <ChevronLeft className="h-6 w-6 text-white" />
@@ -81,7 +84,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
           <Button
             size="icon"
             variant="secondary"
-            className="rounded-full bg-black/50 hover:bg-black/70"
+            className="rounded-full bg-black/50 hover:bg-black/70 pointer-events-auto"
             onClick={nextImage}
           >
             <ChevronRight className="h-6 w-6 text-white" />
@@ -90,7 +93,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
         {/* Save Button */}
         <Button
           size="icon"
-          className="absolute top-4 right-4 bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors"
+          className="absolute top-4 right-4 bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors pointer-events-auto"
           onClick={() => setIsSaved(!isSaved)}
         >
           <Heart
@@ -101,7 +104,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
         </Button>
         {/* Image Indicators */}
         {listing.images && listing.images.length > 0 && (
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 pointer-events-none">
             {listing.images.map((_, index) => (
               <div
                 key={index}
@@ -115,6 +118,71 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
           </div>
         )}
       </div>
+
+      {/* Zoom Modal */}
+      {zoomed && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+          onClick={() => setZoomed(false)}
+        >
+          <div
+            className="relative max-w-3xl w-full flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Prev Button */}
+            {listing.images && listing.images.length > 1 && (
+              <button
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 rounded-full p-2 z-10"
+                onClick={() =>
+                  setCurrentImageIndex(
+                    (prev) =>
+                      (prev - 1 + listing.images!.length) %
+                      listing.images!.length
+                  )
+                }
+              >
+                <ChevronLeft className="h-8 w-8 text-white" />
+              </button>
+            )}
+            <Image
+              src={
+                listing.images?.[currentImageIndex] ||
+                "/assets/placeholder-property.webp"
+              }
+              alt={`Zoomed property image ${currentImageIndex + 1}`}
+              width={1200}
+              height={800}
+              style={{
+                objectFit: "contain",
+                maxHeight: "80vh",
+                width: "auto",
+                cursor: "zoom-out",
+              }}
+              className="rounded-lg shadow-lg bg-white"
+              onClick={() => setZoomed(false)}
+            />
+            {/* Next Button */}
+            {listing.images && listing.images.length > 1 && (
+              <button
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 rounded-full p-2 z-10"
+                onClick={() =>
+                  setCurrentImageIndex(
+                    (prev) => (prev + 1) % listing.images!.length
+                  )
+                }
+              >
+                <ChevronRight className="h-8 w-8 text-white" />
+              </button>
+            )}
+            <button
+              className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 rounded-full p-2"
+              onClick={() => setZoomed(false)}
+            >
+              <X className="h-6 w-6 text-white" />
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Property Details */}

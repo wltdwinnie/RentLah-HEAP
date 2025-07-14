@@ -38,7 +38,6 @@ export async function getListingsWithFilter(
   if (filter.furnishing && filter.furnishing.length > 0) {
     whereClauses.push(inArray(listings.furnishing, filter.furnishing));
   }
-  // Note: amenities and university/distance filters are best handled in JS after fetching, due to JSONB structure
 
   const results = await db
     .select()

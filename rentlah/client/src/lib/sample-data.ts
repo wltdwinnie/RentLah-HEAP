@@ -69,12 +69,12 @@ export const sampleListings: Listing[] = [
     isVerified: true,
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
-      NTU: { distanceKm: 22.1, durationMin: 55 },
+      NUS: { distanceKm: 2.1, durationMin: 8 },
+      NTU: { distanceKm: 18.5, durationMin: 40 },
       SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SUTD: { distanceKm: 22.0, durationMin: 55 },
+      SIT: { distanceKm: 10.2, durationMin: 28 },
+      SUSS: { distanceKm: 5.5, durationMin: 15 },
     },
   },
   {
@@ -158,11 +158,11 @@ export const sampleListings: Listing[] = [
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
-      NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      NTU: { distanceKm: 2.2, durationMin: 7 },
+      SMU: { distanceKm: 15.8, durationMin: 45 },
+      SUTD: { distanceKm: 8.4, durationMin: 20 },
+      SIT: { distanceKm: 5.2, durationMin: 12 },
+      SUSS: { distanceKm: 20.5, durationMin: 60 },
     },
   },
   {
@@ -234,9 +234,9 @@ export const sampleListings: Listing[] = [
     isVerified: false,
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
-      NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
+      NUS: { distanceKm: 22.3, durationMin: 60 },
+      NTU: { distanceKm: 12.1, durationMin: 30 },
+      SMU: { distanceKm: 2.8, durationMin: 10 },
       SUTD: { distanceKm: 18.4, durationMin: 45 },
       SIT: { distanceKm: 15.2, durationMin: 40 },
       SUSS: { distanceKm: 10.5, durationMin: 30 },
@@ -310,12 +310,12 @@ export const sampleListings: Listing[] = [
     isVerified: true,
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -494,12 +494,12 @@ export const sampleListings: Listing[] = [
     isVerified: true,
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -648,12 +648,12 @@ export const sampleListings: Listing[] = [
     isVerified: false,
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -724,12 +724,12 @@ export const sampleListings: Listing[] = [
     isVerified: true,
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -963,12 +963,12 @@ export const sampleListings: Listing[] = [
     isVerified: false,
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
