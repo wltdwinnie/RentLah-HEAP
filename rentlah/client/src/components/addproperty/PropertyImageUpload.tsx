@@ -9,7 +9,7 @@ export function PropertyImageUpload({
   onUploadError?: (error: Error) => void;
 }) {
   return (
-    <UploadButton<OurFileRouter, any>
+    <UploadButton<OurFileRouter, unknown>
       endpoint="imageUploader"
       onClientUploadComplete={onUploadComplete}
       onUploadError={onUploadError}
