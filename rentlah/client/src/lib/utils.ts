@@ -1,9 +1,12 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Listing, LocationInfo, MRTLine } from "./definition";
+import { Listing } from "./definition";
 import { InsertListing } from "@/db/schema";
-import { MRTInfo } from "./definition";
-import { MRT_LINES } from "./constants";
+import { transformMRTLinesForDB, transformMRTLinesFromDB } from "./mrt-utils";
+import {
+  transformNearbyAmenitiesForDB,
+  transformNearbyAmenitiesFromDB,
+} from "./amenities-utils";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -51,7 +54,6 @@ export function transformListingForDB(listing: Listing): InsertListing {
     isActive: listing.isActive,
     isFeatured: listing.isFeatured,
     isVerified: listing.isVerified,
-    // Add universityTravelTimes to transformed listing if present
     ...(listing.universityTravelTimes && {
       universityTravelTimes: listing.universityTravelTimes,
     }),
@@ -107,97 +109,13 @@ export function transformListingFromDB(dbListing: InsertListing): Listing {
       maxOccupants: dbListing.maxOccupants,
     },
     images: dbListing.images,
-    isActive: dbListing.isActive || true, // Default to true if not specified
-    isFeatured: dbListing.isFeatured || false, // Default to false if not specified
-    isVerified: dbListing.isVerified || false, // Default to false if not specified
-    createdAt: dbListing.createdAt || new Date(), // Default to current date if not specified
-    updatedAt: dbListing.updatedAt || new Date(), // Default to current date if not specified
-    // Add universityTravelTimes to transformed listing if present
+    isActive: dbListing.isActive || true,
+    isFeatured: dbListing.isFeatured || false,
+    isVerified: dbListing.isVerified || false,
+    createdAt: dbListing.createdAt || new Date(),
+    updatedAt: dbListing.updatedAt || new Date(),
     ...(dbListing.universityTravelTimes && {
       universityTravelTimes: dbListing.universityTravelTimes,
     }),
   };
-}
-
-export function transformMRTLinesFromDB(
-  mrts: Array<{
-    name: string;
-    line: string | string[]; // Updated to support both old and new format
-    distance: number;
-  }>
-): MRTInfo[] {
-  return mrts.map((mrt) => {
-    // Parse the line (supporting both string and array formats)
-    let lineStrings: string[];
-
-    if (Array.isArray(mrt.line)) {
-      // New format: already an array
-      lineStrings = mrt.line;
-    } else {
-      // Legacy format: string that needs parsing
-      try {
-        // Try parsing as JSON first
-        lineStrings = JSON.parse(mrt.line);
-      } catch {
-        // Fallback to comma-separated parsing
-        lineStrings = mrt.line.split(",").map((l) => l.trim());
-      }
-    }
-
-    // Validate and filter only valid MRT lines
-    const validLines = lineStrings.filter((line): line is MRTLine =>
-      MRT_LINES.includes(line as MRTLine)
-    );
-
-    // Ensure we have at least one valid line
-    if (validLines.length === 0) {
-      throw new Error(`MRT station ${mrt.name} has no valid MRT lines`);
-    }
-
-    return {
-      name: mrt.name,
-      line: validLines as [MRTLine, ...MRTLine[]], // TypeScript assertion after validation
-      distance: mrt.distance,
-    };
-  });
-}
-
-export function transformMRTLinesForDB(mrtInfo: MRTInfo[]): Array<{
-  name: string;
-  line: string[]; // Store as string array to match updated schema
-  distance: number;
-}> {
-  return mrtInfo.map((mrt) => ({
-    name: mrt.name,
-    line: mrt.line, // Direct assignment since both are arrays now
-    distance: mrt.distance,
-  }));
-}
-
-function transformNearbyAmenitiesFromDB(
-  amenities: {
-    name: string;
-    distance: number;
-    type: "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym";
-  }[]
-): LocationInfo[] {
-  return amenities.map((amenity) => ({
-    name: amenity.name,
-    distance: amenity.distance,
-    type: amenity.type, // No need for type assertion anymore
-  }));
-}
-
-function transformNearbyAmenitiesForDB(
-  amenities: LocationInfo[]
-): {
-  name: string;
-  distance: number;
-  type: "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym";
-}[] {
-  return amenities.map((amenity) => ({
-    name: amenity.name,
-    distance: amenity.distance,
-    type: amenity.type,
-  }));
 }
