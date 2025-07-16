@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import Image from "next/image";
 import { Listing } from "@/lib/definition";
@@ -18,6 +18,7 @@ import {
   WavesLadder,
   X,
 } from "lucide-react";
+import { authClient } from "@/lib/authClient";
 
 const containerStyle = {
   width: "100%",
@@ -27,8 +28,18 @@ const containerStyle = {
 export default function PropertyDetails({ listing }: { listing: Listing }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
-  const [showContactForm, setShowContactForm] = useState(false);
   const [zoomed, setZoomed] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const session = await authClient.getSession();
+      if (session && session.data && session.data.user) {
+        setCurrentUserId(session.data.user.id);
+      }
+    }
+    fetchUser();
+  }, []);
 
   // Load Google Maps API
   const { isLoaded, loadError } = useLoadScript({
@@ -347,12 +358,43 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                     </p>
                   </div>
                 )}
-                <Button
-                  className="w-full"
-                  onClick={() => setShowContactForm(true)}
-                >
-                  Contact Agent
-                </Button>
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    Available From
+                  </p>
+                  <p className="font-semibold">
+                    {listing.availableFrom
+                      ? new Date(listing.availableFrom).toLocaleDateString()
+                      : "N/A"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Created At</p>
+                  <p className="font-semibold">
+                    {listing.createdAt
+                      ? new Date(listing.createdAt).toLocaleDateString()
+                      : "N/A"}
+                  </p>
+                </div>
+                {currentUserId === listing.userId ? (
+                  <Button
+                    className="w-full"
+                    onClick={() =>
+                      (window.location.href = `/properties/${listing.id}/edit`)
+                    }
+                  >
+                    Modify Listing
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full"
+                    onClick={() =>
+                      (window.location.href = `/chat/${listing.userId}`)
+                    }
+                  >
+                    Contact Agent
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>

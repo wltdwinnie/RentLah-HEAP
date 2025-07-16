@@ -12,13 +12,13 @@ import { LeaseSection } from "@/components/addproperty/LeaseSection";
 import { useAddPropertyForm } from "@/hooks/useAddPropertyForm";
 
 export default function AddPropertyPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<string>("");
 
   useEffect(() => {
     const fetchUser = async () => {
       const session = await authClient.getSession();
       if (session && session.data && session.data.user) {
-        setUser(session.data.user);
+        setUser(session.data.user.id);
       }
     };
     fetchUser();
@@ -26,7 +26,7 @@ export default function AddPropertyPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const isVerifiedUser = user || false; // Use user verification status from Better Auth
+  const isVerifiedUser = (user && user != "") || false; // Use user verification status from Better Auth
   const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
 
   // Use the custom hook for all form state and handlers
@@ -42,7 +42,7 @@ export default function AddPropertyPage() {
     images,
     setImages,
     nearbyMRT,
-    // setNearbyMRT, 
+    // setNearbyMRT,
     amenityName,
     setAmenityName,
     amenityDistance,
@@ -110,7 +110,15 @@ export default function AddPropertyPage() {
             required
           />
 
-          <PropertyDetailsSection form={form} handleChange={handleChange} />
+          <PropertyDetailsSection
+            form={{
+              ...form,
+              bedrooms: String(form.bedrooms ?? ""),
+              bathrooms: String(form.bathrooms ?? ""),
+              sqft: String(form.sqft ?? ""),
+            }}
+            handleChange={handleChange}
+          />
 
           <AmenitiesSection
             amenityName={amenityName}

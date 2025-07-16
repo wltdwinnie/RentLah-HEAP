@@ -1,47 +1,92 @@
 import React from "react";
+import { floatingLabel, floatingInput, floatingSelect } from "./floatingStyles";
+import { LEASE_PERIOD_TYPES } from "@/lib/constants";
 
-export function LeaseSection({ form, handleChange }: any) {
+interface LeaseSectionProps {
+  form: {
+    perMonth: string;
+    utilitiesIncluded: string;
+    securityDeposit: string;
+    agentFee: string;
+    leasePeriod: string;
+    availableFrom: string;
+  };
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+}
+
+export function LeaseSection({ form, handleChange }: LeaseSectionProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
-      <input
-        name="perMonth"
-        value={form.perMonth}
-        onChange={handleChange}
-        placeholder="Monthly Rent"
-        className="border p-3 rounded-2xl"
-        required
-      />
-      <input
-        name="utilitiesIncluded"
-        value={form.utilitiesIncluded}
-        onChange={handleChange}
-        placeholder="Utilities Included (comma separated)"
-        className="border p-3 rounded-2xl"
-      />
-      <input
-        name="securityDeposit"
-        value={form.securityDeposit}
-        onChange={handleChange}
-        placeholder="Security Deposit"
-        className="border p-3 rounded-2xl"
-        required
-      />
-      <input
-        name="agentFee"
-        value={form.agentFee}
-        onChange={handleChange}
-        placeholder="Agent Fee (optional)"
-        className="border p-3 rounded-2xl"
-      />
-      <select
-        name="leasePeriod"
-        value={form.leasePeriod}
-        onChange={handleChange}
-        className="border p-3 rounded-2xl"
-      >
-        <option value="long-term">Long-term</option>
-        <option value="short-term">Short-term</option>
-      </select>
+      <div className="relative">
+        <input
+          name="perMonth"
+          value={form.perMonth}
+          onChange={handleChange}
+          className={floatingInput}
+          required
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Monthly Rent</label>
+      </div>
+      <div className="relative">
+        <input
+          name="utilitiesIncluded"
+          value={form.utilitiesIncluded}
+          onChange={handleChange}
+          className={floatingInput}
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Utilities Included</label>
+      </div>
+      <div className="relative">
+        <input
+          name="securityDeposit"
+          value={form.securityDeposit}
+          onChange={handleChange}
+          className={floatingInput}
+          required
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Security Deposit</label>
+      </div>
+      <div className="relative">
+        <input
+          name="agentFee"
+          value={form.agentFee}
+          onChange={handleChange}
+          className={floatingInput}
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Agent Fee (optional)</label>
+      </div>
+      <div className="relative">
+        <select
+          name="leasePeriod"
+          value={form.leasePeriod}
+          onChange={handleChange}
+          className={floatingSelect}
+        >
+          {LEASE_PERIOD_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+        <label className={floatingLabel}>Lease Period</label>
+      </div>
+      <div className="relative">
+        <input
+          name="availableFrom"
+          type="date"
+          value={form.availableFrom}
+          onChange={handleChange}
+          className={floatingInput}
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Available From</label>
+      </div>
     </div>
   );
 }

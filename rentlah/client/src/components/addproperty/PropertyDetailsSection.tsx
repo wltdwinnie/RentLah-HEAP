@@ -1,53 +1,84 @@
 import React from "react";
+import { floatingLabel } from "./floatingStyles";
+import { APT_TYPES, FURNISHING_TYPES, PROPERTY_TYPES } from "@/lib/constants";
 
-export function PropertyDetailsSection({ form, handleChange }: any) {
+interface PropertyDetialsSectionProps {
+  form: {
+    aptType: string;
+    propertyType: string;
+    bedrooms: string;
+    bathrooms: string;
+    furnishing: string;
+    sqft: string;
+    hasStudy: boolean;
+    hasHelper: boolean;
+    hasBalcony: boolean;
+  };
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+}
+
+export function PropertyDetailsSection({
+  form,
+  handleChange,
+}: PropertyDetialsSectionProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
-      <select
-        name="aptType"
-        value={form.aptType}
-        onChange={handleChange}
-        className="border p-3 rounded-2xl"
-      >
-        <option value="3-bedroom">3-bedroom</option>
-        <option value="studio">Studio</option>
-        <option value="1-bedroom">1-bedroom</option>
-        <option value="2-bedroom">2-bedroom</option>
-        <option value="4-bedroom">4-bedroom</option>
-        <option value="5-bedroom">5-bedroom</option>
-        <option value="penthouse">Penthouse</option>
-        <option value="semi-detached">Semi-Detached</option>
-        <option value="detached">Detached</option>
-        <option value="others">Others</option>
-      </select>
-      <select
-        name="propertyType"
-        value={form.propertyType}
-        onChange={handleChange}
-        className="border p-3 rounded-2xl"
-      >
-        <option value="HDB">HDB</option>
-        <option value="Condo">Condo</option>
-        <option value="Landed">Landed</option>
-      </select>
-      <input
-        name="bedrooms"
-        type="number"
-        value={form.bedrooms}
-        onChange={handleChange}
-        placeholder="Bedrooms"
-        className="border p-3 rounded-2xl"
-        required
-      />
-      <input
-        name="bathrooms"
-        type="number"
-        value={form.bathrooms}
-        onChange={handleChange}
-        placeholder="Bathrooms"
-        className="border p-3 rounded-2xl"
-        required
-      />
+      <div className="relative">
+        <select
+          name="aptType"
+          value={form.aptType}
+          onChange={handleChange}
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white"
+        >
+          {APT_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+        <label className={floatingLabel}>Apartment Type</label>
+      </div>
+      <div className="relative">
+        <select
+          name="propertyType"
+          value={form.propertyType}
+          onChange={handleChange}
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white"
+        >
+          {PROPERTY_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+        <label className={floatingLabel}>Property Type</label>
+      </div>
+      <div className="relative">
+        <input
+          name="bedrooms"
+          type="number"
+          value={form.bedrooms}
+          onChange={handleChange}
+          className="border p-3 rounded-2xl peer w-full pt-6"
+          required
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Bedrooms</label>
+      </div>
+      <div className="relative">
+        <input
+          name="bathrooms"
+          type="number"
+          value={form.bathrooms}
+          onChange={handleChange}
+          className="border p-3 rounded-2xl peer w-full pt-6"
+          required
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Bathrooms</label>
+      </div>
       <label className="flex items-center gap-2">
         <input
           type="checkbox"
@@ -75,24 +106,30 @@ export function PropertyDetailsSection({ form, handleChange }: any) {
         />{" "}
         Balcony
       </label>
-      <select
-        name="furnishing"
-        value={form.furnishing}
-        onChange={handleChange}
-        className="border p-3 rounded-2xl"
-      >
-        <option value="Unfurnished">Unfurnished</option>
-        <option value="Partially Furnished">Partially Furnished</option>
-        <option value="Fully Furnished">Fully Furnished</option>
-      </select>
-      <input
-        name="sqft"
-        value={form.sqft}
-        onChange={handleChange}
-        placeholder="Square Feet"
-        className="border p-3 rounded-2xl"
-        required
-      />
+      <div className="relative">
+        <select
+          name="furnishing"
+          value={form.furnishing}
+          onChange={handleChange}
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white"
+        >
+            {FURNISHING_TYPES.map((type) => (
+                          <option key={type} value={type}>{type}</option>
+                        ))}
+        </select>
+        <label className={floatingLabel}>Furnishing</label>
+      </div>
+      <div className="relative">
+        <input
+          name="sqft"
+          value={form.sqft}
+          onChange={handleChange}
+          className="border p-3 rounded-2xl peer w-full pt-6"
+          required
+          placeholder=" "
+        />
+        <label className={floatingLabel}>Square Feet</label>
+      </div>
     </div>
   );
 }
