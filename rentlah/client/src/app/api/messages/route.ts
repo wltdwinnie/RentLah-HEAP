@@ -12,30 +12,46 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    let query = `
-      SELECT * FROM messages
-      WHERE room = $1
-    `;
+    let query: string;
     const values: any[] = [room];
 
     if (before) {
-      query += ` AND created_at < $2`;
+      // For pagination: get messages older than 'before' timestamp
+      // Use subquery to get latest 20 messages before the timestamp, then order chronologically
+      query = `
+        SELECT * FROM (
+          SELECT * FROM messages
+          WHERE room = $1 AND created_at < $2
+          ORDER BY created_at DESC
+          LIMIT 20
+        ) subquery
+        ORDER BY created_at ASC
+      `;
       values.push(before);
+    } else {
+      // For initial load: get the latest 20 messages
+      query = `
+        SELECT * FROM (
+          SELECT * FROM messages
+          WHERE room = $1
+          ORDER BY created_at DESC
+          LIMIT 20
+        ) subquery
+        ORDER BY created_at ASC
+      `;
     }
-
-    query += ` ORDER BY created_at DESC LIMIT 20`;
 
     const { rows } = await dbPool.query(query, values);
 
-    // Important: frontend expects oldest-to-newest
-    return NextResponse.json(rows.reverse());
+    // Return messages in chronological order (oldest to newest)
+    return NextResponse.json(rows);
   } catch (err) {
     console.error("❌ Error fetching messages:", err);
     return NextResponse.json({ error: "Failed to get messages" }, { status: 500 });
   }
 }
 
-// POST handler — unchanged, still saves a new message
+// POST handler — updated to support both DM and community chat
 export async function POST(req: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: req.headers });
@@ -48,18 +64,21 @@ export async function POST(req: NextRequest) {
     const { receiver_id, room, message } = body;
     const sender_id = session.user.id;
 
-    if (
-      !sender_id || !receiver_id || !room || !message ||
-      typeof room !== "string" || typeof message !== "string"
-    ) {
+    // Basic validation - receiver_id is now optional
+    if (!sender_id || !room || !message || typeof room !== "string" || typeof message !== "string") {
       return NextResponse.json({ error: "Invalid or missing fields" }, { status: 400 });
+    }
+
+    // Optional: Validate receiver_id if provided (for DM messages)
+    if (receiver_id && typeof receiver_id !== "string") {
+      return NextResponse.json({ error: "Invalid receiver_id format" }, { status: 400 });
     }
 
     const { rows } = await dbPool.query(
       `INSERT INTO messages (sender_id, receiver_id, room, message)
        VALUES ($1, $2, $3, $4)
        RETURNING *`,
-      [sender_id, receiver_id, room, message]
+      [sender_id, receiver_id || null, room, message]
     );
 
     return NextResponse.json(rows[0]);
