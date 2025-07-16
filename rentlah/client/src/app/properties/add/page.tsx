@@ -9,7 +9,7 @@ import { PropertyDetailsSection } from "@/components/addproperty/PropertyDetails
 import { PreferencesSection } from "@/components/addproperty/PreferencesSection";
 import { ParkingSection } from "@/components/addproperty/ParkingSection";
 import { LeaseSection } from "@/components/addproperty/LeaseSection";
-import { useAddPropertyForm } from "@/components/addproperty/useAddPropertyForm";
+import { useAddPropertyForm } from "@/hooks/useAddPropertyForm";
 
 export default function AddPropertyPage() {
   const [user, setUser] = useState<any>(null);
@@ -22,7 +22,7 @@ export default function AddPropertyPage() {
       }
     };
     fetchUser();
-    const interval = setInterval(fetchUser, 600000); // refresh every 10 min
+    const interval = setInterval(fetchUser, 1800000); // refresh every 30 min
     return () => clearInterval(interval);
   }, []);
 
@@ -42,7 +42,7 @@ export default function AddPropertyPage() {
     images,
     setImages,
     nearbyMRT,
-    // setNearbyMRT,
+    // setNearbyMRT, 
     amenityName,
     setAmenityName,
     amenityDistance,
@@ -58,6 +58,29 @@ export default function AddPropertyPage() {
     handleAddAmenity,
     handleRemoveAmenity,
   } = useAddPropertyForm(user, GOOGLE_API_KEY);
+
+  // Track MRT fetch status for user feedback
+  const [mrtStatus, setMrtStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [mrtErrorMsg, setMrtErrorMsg] = useState("");
+
+  // Wrap the hook's MRT handler to update status
+  const handleAutoPopulateMRTWithStatus = async () => {
+    setMrtStatus("loading");
+    setMrtErrorMsg("");
+    try {
+      const stations = await handleAutoPopulateMRT();
+      if (Array.isArray(stations) && stations.length > 0) {
+        setMrtStatus("success");
+      } else {
+        setMrtStatus("success"); // No stations found, but not an error
+      }
+    } catch {
+      setMrtStatus("error");
+      setMrtErrorMsg("Failed to fetch nearby MRT stations");
+    }
+  };
 
   return (
     <div className="max-w-2xl mx-auto py-8">
@@ -103,9 +126,34 @@ export default function AddPropertyPage() {
 
           <ParkingSection form={form} handleChange={handleChange} />
 
+          {/* MRT status indicator */}
+          <div>
+            {mrtStatus === "idle" && (
+              <span className="text-gray-500">Nearby MRT not fetched yet.</span>
+            )}
+            {mrtStatus === "loading" && (
+              <span className="text-blue-600">
+                Fetching nearby MRT stations...
+              </span>
+            )}
+            {mrtStatus === "success" && (
+              <span className="text-green-600">
+                {nearbyMRT.length > 0
+                  ? `Fetched ${nearbyMRT.length} nearby MRT station${
+                      nearbyMRT.length > 1 ? "s" : ""
+                    }.`
+                  : "No nearby MRT stations found."}
+              </span>
+            )}
+            {mrtStatus === "error" && (
+              <span className="text-red-600">
+                {mrtErrorMsg || "Failed to fetch nearby MRT stations."}
+              </span>
+            )}
+          </div>
           <NearbyMRTSection
             nearbyMRT={nearbyMRT}
-            handleAutoPopulateMRT={handleAutoPopulateMRT}
+            handleAutoPopulateMRT={handleAutoPopulateMRTWithStatus}
           />
 
           <LeaseSection form={form} handleChange={handleChange} />

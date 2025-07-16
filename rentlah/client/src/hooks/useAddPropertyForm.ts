@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { geocodeAddress, fetchNearbyMRT } from "@/lib/address-utils";
 
@@ -53,6 +53,12 @@ export function useAddPropertyForm(user: any, GOOGLE_API_KEY: string) {
   const [amenityType, setAmenityType] = useState("Mall");
   const [amenities, setAmenities] = useState<any[]>([]);
 
+  // Ensure userId is updated if user changes
+  // This effect will update form.userId whenever the user prop changes
+  useEffect(() => {
+    setForm((prev) => ({ ...prev, userId: user?.id || "" }));
+  }, [user]);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -103,7 +109,7 @@ export function useAddPropertyForm(user: any, GOOGLE_API_KEY: string) {
           ? form.facilities.split(",").map((f: string) => f.trim())
           : [],
         parkingAvailable: form.parkingAvailable,
-        parkingType: form.parkingType,
+        parkingType: form.parkingType === "" ? null : form.parkingType,
         parkingSpaces: form.parkingSpaces
           ? Number(form.parkingSpaces)
           : undefined,
@@ -162,16 +168,22 @@ export function useAddPropertyForm(user: any, GOOGLE_API_KEY: string) {
     }
   };
 
-  const handleAutoPopulateMRT = async () => {
+  const handleAutoPopulateMRT = async (): Promise<{
+    name: string;
+    line: string[];
+    distance: number;
+  }[]> => {
     try {
       const lat = Number(form.coordinatesLat);
       const lng = Number(form.coordinatesLng);
       if (!lat || !lng) throw new Error("Coordinates required");
       const stations = await fetchNearbyMRT(lat, lng);
       setNearbyMRT(stations);
-      setForm((prev) => ({ ...prev, nearbyMRT: JSON.stringify(stations) }));
+      return stations;
     } catch {
       setError("Failed to fetch nearby MRT stations");
+      setNearbyMRT([]);
+      return [];
     }
   };
 
