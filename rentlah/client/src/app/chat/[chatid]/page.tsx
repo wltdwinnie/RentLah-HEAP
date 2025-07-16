@@ -1,15 +1,15 @@
 "use client";
 
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
 import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader, MessageType } from "@/utils/timeUtils";
 
-const Page = ({ params }: { params: Promise<{ communityName: string; channelName: string }> }) => {
-  const { communityName, channelName } = use(params);
-  
+const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
+  const [chatid, setChatid] = useState<string>("");
+  const [user, setUser] = useState<any>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -20,7 +20,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const room = `community:${communityName}-${channelName}`;
+  const room = user && currentUser ? `dm:${[user.name, currentUser.name].sort().join("-")}` : "";
 
   // Helper function to scroll to bottom instantly
   const scrollToBottom = (smooth = false) => {
@@ -31,93 +31,76 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
     }
   };
 
+  // Resolve route param
+  useEffect(() => {
+    const resolveParams = async () => {
+      const resolved = await params;
+      setChatid(resolved.chatid);
+    };
+    resolveParams();
+  }, [params]);
+
   // Fetch current user
   useEffect(() => {
     const fetchCurrentUser = async () => {
-      try {
-        const res = await fetch("/api/me");
-        if (!res.ok) return;
-        const data = await res.json();
-        setCurrentUser({ id: data.id, name: data.name || data.email?.split("@")[0] });
-      } catch (error) {
-        console.error("Error fetching current user:", error);
-      }
+      const res = await fetch("/api/me");
+      if (!res.ok) return;
+      const data = await res.json();
+      setCurrentUser({ id: data.id, name: data.name || data.email?.split("@")[0] });
     };
     fetchCurrentUser();
   }, []);
 
+  // Fetch other user
+  useEffect(() => {
+    if (!chatid) return;
+    const fetchUser = async () => {
+      const res = await fetch(`/api/users?id=${chatid}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setUser({ ...data, name: data.name || data.email?.split("@")[0] });
+    };
+    fetchUser();
+  }, [chatid]);
+
   // Fetch messages
   const fetchMessages = async (before?: string) => {
-    if (!room || !currentUser || loadingOlder) return;
+    if (!room || !currentUser || !user || loadingOlder) return;
 
     setLoadingOlder(true);
 
-    try {
-      const url = new URL(`/api/messages`, window.location.origin);
-      url.searchParams.append("id", room);
-      if (before) url.searchParams.append("before", before);
+    const url = new URL(`/api/messages`, window.location.origin);
+    url.searchParams.append("id", room);
+    if (before) url.searchParams.append("before", before);
 
-      const res = await fetch(url.toString());
-      
-      if (!res.ok) {
-        console.error("Failed to fetch messages:", res.status, res.statusText);
-        setLoadingOlder(false);
-        return;
-      }
+    const res = await fetch(url.toString());
+    const data = await res.json();
 
-      const data = await res.json();
-
-      if (!Array.isArray(data) || data.length === 0) {
-        setHasMore(false);
-        setLoadingOlder(false);
-        return;
-      }
-
-      // For community messages, we need to fetch user names for each unique sender_id
-      const uniqueSenderIds = [...new Set(data.map((msg: any) => msg.sender_id))];
-      const senderNames: { [key: string]: string } = {};
-      
-      // Fetch names for all unique senders
-      await Promise.all(
-        uniqueSenderIds.map(async (senderId) => {
-          try {
-            const userRes = await fetch(`/api/users?id=${senderId}`);
-            if (userRes.ok) {
-              const userData = await userRes.json();
-              senderNames[senderId] = userData.name || userData.email?.split("@")[0] || "Unknown User";
-            } else {
-              senderNames[senderId] = "Unknown User";
-            }
-          } catch (error) {
-            console.error(`Error fetching user ${senderId}:`, error);
-            senderNames[senderId] = "Unknown User";
-          }
-        })
-      );
-
-      const formatted: MessageType[] = data.map((msg: any) => ({
-        sender: senderNames[msg.sender_id] || "Unknown User",
-        message: msg.message,
-        created_at: msg.created_at,
-        sender_id: msg.sender_id,
-      }));
-
-      const scroll = chatContainerRef.current;
-      const prevHeight = scroll?.scrollHeight ?? 0;
-
-      setMessages((prev) => [...formatted, ...prev]);
-
-      requestAnimationFrame(() => {
-        if (scroll && before) {
-          const newHeight = scroll.scrollHeight;
-          scroll.scrollTop = newHeight - prevHeight;
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    } finally {
+    if (!Array.isArray(data) || data.length === 0) {
+      setHasMore(false);
       setLoadingOlder(false);
+      return;
     }
+
+    const formatted: MessageType[] = data.map((msg: any) => ({
+      sender: msg.sender_id === currentUser.id ? currentUser.name : user.name,
+      message: msg.message,
+      created_at: msg.created_at,
+    }));
+
+    const scroll = chatContainerRef.current;
+    const prevHeight = scroll?.scrollHeight ?? 0;
+
+    setMessages((prev) => [...formatted.reverse(), ...prev]);
+
+    requestAnimationFrame(() => {
+      if (scroll && before) {
+        const newHeight = scroll.scrollHeight;
+        scroll.scrollTop = newHeight - prevHeight;
+      }
+    });
+
+    setLoadingOlder(false);
   };
 
   // Scroll listener to load older messages
@@ -135,7 +118,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
 
   // Initial message load
   useEffect(() => {
-    if (room && currentUser && !firstRenderDone) {
+    if (room && currentUser && user && !firstRenderDone) {
       fetchMessages().then(() => {
         requestAnimationFrame(() => {
           scrollToBottom(false); // No animation for initial load
@@ -143,11 +126,11 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
         });
       });
     }
-  }, [room, currentUser, firstRenderDone]);
+  }, [room, currentUser, user, firstRenderDone]);
 
   // Join socket room and listen for messages
   useEffect(() => {
-    if (!room || !currentUser || joined) return;
+    if (!room || !currentUser || !user || joined) return;
 
     socket.emit("join-room", { room, username: currentUser.name });
     setJoined(true);
@@ -158,7 +141,6 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
           sender: data.sender,
           message: data.message,
           created_at: data.created_at || new Date().toISOString(),
-          sender_id: data.sender_id || data.user_id, // Include sender_id for ownership tracking
         };
         setMessages((prev) => [...prev, newMessage]);
         // Smooth scroll for incoming messages
@@ -168,60 +150,40 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
 
     socket.on("message", onMessage);
     return () => socket.off("message", onMessage);
-  }, [room, currentUser, joined]);
+  }, [room, currentUser, user, joined]);
 
   const handleSendMessage = async (message: string) => {
-    if (!currentUser) return;
+    if (!currentUser || !user) return;
 
     const timestamp = new Date().toISOString();
     const msgData: MessageType = {
       sender: currentUser.name,
       message,
       created_at: timestamp,
-      sender_id: currentUser.id, // Add sender_id for ownership tracking
     };
 
     setMessages((prev) => [...prev, msgData]);
     socket.emit("message", { ...msgData, room });
-
+    // Smooth scroll for sent messages
     requestAnimationFrame(() => scrollToBottom(true));
 
-    // Save message to database
-    try {
-      const response = await fetch("/api/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          room,
-          message,
-          sender_id: currentUser.id,
-          // Don't send sender_name - it's not stored in DB
-        }),
-      });
-
-      if (!response.ok) {
-        console.error("Failed to save message:", response.status, response.statusText);
-        const errorText = await response.text();
-        console.error("Error response:", errorText);
-      } else {
-        // DEBUG: Log successful response
-        const responseData = await response.json();
-        console.log("Message saved successfully:", responseData);
-      }
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
+    await fetch("/api/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sender_id: currentUser.id,
+        receiver_id: user.id,
+        room,
+        message,
+      }),
+    });
   };
 
-  if (!communityName || !channelName || !currentUser) return <div>Loading...</div>;
+  if (!user || !chatid || !currentUser) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col h-full">
-      <Header 
-        imageUrl={null} // No user image for community
-        name={`#${channelName}`} // Show channel name with #
-        subtitle={communityName} // Show community name as subtitle
-      />
+      <Header imageUrl={user.image} name={user.name} />
       <div
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto bg-gray-200 p-4 mb-2 border rounded-lg"
@@ -241,8 +203,8 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
             <ChatMessage
               sender={msg.sender}
               message={msg.message}
-              isOwnMessage={msg.sender_id === currentUser.id} // Use sender_id for ownership comparison
-              otherUserImage={null} // No specific user image for community
+              isOwnMessage={msg.sender === currentUser.name}
+              otherUserImage={user.image}
               created_at={msg.created_at}
             />
           </div>
@@ -257,6 +219,5 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
 };
 
 export default Page;
-
 
 
