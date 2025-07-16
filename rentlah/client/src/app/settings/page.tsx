@@ -23,16 +23,21 @@ export default function MyAccountPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const session = await authClient.getSession() as unknown as SessionData;
-
-      console.log("Session:", session);
-
+      const session = (await authClient.getSession()).data;
+      console.log(await authClient.getSession());
       if (session?.user) {
         setUser({
           email: session.user.email,
-          name: session.user.user_metadata?.name || session.user.email.split("@")[0],
+          name: session.user.name || session.user.email.split("@")[0],
         });
       }
+
+      // if (session?.user) {
+      //   setUser({
+      //     email: session.user.email,
+      //     name: session.user.user_metadata?.name || session.user.email.split("@")[0],
+      //   });
+      // }
     };
 
     fetchUser();
@@ -44,7 +49,7 @@ export default function MyAccountPage() {
 
   return (
     <div className="max-w-md p-6 space-y-6">
-      <h1 className="text-xl font-semibold">{t("myAccount")}</h1>
+      <h1 className="text-xl font-semibold">{t("My Account")}</h1>
 
       {/* Username Box */}
       <div className="space-y-1">
@@ -59,7 +64,7 @@ export default function MyAccountPage() {
       {/* Email Box */}
       <div className="space-y-1">
         <label className="text-sm text-gray-500 dark:text-gray-400">
-          {t("verifiedEmail")}
+          {t("verified-email")}
         </label>
         <div className="w-full rounded-md border bg-zinc-50 dark:bg-zinc-800 p-3 text-sm text-black dark:text-white">
           {user.email}
