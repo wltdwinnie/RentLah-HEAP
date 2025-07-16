@@ -24,4 +24,5 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "server.mts"],
   "exclude": ["node_modules"]
+  
 }

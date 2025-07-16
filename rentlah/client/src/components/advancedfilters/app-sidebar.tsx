@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useListingFilters } from "@/hooks/useListingFilters";
 import { CheckboxGroup } from "@/components/advancedfilters/checkbox-group";
 import { PriceRangeGroup } from "@/components/advancedfilters/price-range-group";
+import { DistanceFilter } from "@/components/advancedfilters/distance-filter";
 import { FILTER_OPTIONS } from "@/lib/filter-utils";
 
 export function AppSidebar() {
@@ -21,14 +22,15 @@ export function AppSidebar() {
     handleFurnishingChange,
     handleBedroomChange,
     handlePriceRangeChange,
+    handleDistanceFromUniversityChange,
   } = useListingFilters();
 
   return (
     <Sidebar
-      collapsible="icon"
-      className="sticky top-[80px] h-[calc(100vh-80px)]"
+      collapsible="offcanvas"
+      className="bg-gray-100 h-full min-h-screen [&>div:last-child]:top-[80px] [&>div:last-child]:h-[calc(100vh-80px)] z-50"
     >
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full min-h-screen bg-gray-100">
         <SidebarHeader className="pl-4 py-3 border-b">
           <div className="flex items-center justify-between">
             <span className="font-medium">Advanced Filters</span>
@@ -43,7 +45,7 @@ export function AppSidebar() {
           </div>
         </SidebarHeader>
 
-        <SidebarContent className="overflow-y-auto">
+        <SidebarContent className="overflow-y-auto flex-1">
           {/* Price Range Filter */}
           <SidebarGroup>
             <SidebarGroupContent>
@@ -87,6 +89,18 @@ export function AppSidebar() {
                 options={FILTER_OPTIONS.BEDROOMS}
                 selectedValues={filters.bedrooms || []}
                 onChange={handleBedroomChange}
+              />
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* Distance from University Filter */}
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <DistanceFilter
+                title="Distance from University"
+                selectedValue={filters.distanceFromUniversity || ""}
+                onChange={handleDistanceFromUniversityChange}
+                disabled={!filters.university}
               />
             </SidebarGroupContent>
           </SidebarGroup>

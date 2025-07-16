@@ -2,7 +2,6 @@ import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 import { sendEmail } from "./email";
 import dotenv from "dotenv";
-
 dotenv.config();
 // Database pool for custom queries
 export const dbPool = new Pool({

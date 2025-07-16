@@ -9,9 +9,13 @@ export const sampleListings: Listing[] = [
       postalCode: "550123",
       floor: 8,
       unit: 123,
+      coordinates: {
+        lat: 1.3553,
+        lng: 103.8677,
+      },
     },
     description:
-      "Spacious 3-bedroom HDB flat in the heart of Serangoon, perfect for families. Features a bright and airy layout with a dedicated study room and balcony. Conveniently located just 5 minutes walk to Serangoon MRT and NEX Mall. Recently renovated with modern furnishings and excellent natural lighting throughout.",
+      "[SAMPLE] Spacious 3-bedroom HDB flat in the heart of Serangoon, perfect for families. Features a bright and airy layout with a dedicated study room and balcony. Conveniently located just 5 minutes walk to Serangoon MRT and NEX Mall. Recently renovated with modern furnishings and excellent natural lighting throughout.",
     aptType: "3-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -25,7 +29,7 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Serangoon",
-        line: "purple-northeast",
+        line: ["purple-northeast"],
         distance: 400,
       },
     ],
@@ -57,6 +61,21 @@ export const sampleListings: Listing[] = [
       maxOccupants: 4,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-15T10:30:00Z"),
+    updatedAt: new Date("2024-12-20T14:45:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-002",
@@ -66,9 +85,13 @@ export const sampleListings: Listing[] = [
       postalCode: "189651",
       floor: 15,
       unit: 8,
+      coordinates: {
+        lat: 1.3006,
+        lng: 103.8518,
+      },
     },
     description:
-      "Modern studio apartment in prime city location, ideal for students or young professionals. Stunning city views from the 15th floor. Full condo facilities including pool and gym. Walking distance to SMU, Bencoolen MRT, and multiple shopping destinations. Thoughtfully designed to maximize space with high-end furnishings.",
+      "[SAMPLE] Modern studio apartment in prime city location, ideal for students or young professionals. Stunning city views from the 15th floor. Full condo facilities including pool and gym. Walking distance to SMU, Bencoolen MRT, and multiple shopping destinations. Thoughtfully designed to maximize space with high-end furnishings.",
     aptType: "studio",
     propertyType: "Condo",
     roomConfig: {
@@ -81,12 +104,12 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Bencoolen",
-        line: "blue-downtown",
+        line: ["blue-downtown"],
         distance: 200,
       },
       {
         name: "Bras Basah",
-        line: "yellow-circle",
+        line: ["yellow-circle"],
         distance: 400,
       },
     ],
@@ -121,7 +144,26 @@ export const sampleListings: Listing[] = [
       occupation: ["Student", "Young Professional"],
       maxOccupants: 2,
     },
-    images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
+    images: [
+      "/sample-photo-1.jpeg",
+      "/sample-photo-2.jpeg",
+      "/sample-photo-3.jpeg",
+    ],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-10T09:15:00Z"),
+    updatedAt: new Date("2024-12-18T16:30:00Z"),
+    isActive: true,
+    isFeatured: true,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-003",
@@ -129,9 +171,13 @@ export const sampleListings: Listing[] = [
       blk: 25,
       street: "Holland Grove Drive",
       postalCode: "278880",
+      coordinates: {
+        lat: 1.3108,
+        lng: 103.7967,
+      },
     },
     description:
-      "Luxurious 5-bedroom landed property in prestigious Holland Grove. Features private swimming pool and landscaped garden. Spacious layout with helper's room and multiple living areas. Close to Holland Village's dining and shopping amenities. Perfect for large families seeking privacy and comfort in a prime district.",
+      "[SAMPLE] Luxurious 5-bedroom landed property in prestigious Holland Grove. Features private swimming pool and landscaped garden. Spacious layout with helper's room and multiple living areas. Close to Holland Village's dining and shopping amenities. Perfect for large families seeking privacy and comfort in a prime district.",
     aptType: "5-bedroom",
     propertyType: "Landed",
     roomConfig: {
@@ -146,7 +192,7 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Holland Village",
-        line: "yellow-circle",
+        line: ["yellow-circle"],
         distance: 1200,
       },
     ],
@@ -180,6 +226,21 @@ export const sampleListings: Listing[] = [
       maxOccupants: 8,
     },
     images: ["/sample-photo-3.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-11-20T14:00:00Z"),
+    updatedAt: new Date("2024-12-15T11:20:00Z"),
+    isActive: true,
+    isFeatured: true,
+    isVerified: false,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-004",
@@ -189,9 +250,13 @@ export const sampleListings: Listing[] = [
       postalCode: "520456",
       floor: 4,
       unit: 456,
+      coordinates: {
+        lat: 1.3525,
+        lng: 103.8805,
+      },
     },
     description:
-      "Cozy 2-bedroom HDB flat in Tampines, ideal for small families or couples. Well-maintained unit with practical layout. Located in a mature estate with excellent amenities nearby including Tampines Mall and Our Tampines Hub. Good connectivity with bus services and Tampines MRT station within walking distance.",
+      "[SAMPLE] Cozy 2-bedroom HDB flat in Tampines, ideal for small families or couples. Well-maintained unit with practical layout. Located in a mature estate with excellent amenities nearby including Tampines Mall and Our Tampines Hub. Good connectivity with bus services and Tampines MRT station within walking distance.",
     aptType: "2-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -203,7 +268,7 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Tampines",
-        line: "green-eastwest",
+        line: ["green-eastwest"],
         distance: 600,
       },
     ],
@@ -232,7 +297,26 @@ export const sampleListings: Listing[] = [
     tenantPreferences: {
       maxOccupants: 4,
     },
-    images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
+    images: [
+      "/sample-photo-2.jpeg",
+      "/sample-photo-1.jpeg",
+      "/sample-photo-3.jpeg",
+    ],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-05T08:45:00Z"),
+    updatedAt: new Date("2024-12-05T08:45:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-005",
@@ -242,9 +326,13 @@ export const sampleListings: Listing[] = [
       postalCode: "018981",
       floor: 50,
       unit: 1,
+      coordinates: {
+        lat: 1.2813,
+        lng: 103.8437,
+      },
     },
     description:
-      "Spectacular penthouse in Marina Bay with breathtaking views of the city skyline and sea. Premium finishes throughout with 4 bedrooms and entertainment areas. Floor-to-ceiling windows, private lift access, and exclusive facilities including sky garden and jacuzzi. Minutes to Downtown and Marina Bay MRT stations.",
+      "[SAMPLE] Spectacular penthouse in Marina Bay with breathtaking views of the city skyline and sea. Premium finishes throughout with 4 bedrooms and entertainment areas. Floor-to-ceiling windows, private lift access, and exclusive facilities including sky garden and jacuzzi. Minutes to Downtown and Marina Bay MRT stations.",
     aptType: "penthouse",
     propertyType: "Condo",
     roomConfig: {
@@ -258,12 +346,12 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Downtown",
-        line: "blue-downtown",
+        line: ["blue-downtown"],
         distance: 300,
       },
       {
         name: "Marina Bay",
-        line: "red-northsouth",
+        line: ["red-northsouth"],
         distance: 500,
       },
     ],
@@ -304,7 +392,26 @@ export const sampleListings: Listing[] = [
       occupation: ["Professional", "Expat"],
       maxOccupants: 6,
     },
-    images: ["/sample-photo-3.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
+    images: [
+      "/sample-photo-3.jpeg",
+      "/sample-photo-2.jpeg",
+      "/sample-photo-3.jpeg",
+    ],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-11-25T12:00:00Z"),
+    updatedAt: new Date("2024-12-10T09:30:00Z"),
+    isActive: true,
+    isFeatured: true,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-006",
@@ -314,9 +421,13 @@ export const sampleListings: Listing[] = [
       postalCode: "238365",
       floor: 12,
       unit: 8,
+      coordinates: {
+        lat: 1.3048,
+        lng: 103.8318,
+      },
     },
     description:
-      "Elegant 4-bedroom condominium in River Valley, offering the perfect blend of luxury and convenience. Well-appointed interiors with quality fittings. Full facilities including pool, gym, and tennis court. Steps away from Great World City and various dining options. Ideal for families seeking a prestigious address.",
+      "[SAMPLE] Elegant 4-bedroom condominium in River Valley, offering the perfect blend of luxury and convenience. Well-appointed interiors with quality fittings. Full facilities including pool, gym, and tennis court. Steps away from Great World City and various dining options. Ideal for families seeking a prestigious address.",
     aptType: "4-bedroom",
     propertyType: "Condo",
     roomConfig: {
@@ -330,12 +441,12 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Fort Canning",
-        line: "blue-downtown",
+        line: ["blue-downtown"],
         distance: 500,
       },
       {
         name: "Somerset",
-        line: "red-northsouth",
+        line: ["red-northsouth"],
         distance: 800,
       },
     ],
@@ -375,6 +486,21 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-1.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-01T16:15:00Z"),
+    updatedAt: new Date("2024-12-12T10:00:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-007",
@@ -384,9 +510,13 @@ export const sampleListings: Listing[] = [
       postalCode: "600334",
       floor: 10,
       unit: 145,
+      coordinates: {
+        lat: 1.3402,
+        lng: 103.9624,
+      },
     },
     description:
-      "Affordable 1-bedroom HDB flat in Jurong East, perfect for students or young professionals. Fully furnished with modern appliances. Great location near Chinese Garden MRT and multiple shopping malls. Well-maintained unit with good ventilation and city views. Convenient access to amenities and public transport.",
+      "[SAMPLE] Affordable 1-bedroom HDB flat in Jurong East, perfect for students or young professionals. Fully furnished with modern appliances. Great location near Chinese Garden MRT and multiple shopping malls. Well-maintained unit with good ventilation and city views. Convenient access to amenities and public transport.",
     aptType: "1-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -398,7 +528,7 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Chinese Garden",
-        line: "green-eastwest",
+        line: ["green-eastwest"],
         distance: 400,
       },
     ],
@@ -428,7 +558,26 @@ export const sampleListings: Listing[] = [
       maxOccupants: 2,
       occupation: ["Student", "Young Professional"],
     },
-    images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
+    images: [
+      "/sample-photo-1.jpeg",
+      "/sample-photo-2.jpeg",
+      "/sample-photo-3.jpeg",
+    ],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-08T13:20:00Z"),
+    updatedAt: new Date("2024-12-16T15:45:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-008",
@@ -436,9 +585,13 @@ export const sampleListings: Listing[] = [
       blk: 15,
       street: "Siglap Road",
       postalCode: "456038",
+      coordinates: {
+        lat: 1.3496,
+        lng: 103.9326,
+      },
     },
     description:
-      "Stunning semi-detached house in Siglap with resort-style living. Generous 6 bedrooms with helper's quarters. Private pool and landscaped garden perfect for entertaining. Minutes to East Coast Park and popular eateries. Prestigious east coast address with excellent potential for appreciation.",
+      "[SAMPLE] Stunning semi-detached house in Siglap with resort-style living. Generous 6 bedrooms with helper's quarters. Private pool and landscaped garden perfect for entertaining. Minutes to East Coast Park and popular eateries. Prestigious east coast address with excellent potential for appreciation.",
     aptType: "semi-detached",
     propertyType: "Landed",
     roomConfig: {
@@ -453,7 +606,7 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Bedok",
-        line: "green-eastwest",
+        line: ["green-eastwest"],
         distance: 1500,
       },
     ],
@@ -487,6 +640,21 @@ export const sampleListings: Listing[] = [
       maxOccupants: 8,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-11-30T11:00:00Z"),
+    updatedAt: new Date("2024-12-14T17:30:00Z"),
+    isActive: true,
+    isFeatured: true,
+    isVerified: false,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-009",
@@ -496,9 +664,13 @@ export const sampleListings: Listing[] = [
       postalCode: "650987",
       floor: 12,
       unit: 87,
+      coordinates: {
+        lat: 1.3162,
+        lng: 103.7637,
+      },
     },
     description:
-      "Spacious executive HDB apartment in Bukit Batok with excellent views. Family-friendly layout with 4 bedrooms and study room. Well-maintained with partial furnishing and modern renovations. Close to amenities including West Mall and Bukit Batok Polyclinic. Ideal for large families seeking comfort and convenience.",
+      "[SAMPLE] Spacious executive HDB apartment in Bukit Batok with excellent views. Family-friendly layout with 4 bedrooms and study room. Well-maintained with partial furnishing and modern renovations. Close to amenities including West Mall and Bukit Batok Polyclinic. Ideal for large families seeking comfort and convenience.",
     aptType: "executive",
     propertyType: "HDB",
     roomConfig: {
@@ -512,7 +684,7 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Bukit Batok",
-        line: "red-northsouth",
+        line: ["red-northsouth"],
         distance: 800,
       },
     ],
@@ -544,6 +716,21 @@ export const sampleListings: Listing[] = [
       maxOccupants: 6,
     },
     images: ["/sample-photo-3.jpeg", "/sample-photo-1.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-03T07:30:00Z"),
+    updatedAt: new Date("2024-12-11T12:15:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
   {
     id: "listing-010",
@@ -553,9 +740,13 @@ export const sampleListings: Listing[] = [
       postalCode: "117398",
       floor: 5,
       unit: 12,
+      coordinates: {
+        lat: 1.2915,
+        lng: 103.7788,
+      },
     },
     description:
-      "Cozy studio apartment near NUS, perfect for students. Fully furnished with modern design and efficient layout. Condo facilities include pool and gym. Convenient location with easy access to West Coast Plaza and public transport. Quiet environment ideal for studying with good amenities nearby.",
+      "[SAMPLE] Cozy studio apartment near NUS, perfect for students. Fully furnished with modern design and efficient layout. Condo facilities include pool and gym. Convenient location with easy access to West Coast Plaza and public transport. Quiet environment ideal for studying with good amenities nearby.",
     aptType: "studio",
     propertyType: "Condo",
     roomConfig: {
@@ -568,7 +759,7 @@ export const sampleListings: Listing[] = [
     nearbyMRT: [
       {
         name: "Clementi",
-        line: "green-eastwest",
+        line: ["green-eastwest"],
         distance: 1200,
       },
     ],
@@ -604,5 +795,815 @@ export const sampleListings: Listing[] = [
       maxOccupants: 2,
     },
     images: ["/sample-photo-2.jpeg", "/sample-photo-1.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-07T18:00:00Z"),
+    updatedAt: new Date("2024-12-17T20:30:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-011",
+    address: {
+      blk: 456,
+      street: "Punggol Central",
+      postalCode: "828826",
+      floor: 25,
+      unit: 15,
+      coordinates: {
+        lat: 1.3683,
+        lng: 103.8483,
+      },
+    },
+    description:
+      "[SAMPLE] Modern 3-bedroom BTO flat in vibrant Punggol New Town. Featuring contemporary design with open concept living. Close to Punggol MRT and Waterway Point shopping mall. Perfect for young families with nearby schools and recreational facilities. Bright and airy with excellent Punggol Waterway views.",
+    aptType: "3-bedroom",
+    propertyType: "HDB",
+    roomConfig: {
+      bedrooms: 3,
+      bathrooms: 2,
+      study: true,
+      balcony: true,
+    },
+    furnishing: "Partially Furnished",
+    sqft: 1100,
+    nearbyMRT: [
+      {
+        name: "Punggol",
+        line: ["purple-northeast"],
+        distance: 300,
+      },
+    ],
+    facilities: ["Playground", "Fitness Corner"],
+    parking: {
+      available: true,
+      type: "Open",
+      spaces: 1,
+    },
+    nearbyAmenities: [
+      {
+        name: "Waterway Point",
+        distance: 400,
+        type: "Mall",
+      },
+      {
+        name: "Punggol Waterway Park",
+        distance: 600,
+        type: "Gym",
+      },
+    ],
+    perMonth: 3000,
+    utilities: {
+      included: ["Water"],
+      deposit: 6000,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      maxOccupants: 4,
+    },
+    images: ["/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-12T14:30:00Z"),
+    updatedAt: new Date("2024-12-12T14:30:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-012",
+    address: {
+      blk: 88,
+      street: "Orchard Road",
+      postalCode: "238864",
+      floor: 35,
+      unit: 10,
+      coordinates: {
+        lat: 1.3048,
+        lng: 103.8318,
+      },
+    },
+    description:
+      "[SAMPLE] Luxurious 2-bedroom apartment in the heart of Orchard Road. Premium location with unparalleled shopping and dining options at your doorstep. High-end finishes and full condo facilities. Perfect for professionals seeking prestige and convenience in Singapore's premier shopping district.",
+    aptType: "2-bedroom",
+    propertyType: "Condo",
+    roomConfig: {
+      bedrooms: 2,
+      bathrooms: 2,
+      study: true,
+      balcony: true,
+    },
+    furnishing: "Fully Furnished",
+    sqft: 900,
+    nearbyMRT: [
+      {
+        name: "Orchard",
+        line: ["red-northsouth"],
+        distance: 200,
+      },
+      {
+        name: "Somerset",
+        line: ["red-northsouth"],
+        distance: 400,
+      },
+    ],
+    facilities: ["Swimming Pool", "Gym", "Concierge", "Sky Garden"],
+    parking: {
+      available: true,
+      type: "Mechanical",
+      spaces: 1,
+    },
+    nearbyAmenities: [
+      {
+        name: "ION Orchard",
+        distance: 300,
+        type: "Mall",
+      },
+      {
+        name: "Orchard Central",
+        distance: 200,
+        type: "Mall",
+      },
+    ],
+    perMonth: 6500,
+    utilities: {
+      included: ["Water", "Internet"],
+      deposit: 13000,
+      agentFee: 3250,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      nationality: "No Preference",
+      occupation: ["Professional", "Expat"],
+      maxOccupants: 3,
+    },
+    images: ["/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-09T10:45:00Z"),
+    updatedAt: new Date("2024-12-13T16:20:00Z"),
+    isActive: true,
+    isFeatured: true,
+    isVerified: false,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-013",
+    address: {
+      blk: 201,
+      street: "Toa Payoh Lorong 1",
+      postalCode: "310201",
+      floor: 7,
+      unit: 89,
+      coordinates: {
+        lat: 1.3294,
+        lng: 103.8647,
+      },
+    },
+    description:
+      "[SAMPLE] Charming 4-bedroom flat in mature Toa Payoh estate. Recently renovated with modern amenities while maintaining classic charm. Close to Toa Payoh MRT and multiple food courts. Great for families with established schools and medical facilities nearby. Peaceful neighbourhood with good community spirit.",
+    aptType: "4-bedroom",
+    propertyType: "HDB",
+    roomConfig: {
+      bedrooms: 4,
+      bathrooms: 2,
+      study: true,
+      balcony: true,
+    },
+    furnishing: "Partially Furnished",
+    sqft: 1350,
+    nearbyMRT: [
+      {
+        name: "Toa Payoh",
+        line: ["red-northsouth"],
+        distance: 500,
+      },
+    ],
+    facilities: ["Playground", "Basketball Court"],
+    parking: {
+      available: true,
+      type: "Open",
+      spaces: 1,
+    },
+    nearbyAmenities: [
+      {
+        name: "Toa Payoh HDB Hub",
+        distance: 600,
+        type: "Mall",
+      },
+      {
+        name: "Toa Payoh Food Centre",
+        distance: 300,
+        type: "Hawker Centre",
+      },
+    ],
+    perMonth: 3800,
+    utilities: {
+      included: ["Water"],
+      deposit: 7600,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      maxOccupants: 6,
+    },
+    images: ["/sample-photo-1.jpeg", "/sample-photo-2.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-11-28T09:00:00Z"),
+    updatedAt: new Date("2024-12-08T14:45:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-014",
+    address: {
+      blk: 5,
+      street: "Sentosa Cove",
+      postalCode: "098292",
+      coordinates: {
+        lat: 1.2692,
+        lng: 103.8434,
+      },
+    },
+    description:
+      "[SAMPLE] Exclusive waterfront bungalow in prestigious Sentosa Cove. Panoramic sea views with private beach access. Spacious 5-bedroom layout with entertainment areas and wine cellar. Resort-style living with marina berth included. Ultimate luxury for discerning tenants seeking privacy and exclusivity.",
+    aptType: "detached",
+    propertyType: "Landed",
+    roomConfig: {
+      bedrooms: 5,
+      bathrooms: 4,
+      study: true,
+      helper: true,
+      balcony: true,
+    },
+    furnishing: "Fully Furnished",
+    sqft: 5000,
+    nearbyMRT: [
+      {
+        name: "Harbourfront",
+        line: ["red-northsouth"],
+        distance: 2000,
+      },
+    ],
+    facilities: [
+      "Private Beach",
+      "Swimming Pool",
+      "Private Jetty",
+      "Wine Cellar",
+    ],
+    parking: {
+      available: true,
+      type: "Covered",
+      spaces: 4,
+    },
+    nearbyAmenities: [
+      {
+        name: "Sentosa Golf Club",
+        distance: 800,
+        type: "Gym",
+      },
+      {
+        name: "Quayside Isle",
+        distance: 500,
+        type: "Mall",
+      },
+    ],
+    perMonth: 25000,
+    utilities: {
+      included: [],
+      deposit: 50000,
+      agentFee: 12500,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      nationality: "No Preference",
+      occupation: ["Professional", "Expat"],
+      maxOccupants: 8,
+    },
+    images: ["/sample-photo-3.jpeg", "/sample-photo-1.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-11-15T11:30:00Z"),
+    updatedAt: new Date("2024-12-06T13:15:00Z"),
+    isActive: true,
+    isFeatured: true,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-015",
+    address: {
+      blk: 789,
+      street: "Ang Mo Kio Avenue 3",
+      postalCode: "560789",
+      floor: 14,
+      unit: 234,
+      coordinates: {
+        lat: 1.3329,
+        lng: 103.7436,
+      },
+    },
+    description:
+      "[SAMPLE] Affordable 1-bedroom flat in well-connected Ang Mo Kio. Ideal for singles or couples starting their journey. Recently painted with basic furnishing. Good transport links to city and Orchard Road. Mature estate with established amenities and friendly neighbourhood atmosphere.",
+    aptType: "1-bedroom",
+    propertyType: "HDB",
+    roomConfig: {
+      bedrooms: 1,
+      bathrooms: 1,
+      balcony: true,
+    },
+    furnishing: "Partially Furnished",
+    sqft: 550,
+    nearbyMRT: [
+      {
+        name: "Ang Mo Kio",
+        line: ["red-northsouth"],
+        distance: 600,
+      },
+    ],
+    facilities: ["Playground"],
+    parking: {
+      available: false,
+    },
+    nearbyAmenities: [
+      {
+        name: "AMK Hub",
+        distance: 700,
+        type: "Mall",
+      },
+      {
+        name: "Ang Mo Kio Food Centre",
+        distance: 400,
+        type: "Hawker Centre",
+      },
+    ],
+    perMonth: 2200,
+    utilities: {
+      included: ["Water"],
+      deposit: 4400,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      maxOccupants: 2,
+    },
+    images: ["/sample-photo-2.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-04T15:45:00Z"),
+    updatedAt: new Date("2024-12-09T08:30:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-016",
+    address: {
+      blk: 12,
+      street: "Katong Park Towers",
+      postalCode: "427835",
+      floor: 18,
+      unit: 5,
+      coordinates: {
+        lat: 1.3119,
+        lng: 103.9625,
+      },
+    },
+    description:
+      "[SAMPLE] Stylish studio apartment in trendy Katong area. Modern furnishing with efficient space utilization. Walking distance to East Coast Park and famous Katong laksa stalls. Great for young professionals who appreciate heritage charm mixed with contemporary living. Excellent recreational facilities nearby.",
+    aptType: "studio",
+    propertyType: "Condo",
+    roomConfig: {
+      bedrooms: 1,
+      bathrooms: 1,
+      balcony: true,
+    },
+    furnishing: "Fully Furnished",
+    sqft: 450,
+    nearbyMRT: [
+      {
+        name: "Dakota",
+        line: ["yellow-circle"],
+        distance: 800,
+      },
+      {
+        name: "Paya Lebar",
+        line: ["green-eastwest"],
+        distance: 1000,
+      },
+    ],
+    facilities: ["Swimming Pool", "Gym", "BBQ Pit"],
+    parking: {
+      available: true,
+      type: "Covered",
+      spaces: 1,
+    },
+    nearbyAmenities: [
+      {
+        name: "Katong Shopping Centre",
+        distance: 300,
+        type: "Mall",
+      },
+      {
+        name: "East Coast Park",
+        distance: 600,
+        type: "Gym",
+      },
+    ],
+    perMonth: 3200,
+    utilities: {
+      included: ["Water", "Internet"],
+      deposit: 6400,
+      agentFee: 1600,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      occupation: ["Young Professional"],
+      maxOccupants: 2,
+    },
+    images: ["/sample-photo-1.jpeg", "/sample-photo-3.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-02T12:00:00Z"),
+    updatedAt: new Date("2024-12-19T10:15:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: false,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-017",
+    address: {
+      blk: 567,
+      street: "Bedok Reservoir Road",
+      postalCode: "470567",
+      floor: 9,
+      unit: 178,
+      coordinates: {
+        lat: 1.3392,
+        lng: 103.7036,
+      },
+    },
+    description:
+      "[SAMPLE] Spacious executive maisonette in peaceful Bedok Reservoir area. Two-storey layout with 4 bedrooms and generous living spaces. Family-friendly environment with playground and park nearby. Good value for money with ample space for growing families. Easy access to Bedok town centre and amenities.",
+    aptType: "executive",
+    propertyType: "HDB",
+    roomConfig: {
+      bedrooms: 4,
+      bathrooms: 3,
+      study: true,
+      balcony: true,
+    },
+    furnishing: "Unfurnished",
+    sqft: 1600,
+    nearbyMRT: [
+      {
+        name: "Bedok Reservoir",
+        line: ["blue-downtown"],
+        distance: 400,
+      },
+    ],
+    facilities: ["Playground", "Fitness Corner", "Multi-purpose Hall"],
+    parking: {
+      available: true,
+      type: "Open",
+      spaces: 1,
+    },
+    nearbyAmenities: [
+      {
+        name: "Bedok Mall",
+        distance: 1200,
+        type: "Mall",
+      },
+      {
+        name: "Bedok Reservoir Park",
+        distance: 500,
+        type: "Gym",
+      },
+    ],
+    perMonth: 3600,
+    utilities: {
+      included: ["Water"],
+      deposit: 7200,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      maxOccupants: 6,
+    },
+    images: ["/sample-photo-2.jpeg", "/sample-photo-3.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-11-22T16:30:00Z"),
+    updatedAt: new Date("2024-12-01T14:20:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-018",
+    address: {
+      blk: 20,
+      street: "Cairnhill Road",
+      postalCode: "229669",
+      floor: 40,
+      unit: 2,
+      coordinates: {
+        lat: 1.3521,
+        lng: 103.8198,
+      },
+    },
+    description:
+      "[SAMPLE] Prestigious penthouse in prime Cairnhill location. Breathtaking city skyline views from every room. Luxurious fittings and premium appliances throughout. Private rooftop terrace perfect for entertaining. Walking distance to Orchard Road shopping and Newton MRT. Truly exceptional living experience.",
+    aptType: "penthouse",
+    propertyType: "Condo",
+    roomConfig: {
+      bedrooms: 3,
+      bathrooms: 3,
+      study: true,
+      balcony: true,
+    },
+    furnishing: "Fully Furnished",
+    sqft: 2200,
+    nearbyMRT: [
+      {
+        name: "Newton",
+        line: ["red-northsouth"],
+        distance: 300,
+      },
+      {
+        name: "Orchard",
+        line: ["red-northsouth"],
+        distance: 600,
+      },
+    ],
+    facilities: [
+      "Swimming Pool",
+      "Gym",
+      "Tennis Court",
+      "Concierge",
+      "Rooftop Terrace",
+    ],
+    parking: {
+      available: true,
+      type: "Covered",
+      spaces: 2,
+    },
+    nearbyAmenities: [
+      {
+        name: "Newton Food Centre",
+        distance: 200,
+        type: "Hawker Centre",
+      },
+      {
+        name: "Orchard Road",
+        distance: 600,
+        type: "Mall",
+      },
+    ],
+    perMonth: 12500,
+    utilities: {
+      included: ["Water", "Internet"],
+      deposit: 25000,
+      agentFee: 6250,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      nationality: "No Preference",
+      occupation: ["Professional", "Expat"],
+      maxOccupants: 5,
+    },
+    images: ["/sample-photo-3.jpeg", "/sample-photo-2.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-11-18T13:45:00Z"),
+    updatedAt: new Date("2024-12-07T11:30:00Z"),
+    isActive: true,
+    isFeatured: true,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-019",
+    address: {
+      blk: 340,
+      street: "Woodlands Street 31",
+      postalCode: "730340",
+      floor: 6,
+      unit: 67,
+      coordinates: {
+        lat: 1.439,
+        lng: 103.7867,
+      },
+    },
+    description:
+      "[SAMPLE] Comfortable 3-bedroom flat in Woodlands near the causeway. Recently renovated with modern fixtures. Convenient for those working in Johor Bahru. Close to Woodlands MRT and shopping amenities. Good for families seeking affordable housing with easy access to Malaysia. Quiet residential area.",
+    aptType: "3-bedroom",
+    propertyType: "HDB",
+    roomConfig: {
+      bedrooms: 3,
+      bathrooms: 2,
+      balcony: true,
+    },
+    furnishing: "Partially Furnished",
+    sqft: 1050,
+    nearbyMRT: [
+      {
+        name: "Woodlands",
+        line: ["red-northsouth"],
+        distance: 800,
+      },
+    ],
+    facilities: ["Playground", "Basketball Court"],
+    parking: {
+      available: true,
+      type: "Open",
+      spaces: 1,
+    },
+    nearbyAmenities: [
+      {
+        name: "Causeway Point",
+        distance: 900,
+        type: "Mall",
+      },
+      {
+        name: "Woodlands Food Centre",
+        distance: 600,
+        type: "Hawker Centre",
+      },
+    ],
+    perMonth: 2800,
+    utilities: {
+      included: ["Water"],
+      deposit: 5600,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      maxOccupants: 4,
+    },
+    images: ["/sample-photo-1.jpeg"],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-11T09:15:00Z"),
+    updatedAt: new Date("2024-12-11T09:15:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
+  },
+  {
+    id: "listing-020",
+    address: {
+      blk: 77,
+      street: "Pasir Ris Drive 1",
+      postalCode: "510077",
+      floor: 11,
+      unit: 456,
+      coordinates: {
+        lat: 1.3644,
+        lng: 103.8915,
+      },
+    },
+    description:
+      "[SAMPLE] Family-friendly 4-bedroom flat in scenic Pasir Ris. Close to beach and Pasir Ris Park for weekend recreation. Well-maintained unit with practical layout. Good schools in the vicinity and easy access to Changi Airport. Perfect for families who enjoy outdoor activities and peaceful seaside living.",
+    aptType: "4-bedroom",
+    propertyType: "HDB",
+    roomConfig: {
+      bedrooms: 4,
+      bathrooms: 2,
+      study: true,
+      balcony: true,
+    },
+    furnishing: "Partially Furnished",
+    sqft: 1250,
+    nearbyMRT: [
+      {
+        name: "Pasir Ris",
+        line: ["green-eastwest"],
+        distance: 600,
+      },
+    ],
+    facilities: ["Playground", "Fitness Corner"],
+    parking: {
+      available: true,
+      type: "Open",
+      spaces: 1,
+    },
+    nearbyAmenities: [
+      {
+        name: "White Sands",
+        distance: 700,
+        type: "Mall",
+      },
+      {
+        name: "Pasir Ris Park",
+        distance: 800,
+        type: "Gym",
+      },
+    ],
+    perMonth: 3400,
+    utilities: {
+      included: ["Water"],
+      deposit: 6800,
+    },
+    leasePeriod: "long-term",
+    tenantPreferences: {
+      maxOccupants: 6,
+    },
+    images: [
+      "/sample-photo-2.jpeg",
+      "/sample-photo-1.jpeg",
+      "/sample-photo-3.jpeg",
+    ],
+    userId: "YPN9nRf34MDZsuCsp3e9uuhaZjiFac0L",
+    createdAt: new Date("2024-12-06T17:00:00Z"),
+    updatedAt: new Date("2024-12-15T19:45:00Z"),
+    isActive: true,
+    isFeatured: false,
+    isVerified: true,
+    // Add mock universityTravelTimes for demo
+    universityTravelTimes: {
+      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NTU: { distanceKm: 22.1, durationMin: 55 },
+      SMU: { distanceKm: 7.8, durationMin: 25 },
+      SUTD: { distanceKm: 18.4, durationMin: 45 },
+      SIT: { distanceKm: 15.2, durationMin: 40 },
+      SUSS: { distanceKm: 10.5, durationMin: 30 },
+    },
   },
 ];

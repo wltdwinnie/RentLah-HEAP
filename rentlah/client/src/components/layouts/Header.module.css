@@ -7,7 +7,11 @@
     position: sticky;
     top: 0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    z-index: 100; /* Add z-index for proper stacking */
+    z-index: 20; /* Add z-index for proper stacking */
+}
+
+.dark .header {
+    background-color: #18181b;
 }
 
 .logoContainer {
@@ -35,8 +39,14 @@
     cursor: pointer;
 }
 
-.searchInput:focus + .dropdown,
-.searchInput:hover + .dropdown {
+.dark .searchInput {
+    background: #18181b;
+    color: white;
+    border-color: #3f3f46;
+}
+
+.searchInput:focus+.dropdown,
+.searchInput:hover+.dropdown {
     display: block;
 }
 
@@ -53,6 +63,11 @@
     z-index: 1000; /* Increased z-index to be above content */
 }
 
+.dark .dropdown {
+    background: #18181b;
+    border-color: #3f3f46;
+}
+
 .dropdown li {
     padding: 0.75rem 1rem;
     cursor: pointer;
@@ -61,11 +76,20 @@
     font-weight: 500;
 }
 
+.dark .dropdown li {
+    color: white;
+    background-color: #18181b;
+}
+
 .dropdown li:hover {
     background-color: hsl(var(--primary-light));
     color: #000;
 }
 
+.dark .dropdown li:hover {
+    background-color: #3f3f46;
+    color: white;
+}
 
 .actions {
     display: flex;
@@ -80,6 +104,10 @@
     cursor: pointer;
 }
 
+.dark .bell {
+    color: white;
+}
+
 .login {
     padding: 0.5rem 1rem;
     border-radius: 9999px;
@@ -90,8 +118,18 @@
     cursor: pointer;
 }
 
+.dark .login {
+    background-color: #18181b;
+    color: white;
+    border-color: #3f3f46;
+}
+
 .login:hover {
     background-color: #f0f4ff;
+}
+
+.dark .login:hover {
+    background-color: #3f3f46;
 }
 
 .signup {
@@ -106,6 +144,7 @@
 
 .signup:hover {
     background-color: #143188;
+
 }
 /* Profile section styles */
 .profileSection {
@@ -210,3 +249,4 @@
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+

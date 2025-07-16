@@ -1,3 +1,5 @@
+import { MRT_LINES } from "./constants";
+
 export type Listing = {
   // Identifier
   id: string;
@@ -15,7 +17,8 @@ export type Listing = {
     | "5-bedroom"
     | "penthouse"
     | "semi-detached"
-    | "detached";
+    | "detached"
+    | "others";
 
   propertyType: "HDB" | "Condo" | "Landed";
 
@@ -39,6 +42,10 @@ export type Listing = {
     postalCode: string; // Singapore postal codes should be strings to preserve leading zeros
     floor?: number;
     unit?: number;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
   };
   nearbyMRT: MRTInfo[];
 
@@ -71,18 +78,22 @@ export type Listing = {
 
   images: string[]; // Array of image URLs
 
-  userId: string;
+  userId: string; // User ID of the person who created the listing
+  createdAt: Date; // Timestamp of when the listing was created
+  updatedAt: Date; // Timestamp of when the listing was last updated
+  isActive: boolean; // Whether the listing is currently active
+  isFeatured: boolean; // Whether the listing is featured
+  isVerified: boolean; // Whether the listing has been verified by an admin
+
+  // Travel times to universities (precomputed, JSON object: { [postalCode]: { distanceKm, durationMin } })
+  universityTravelTimes?: Record<string, { distanceKm: number; durationMin: number }>;
 };
+
+export type MRTLine = typeof MRT_LINES[number];
 
 export type MRTInfo = {
   name: string;
-  line:
-    | "red-northsouth"
-    | "green-eastwest"
-    | "brown-thomson-east-coast"
-    | "purple-northeast"
-    | "yellow-circle"
-    | "blue-downtown";
+  line: [MRTLine, ...MRTLine[]]; // ensure at least one line is added
   distance: number; // in meters
 };
 
