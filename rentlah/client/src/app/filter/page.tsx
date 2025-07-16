@@ -10,6 +10,7 @@ import { PropertyCardGroup } from "@/components/propertycard-group";
 import { AppSidebar } from "@/components/advancedfilters/app-sidebar";
 import { useListingFilters } from "@/hooks/useListingFilters";
 import { useDebouncedCallback } from "use-debounce";
+import { fetchListings as fetchListingsApi } from "@/lib/fetchListings";
 
 export default function FilterPage() {
   const {
@@ -26,12 +27,11 @@ export default function FilterPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchListings = async () => {
+  const fetchAndSetListings = async () => {
     setLoading(true);
-    const res = await fetch("/api/listings/filter", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      // Map filters to ListingFilters type
+      const mappedFilters = {
         university: filters.university,
         propertyType: ["HDB", "Condo", "Landed"].includes(filters.propertyType)
           ? (filters.propertyType as "HDB" | "Condo" | "Landed")
@@ -47,14 +47,16 @@ export default function FilterPage() {
         distanceFromUniversity: filters.distanceFromUniversity
           ? Number(filters.distanceFromUniversity)
           : undefined,
-      }),
-    });
-    const dbListings = await res.json();
-    setListings(dbListings);
+      } as const;
+      const dbListings = await fetchListingsApi(mappedFilters);
+      setListings(dbListings);
+    } catch {
+      setListings([]);
+    }
     setLoading(false);
   };
 
-  const debouncedFetchListings = useDebouncedCallback(fetchListings, 400);
+  const debouncedFetchListings = useDebouncedCallback(fetchAndSetListings, 400);
 
   useEffect(() => {
     debouncedFetchListings();
@@ -71,7 +73,7 @@ export default function FilterPage() {
           <div className="flex justify-between items-center w-full min-h-[40px]">
             <div className="flex items-center gap-4">
               <SidebarTrigger className="h-9 w-9 border border-gray-400 bg-white hover:bg-gray-50" />
-              
+
               {/* Filter status and clear button */}
               {hasActiveFilters && (
                 <div className="flex items-center gap-2">
@@ -116,7 +118,9 @@ export default function FilterPage() {
             )}
           </div>
           <div className="mt-2 text-sm text-gray-800">
-            {loading ? "Loading..." : `${listings.length} ${listings.length === 1 ? "result" : "results"} found`}
+            {loading
+              ? "Loading..."
+              : `${listings.length} ${listings.length === 1 ? "result" : "results"} found`}
           </div>
           <Suspense fallback={<div className="center">Loading...</div>}>
             <div className="pt-5">

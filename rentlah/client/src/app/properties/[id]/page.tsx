@@ -5,7 +5,6 @@ import PropertyDetails from "./property-details";
 import PropertyLoadingSkeleton from "./property-loading";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
-import Head from "next/head";
 
 function getProperty(id: string): Listing | undefined {
   // In a real app, this would be an API call
