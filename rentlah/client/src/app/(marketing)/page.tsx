@@ -1,9 +1,14 @@
 "use client";
-import styles from "./Home.module.css";
-import Link from "next/link";
-import Image from "next/image";
-import { UniversityDropdown } from "@/components/quickfilters/university-filter";
-import { useRouter } from "next/navigation";
+import styles from './Home.module.css';
+import Link from 'next/link';
+import Image from 'next/image';
+import { UniversityDropdown } from '@/components/quickfilters/university-filter';
+import { useRouter } from 'next/navigation';
+import { PropertyCardGroup } from "@/components/propertycard-group";
+import { sampleListings } from "@/lib/sample-data";
+import { ShieldCheck, Wallet, MapPin, Users} from "lucide-react";
+
+const featuredListings = sampleListings.slice(0, 3); // Adjust the number as needed
 
 export default function Home() {
   const router = useRouter();
@@ -17,41 +22,24 @@ export default function Home() {
   return (
     <main>
       {/* 1. Welcome Section */}
-      <section className={`${styles.section} ${styles.sectionLightBlue}`}>
+      <section>
         <div className={styles.sectionInner}>
           <div className={styles.welcomeSection}>
-            <h1 className={styles.title}>Welcome to RentLah!</h1>
-            <p className={styles.description}>
-              Looking for a place to stay while studying in Singapore?
-              You&apos;ve come to the right place. RentLah is built{" "}
-              <i>for students, by students</i> — making your search for
-              affordable and convenient housing easier than ever.
+            <h1 className={styles.title}>
+              <span className={styles.whitetext}>Welcome to </span>
+              RentLah!
+            </h1>
+            <p className={styles.welcdescription}>
+              Looking for a place to stay while studying in Singapore? <br></br> You've come to the right place. 
             </p>
-            <p className={styles.description}>
-              Start by selecting your university from the search bar. We&apos;ll
-              show you listings located near your campus, so you can focus on
-              what matters most: your studies, friends, and the student
-              experience.
-            </p>
-            <p className={styles.description}>
-              Your next student home is just a few clicks away. Start exploring
-              today!
+            <p className={styles.welcdescription}>
+              Select your university below to get started!
             </p>
             <UniversityDropdown
               className="w-[400px] my-6"
               onSelect={handleUniversitySelect}
             />
           </div>
-        </div>
-        <div className={styles.imageContainer}>
-          <Image
-            src="/assets/building.png"
-            alt="Decoration"
-            width={500}
-            height={1000}
-            className="max-w-full h-auto object-contain"
-            priority
-          />
         </div>
       </section>
 
@@ -60,11 +48,10 @@ export default function Home() {
         <div className={styles.sectionInner}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.subTitle}>Featured Listings</h2>
-            <Link href="/listings" className={styles.viewAll}>
-              View All
-            </Link>
           </div>
-          <div>[Listings will go here]</div>
+          <div>
+            <PropertyCardGroup listings={featuredListings} />
+          </div>
         </div>
       </section>
 
@@ -76,36 +63,23 @@ export default function Home() {
           </h2>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefitCard}>
-              <h3>
-                <b>Verified Listings</b>
-              </h3>
-              <p>
-                All properties are verified by our team to ensure safety and
-                accuracy.
-              </p>
+              <ShieldCheck className="h-10 w-10 text-primary"/>
+              <h3><b>Verified Listings</b></h3>
+              <p>All properties are verified by our team to ensure safety and accuracy.</p>
             </div>
             <div className={styles.benefitCard}>
-              <h3>
-                <b>Student Budget Friendly</b>
-              </h3>
-              <p>
-                Find accommodations that fit your student budget with no hidden
-                fees.
-              </p>
+              <Wallet className="h-10 w-10 text-primary"/>
+              <h3><b>Student Budget Friendly</b></h3>
+              <p>Find accommodations that fit your student budget with no hidden fees.</p>
             </div>
             <div className={styles.benefitCard}>
-              <h3>
-                <b>Campus Proximity</b>
-              </h3>
-              <p>
-                Properties near major universities, polytechnics and junior
-                colleges.
-              </p>
+              <MapPin className="h-10 w-10 text-primary"/>
+              <h3><b>Campus Proximity</b></h3>
+              <p>Properties near major universities, polytechnics and junior colleges.</p>
             </div>
             <div className={styles.benefitCard}>
-              <h3>
-                <b>Student Community</b>
-              </h3>
+              <Users className="h-10 w-10 text-primary"/>
+              <h3><b>Student Community</b></h3>
               <p>Connect with other students and find compatible roommates.</p>
             </div>
           </div>
@@ -118,14 +92,23 @@ export default function Home() {
           <h2 className={styles.subTitle}>Students&apos; Testimonials</h2>
           <div className={styles.testimonials}>
             <div className={styles.testimonialCard}>
-              <p>
-                &quot;Super convenient! I found a room near NUS in just 3
-                days.&quot;
-              </p>
+              <p>"Super convenient! I found a room near NUS in just 3 days."</p>
+              <br></br>
               <span>- Student from NUS</span>
             </div>
             <div className={styles.testimonialCard}>
-              <p>&quot;Love how I can compare listings by school!&quot;</p>
+              <p>"Love how I can compare listings by school!"</p>
+              <br></br>
+              <span>- Student from SMU</span>
+            </div>
+            <div className={styles.testimonialCard}>
+              <p>"The filters and map view saved us so much time!"</p>
+              <br></br>
+              <span>- Student from NTU</span>
+            </div>
+            <div className={styles.testimonialCard}>
+              <p>"I love that the listings were verified, and I could chat with landlords directly on the platform."</p>
+              <br></br>
               <span>- Student from SMU</span>
             </div>
           </div>
