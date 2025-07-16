@@ -162,6 +162,7 @@ export const listings = pgTable("listing", {
   // Timestamps
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  availableFrom: timestamp("available_from").notNull(),
 
   // University travel times
   universityTravelTimes: jsonb("university_travel_times").$type<
@@ -173,7 +174,7 @@ export type InsertListing = typeof listings.$inferInsert;
 export type SelectListing = typeof listings.$inferSelect;
 
 export const universities = pgTable("university", {
-  postalCode: text("postal_code").notNull(), // allow up to 12 chars for university postal codes
+  postalCode: text("postal_code").notNull().primaryKey(), // allow up to 12 chars for university postal codes
   name: varchar("name", { length: 255 }).notNull(),
   shortname: varchar("short_name", { length: 50 }).notNull(),
   coordinates: jsonb("coordinates")

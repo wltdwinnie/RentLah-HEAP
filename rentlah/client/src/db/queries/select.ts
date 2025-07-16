@@ -33,12 +33,6 @@ export async function getListings(
   return results as Listing[];
 }
 
-// export async function getListingsWithFilter(
-
-// ): Promise<Listing[]> {{
-
-// }
-
 export async function getUniversity(
   postalCode: SelectUniversity["postalCode"]
 ): Promise<SelectUniversity> {
@@ -47,4 +41,8 @@ export async function getUniversity(
     .from(universities)
     .where(eq(universities.postalCode, postalCode));
   return result[0] as SelectUniversity;
+}
+
+export async function getAllUniversities(): Promise<SelectUniversity[]> {
+  return await db.select().from(universities);
 }

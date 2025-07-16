@@ -84,6 +84,7 @@ export type Listing = {
   isActive: boolean; // Whether the listing is currently active
   isFeatured: boolean; // Whether the listing is featured
   isVerified: boolean; // Whether the listing has been verified by an admin
+  availableFrom?: Date | string; // Date property for when the property is available from
 
   // Travel times to universities (precomputed, JSON object: { [postalCode]: { distanceKm, durationMin } })
   universityTravelTimes?: Record<
