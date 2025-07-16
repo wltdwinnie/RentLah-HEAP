@@ -1,6 +1,6 @@
 import { PropertyImageUpload } from "@/components/addproperty/PropertyImageUpload";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React from "react";
 
 interface PropertyImageUploadSectionProps {
   images: string[];
@@ -13,37 +13,41 @@ export function PropertyImageUploadSection({
   setImages,
   setError,
 }: PropertyImageUploadSectionProps) {
-  // Ref to trigger file input
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Handler for manual file input (if PropertyImageUpload does not expose its own button)
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
-    // If PropertyImageUpload can accept files directly, pass them here
-    // Otherwise, handle upload logic here
-    // For now, just clear the input
-    e.target.value = "";
-  };
-
   return (
     <div>
       <label className="block mb-2 font-medium">Upload Images</label>
-
-      {/* PropertyImageUpload component (UploadThing) */}
-      <PropertyImageUpload
-        onUploadComplete={(res) => {
-          const urls = Array.isArray(res)
-            ? res
-                .map(
-                  (file: { url?: string; ufsUrl?: string }) =>
-                    file.url || file.ufsUrl
-                )
-                .filter((u): u is string => Boolean(u))
-            : [];
-          setImages(urls);
-        }}
-        onUploadError={(err) => setError(err.message || "Image upload failed")}
-      />
+      <div className="bg-blue-500 border-2 border-dashed border-blue-800 rounded-xl p-6 flex flex-col items-center justify-center mb-4 min-h-[120px]">
+        {/* Force all text inside this rectangle to be white */}
+        <style>{`
+          .upload-rectangle * {
+            color: #fff !important;
+          }
+          .upload-rectangle input[type='file']::file-selector-button,
+          .upload-rectangle input[type='file']::-webkit-file-upload-button {
+            color: #fff !important;
+            background: #3b82f6 !important;
+            border: 1px solid #fff !important;
+          }
+        `}</style>
+        <div className="upload-rectangle w-full flex flex-col items-center">
+          <PropertyImageUpload
+            onUploadComplete={(res) => {
+              const urls = Array.isArray(res)
+                ? res
+                    .map(
+                      (file: { url?: string; ufsUrl?: string }) =>
+                        file.url || file.ufsUrl
+                    )
+                    .filter((u): u is string => Boolean(u))
+                : [];
+              setImages(urls);
+            }}
+            onUploadError={(err) =>
+              setError(err.message || "Image upload failed")
+            }
+          />
+        </div>
+      </div>
       <div className="flex flex-wrap gap-2 mt-2">
         {images.map((img, idx) => (
           <Image
@@ -56,24 +60,9 @@ export function PropertyImageUploadSection({
           />
         ))}
       </div>
-
-      {/* Hidden file input for manual trigger */}
-      <input
-        id="property-image-upload-input"
-        type="file"
-        accept="image/*"
-        multiple
-        className="hidden"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-      />
-      <button
-        type="button"
-        className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-2xl transition-colors mb-2"
-        onClick={() => fileInputRef.current?.click()}
-      >
-        Upload Image
-      </button>
+      {images.length > 0 && (
+        <div className="text-green-600 font-medium mt-2">Images uploaded!</div>
+      )}
     </div>
   );
 }

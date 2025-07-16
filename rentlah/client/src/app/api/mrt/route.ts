@@ -16,29 +16,42 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-  // Search for MRT stations within 1500m
-  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=train_station&keyword=MRT&key=${apiKey}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if (!data.results) {
+  // Try multiple types for best coverage
+  const types = ["subway_station", "transit_station", "train_station"];
+  let stations = [];
+  let lastData = null;
+  for (const type of types) {
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=${type}&key=${apiKey}`;
+    console.log(`[MRT API] Google Places URL (${type}):`, url); // DEBUG
+    const res = await fetch(url);
+    const data = await res.json();
+    lastData = data;
+    console.log(
+      `[MRT API] Google Places response (${type}):`,
+      JSON.stringify(data, null, 2)
+    ); // DEBUG
+    if (data.results && data.results.length > 0) {
+      stations = data.results.map((station: any) => ({
+        name: station.name,
+        line: ["unknown"],
+        distance:
+          station.geometry && station.geometry.location
+            ? Math.round(
+                Math.sqrt(
+                  Math.pow((station.geometry.location.lat - lat) * 111320, 2) +
+                    Math.pow((station.geometry.location.lng - lng) * 111320, 2)
+                )
+              )
+            : 0,
+      }));
+      break;
+    }
+  }
+  if (stations.length === 0) {
     return NextResponse.json(
-      { error: "No results from Google" },
+      { error: "No results from Google", lastData },
       { status: 500 }
     );
   }
-  // Map to MRTInfo format
-  const stations = data.results.map((station: any) => ({
-    name: station.name,
-    line: ["unknown"], // Optionally, try to parse line from name or vicinity
-    distance:
-      station.geometry && station.geometry.location
-        ? Math.round(
-            Math.sqrt(
-              Math.pow((station.geometry.location.lat - lat) * 111320, 2) +
-                Math.pow((station.geometry.location.lng - lng) * 111320, 2)
-            )
-          )
-        : 0,
-  }));
   return NextResponse.json({ stations });
 }
