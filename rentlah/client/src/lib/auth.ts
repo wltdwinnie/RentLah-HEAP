@@ -21,7 +21,8 @@ export const auth = betterAuth({
                 subject: "Reset your password",
                 text: `Click the link to reset your password: ${url}`,
             });
-        }},
+        }
+    },
         emailVerification: {
             sendVerificationEmail: async ({ user, url, token }, request) => {
                 await sendEmail({

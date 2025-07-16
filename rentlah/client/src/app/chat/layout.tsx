@@ -1,20 +1,65 @@
-"use client"
+"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommunityBar from "@/components/features/chat/CommunityBar";
 import ItemList from "@/components/features/chat/item-list/ItemList";
 import DMConversationItem from "@/app/chat/_components/DMConversationItem";
 import { ChevronDown } from "lucide-react";
-import { users } from "@/mocks/mockUsers"
 
 type Props = {
   children: React.ReactNode;
 };
 
-
+type User = {
+  id: string;
+  name: string;
+  image: string;
+};
 
 const ChatLayout = ({ children }: Props) => {
   const [chatOpen, setChatOpen] = useState(true);
+  const [users, setUsers] = useState<User[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  // Get current logged-in user
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const res = await fetch("/api/me");
+
+        if (!res.ok) {
+          const errMsg = await res.text();
+          console.error("Failed to fetch current user:", res.status, errMsg);
+          return;
+        }
+
+        const data = await res.json();
+        setCurrentUserId(data.id);
+      } catch (err) {
+        console.error("Unexpected error:", err);
+      }
+    };
+
+    fetchCurrentUser();
+  }, []);
+
+  // Get all users
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("/api/users");
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error("Failed to load users:", err);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  // Filter users to exclude the current user
+  const filteredUsers = users.filter((user) => user.id !== currentUserId);
 
   return (
     <div className="flex flex-col h-screen overflow-x-hidden">
@@ -36,14 +81,16 @@ const ChatLayout = ({ children }: Props) => {
               }
               className="overflow-x-hidden"
             >
-              {chatOpen && 
-                users.map((user) => (<DMConversationItem
-                  key = {user.id}
-                  id={user.id}
-                  username={user.name}
-                  imageUrl={user.image}
-                />
-              ))}
+              {chatOpen &&
+                Array.isArray(filteredUsers) &&
+                filteredUsers.map((user) => (
+                  <DMConversationItem
+                    key={user.id}
+                    id={user.id}
+                    username={user.name}
+                    imageUrl={user.image}
+                  />
+                ))}
             </ItemList>
           </div>
         </div>
