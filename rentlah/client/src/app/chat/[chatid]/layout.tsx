@@ -2,7 +2,7 @@ import React from 'react';
 
 type Props = {
   children: React.ReactNode;
-  params: { chatid: string }; // optional, if you need the route param
+  params: { chatid: string };
 };
 
 const ConversationLayout = ({ children }: Props) => {

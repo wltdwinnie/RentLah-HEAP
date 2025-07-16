@@ -152,16 +152,34 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
     socket.emit("join-room", { room, username: currentUser.name });
     setJoined(true);
 
-    const onMessage = (data: any) => {
-      if (data.sender !== currentUser.name) {
+    const onMessage = async (data: any) => {
+      if (data.sender !== currentUser.name && data.sender_id !== currentUser.id) {
+        let senderName = data.sender;
+        
+        // For community chats, we need to fetch the username from the user ID
+        // because the socket server sends user ID in data.sender for community chats
+        if (data.sender_id || data.user_id) {
+          const senderId = data.sender_id || data.user_id;
+          try {
+            const userRes = await fetch(`/api/users?id=${senderId}`);
+            if (userRes.ok) {
+              const userData = await userRes.json();
+              senderName = userData.name || userData.email?.split("@")[0] || "Unknown User";
+            }
+          } catch (error) {
+            console.error(`Error fetching user ${senderId}:`, error);
+            senderName = "Unknown User";
+          }
+        }
+        
         const newMessage: MessageType = {
-          sender: data.sender,
+          sender: senderName,
           message: data.message,
           created_at: data.created_at || new Date().toISOString(),
-          sender_id: data.sender_id || data.user_id, // Include sender_id for ownership tracking
+          sender_id: data.sender_id || data.user_id,
         };
+        
         setMessages((prev) => [...prev, newMessage]);
-        // Smooth scroll for incoming messages
         requestAnimationFrame(() => scrollToBottom(true));
       }
     };
@@ -257,6 +275,3 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
 };
 
 export default Page;
-
-
-
