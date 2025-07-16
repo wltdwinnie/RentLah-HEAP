@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-
 import { authClient } from "@/lib/authClient";
 
 type SessionUser = {
   email: string;
+  name?: string;
+  image?: string;
   user_metadata?: {
     name?: string;
   };
@@ -18,26 +18,20 @@ type SessionData = {
 };
 
 export default function MyAccountPage() {
-  const [user, setUser] = useState<{ email: string; name?: string } | null>(null);
-  const { t } = useTranslation(); // <-- translation hook
+  const [user, setUser] = useState<{ email: string; name?: string; image?: string } | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchUser = async () => {
       const session = (await authClient.getSession()).data;
-      console.log(await authClient.getSession());
       if (session?.user) {
         setUser({
           email: session.user.email,
           name: session.user.name || session.user.email.split("@")[0],
+          image: session.user.image,
         });
       }
-
-      // if (session?.user) {
-      //   setUser({
-      //     email: session.user.email,
-      //     name: session.user.user_metadata?.name || session.user.email.split("@")[0],
-      //   });
-      // }
     };
 
     fetchUser();
@@ -48,25 +42,58 @@ export default function MyAccountPage() {
   }
 
   return (
-    <div className="max-w-md p-6 space-y-6">
-      <h1 className="text-xl font-semibold">{t("My Account")}</h1>
+    <div className="max-w-md p-6 space-y-6 relative">
+      {/* ✅ Profile Picture */}
+      {user.image && (
+        <>
+          <div className="flex justify-center">
+            <img
+              src={user.image}
+              alt="Profile"
+              className="w-20 h-20 rounded-full border shadow-md cursor-pointer"
+              onClick={() => setShowModal(true)}
+            />
+          </div>
 
-      {/* Username Box */}
+          {/* ✅ Modal */}
+          {showModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-xl max-w-sm w-full">
+                <img
+                  src={user.image}
+                  alt="Zoomed Profile"
+                  className="w-full rounded-md object-cover"
+                />
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="mt-4 w-full py-2 bg-zinc-200 dark:bg-zinc-700 rounded text-center"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <h1 className="text-xl font-semibold text-center">{t("My Account")}</h1>
+
+      {/* Username */}
       <div className="space-y-1">
         <label className="text-sm text-gray-500 dark:text-gray-400">
           {t("username")}
         </label>
-        <div className="w-full rounded-md border bg-zinc-50 dark:bg-zinc-800 p-3 text-sm text-black dark:text-white">
+        <div className="w-full rounded-md border bg-zinc-50 dark:bg-zinc-800 p-3 text-sm">
           {user.name}
         </div>
       </div>
 
-      {/* Email Box */}
+      {/* Email */}
       <div className="space-y-1">
         <label className="text-sm text-gray-500 dark:text-gray-400">
           {t("verified-email")}
         </label>
-        <div className="w-full rounded-md border bg-zinc-50 dark:bg-zinc-800 p-3 text-sm text-black dark:text-white">
+        <div className="w-full rounded-md border bg-zinc-50 dark:bg-zinc-800 p-3 text-sm">
           {user.email}
         </div>
       </div>
