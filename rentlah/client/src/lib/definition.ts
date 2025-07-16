@@ -1,4 +1,4 @@
-import { MRT_LINES } from "./constants";
+import { AptType, MRT_LINES, PropertyType, FurnishingType, LeasePeriodType, ParkingType, GenderType, NationalityType, AmenityType } from "./constants";
 
 export type Listing = {
   // Identifier
@@ -6,21 +6,8 @@ export type Listing = {
   description: string; // Brief description of the property
 
   // Property Details
-  aptType:
-    | "executive"
-    | "studio-apartment"
-    | "studio"
-    | "1-bedroom"
-    | "2-bedroom"
-    | "3-bedroom"
-    | "4-bedroom"
-    | "5-bedroom"
-    | "penthouse"
-    | "semi-detached"
-    | "detached"
-    | "others";
-
-  propertyType: "HDB" | "Condo" | "Landed";
+  aptType: AptType;
+  propertyType: PropertyType;
 
   // Room Configuration
   roomConfig: {
@@ -32,7 +19,7 @@ export type Listing = {
   };
 
   // Furnishing & Area
-  furnishing: "Unfurnished" | "Partially Furnished" | "Fully Furnished";
+  furnishing: FurnishingType;
   sqft: number; // in square feet
 
   // Location & Accessibility
@@ -49,11 +36,11 @@ export type Listing = {
   };
   nearbyMRT: MRTInfo[];
 
-  facilities?: string[]; // ["Swimming Pool", "Gym", "Tennis Court", "BBQ Pit", "Playground"]
+  facilities?: AmenityType[]; // ["Swimming Pool", "Gym", "Tennis Court", "BBQ Pit", "Playground"]
 
   parking: {
     available: boolean;
-    type?: "Covered" | "Open" | "Mechanical";
+    type?: ParkingType;
     spaces?: number;
   };
 
@@ -66,12 +53,12 @@ export type Listing = {
     deposit: number; // security deposit amount
     agentFee?: number;
   };
-  leasePeriod: "long-term" | "short-term";
+  leasePeriod: LeasePeriodType;
 
   // Tenant Preferences
   tenantPreferences?: {
-    gender?: "Male" | "Female" | "No Preference";
-    nationality?: "Singaporean/PR" | "Foreigner" | "No Preference";
+    gender?: GenderType;
+    nationality?: NationalityType;
     occupation?: string[];
     maxOccupants: number;
   };
@@ -106,3 +93,43 @@ export type LocationInfo = {
   distance: number; // in meters
   type: "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym";
 };
+
+export interface AddPropertyFormState {
+  addressBlk: string;
+  addressStreet: string;
+  addressPostalCode: string;
+  addressFloor: string;
+  addressUnit: string;
+  coordinatesLat: string;
+  coordinatesLng: string;
+  description: string;
+  aptType: string;
+  propertyType: string;
+  bedrooms: number;
+  bathrooms: number;
+  hasStudy: boolean;
+  hasHelper: boolean;
+  hasBalcony: boolean;
+  furnishing: string;
+  sqft: string;
+  facilities: string;
+  parkingAvailable: boolean;
+  parkingType: string;
+  parkingSpaces: string;
+  nearbyAmenities: any[];
+  perMonth: string;
+  utilitiesIncluded: string;
+  securityDeposit: string;
+  agentFee: string;
+  leasePeriod: string;
+  preferredGender: string;
+  preferredNationality: string;
+  preferredOccupation: string;
+  maxOccupants: string;
+  isActive: boolean;
+  isFeatured: boolean;
+  isVerified: boolean;
+  universityTravelTimes: string;
+  userId: string;
+  availableFrom: string;
+}

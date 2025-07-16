@@ -6,7 +6,7 @@ import {
   parseAsInteger,
   parseAsArrayOf,
 } from "nuqs";
-import { UNIVERSITIES } from "@/lib/constants";
+import { AmenityType, UNIVERSITIES } from "@/lib/constants";
 import { Listing } from "@/lib/definition";
 import { parseDistanceFilter } from "@/lib/distance-utils";
 
@@ -158,7 +158,7 @@ export function useListingFilters() {
       if (filters.amenities.length > 0) {
         const listingFacilities = listing.facilities || [];
         const hasAllAmenities = filters.amenities.every((amenity) =>
-          listingFacilities.includes(amenity)
+          listingFacilities.includes(amenity as AmenityType)
         );
         if (!hasAllAmenities) return false;
       }

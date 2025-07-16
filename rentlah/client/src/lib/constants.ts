@@ -74,3 +74,61 @@ export const DISTANCE_OPTIONS = [
   { value: "60+", label: "60 min +" },
 ] as const;
 
+// Apartment Types
+export const APT_TYPES = [
+  "executive",
+  "studio-apartment",
+  "studio",
+  "1-bedroom",
+  "2-bedroom",
+  "3-bedroom",
+  "4-bedroom",
+  "5-bedroom",
+  "penthouse",
+  "semi-detached",
+  "detached",
+  "others",
+] as const;
+export type AptType = typeof APT_TYPES[number];
+
+// Property Types
+export const PROPERTY_TYPES = ["HDB", "Condo", "Landed"] as const;
+export type PropertyType = typeof PROPERTY_TYPES[number];
+
+// Furnishing Types
+export const FURNISHING_TYPES = [
+  "Unfurnished",
+  "Partially Furnished",
+  "Fully Furnished",
+] as const;
+export type FurnishingType = typeof FURNISHING_TYPES[number];
+
+// Lease Period Types
+export const LEASE_PERIOD_TYPES = ["long-term", "short-term"] as const;
+export type LeasePeriodType = typeof LEASE_PERIOD_TYPES[number];
+
+// Parking Types
+export const PARKING_TYPES = ["Covered", "Open", "Mechanical"] as const;
+export type ParkingType = typeof PARKING_TYPES[number];
+
+// Gender Types
+export const GENDER_TYPES = ["Male", "Female", "No Preference"] as const;
+export type GenderType = typeof GENDER_TYPES[number];
+
+// Nationality Types
+export const NATIONALITY_TYPES = [
+  "Singaporean/PR",
+  "Foreigner",
+  "No Preference",
+] as const;
+export type NationalityType = typeof NATIONALITY_TYPES[number];
+
+// Amenity Types (for facilities)
+export const AMENITY_TYPES = [
+  "Swimming Pool",
+  "Gym",
+  "Tennis Court",
+  "BBQ Pit",
+  "Playground",
+] as const;
+export type AmenityType = typeof AMENITY_TYPES[number];
