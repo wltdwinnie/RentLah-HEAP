@@ -68,7 +68,7 @@ export const parkingTypeEnum = pgEnum("parking_type", [
 
 export const amenityTypeEnum = pgEnum("amenity_type", [
   "School",
-  "Mall", 
+  "Mall",
   "Hawker Centre",
   "Clinic",
   "Gym",
@@ -100,7 +100,7 @@ export const listings = pgTable("listing", {
   // Location & Address
   addressBlk: integer("address_blk").notNull(),
   addressStreet: varchar("address_street", { length: 255 }).notNull(),
-  addressPostalCode: varchar("address_postal_code", { length: 6 }).notNull(),
+  addressPostalCode: varchar("address_postal_code", { length: 12 }).notNull(),
   addressFloor: integer("address_floor"),
   addressUnit: integer("address_unit"),
   coordinates: jsonb("coordinates")
@@ -138,7 +138,10 @@ export const listings = pgTable("listing", {
   // Financial Terms
   perMonth: decimal("per_month", { precision: 10, scale: 2 }).notNull(),
   utilitiesIncluded: jsonb("utilities_included").$type<string[]>().notNull(),
-  securityDeposit: decimal("security_deposit", { precision: 10, scale: 2 }).notNull(),
+  securityDeposit: decimal("security_deposit", {
+    precision: 10,
+    scale: 2,
+  }).notNull(),
   agentFee: decimal("agent_fee", { precision: 10, scale: 2 }),
   leasePeriod: leasePeriodEnum("lease_period").notNull(),
 
@@ -161,20 +164,24 @@ export const listings = pgTable("listing", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 
   // University travel times
-  universityTravelTimes: jsonb("university_travel_times").$type<Record<string, { distanceKm: number; durationMin: number }>>(),
+  universityTravelTimes: jsonb("university_travel_times").$type<
+    Record<string, { distanceKm: number; durationMin: number }>
+  >(),
 });
 
 export type InsertListing = typeof listings.$inferInsert;
 export type SelectListing = typeof listings.$inferSelect;
 
 export const universities = pgTable("university", {
-  postalCode: text("postal_code").primaryKey(),
+  postalCode: text("postal_code").notNull(), // allow up to 12 chars for university postal codes
   name: varchar("name", { length: 255 }).notNull(),
   shortname: varchar("short_name", { length: 50 }).notNull(),
-  coordinates: jsonb("coordinates").$type<{
-    latitude: number;
-    longitude: number;
-  }>().notNull(),
+  coordinates: jsonb("coordinates")
+    .$type<{
+      latitude: number;
+      longitude: number;
+    }>()
+    .notNull(),
 });
 
 export type InsertUniversity = typeof universities.$inferInsert;

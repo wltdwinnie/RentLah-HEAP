@@ -39,7 +39,7 @@ export type Listing = {
   address: {
     blk: number;
     street: string;
-    postalCode: string; // Singapore postal codes should be strings to preserve leading zeros
+    postalCode: string; 
     floor?: number;
     unit?: number;
     coordinates: {
@@ -86,10 +86,13 @@ export type Listing = {
   isVerified: boolean; // Whether the listing has been verified by an admin
 
   // Travel times to universities (precomputed, JSON object: { [postalCode]: { distanceKm, durationMin } })
-  universityTravelTimes?: Record<string, { distanceKm: number; durationMin: number }>;
+  universityTravelTimes?: Record<
+    string,
+    { distanceKm: number; durationMin: number }
+  >;
 };
 
-export type MRTLine = typeof MRT_LINES[number];
+export type MRTLine = (typeof MRT_LINES)[number];
 
 export type MRTInfo = {
   name: string;
