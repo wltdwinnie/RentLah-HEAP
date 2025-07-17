@@ -74,6 +74,7 @@ export default function EditPropertyPage({
       setForm({
         ...form,
         ...initialData,
+        id: initialData.id, // Ensure id is set for editing
         addressBlk: initialData.address?.blk?.toString() ?? "",
         addressStreet: initialData.address?.street ?? "",
         addressPostalCode: initialData.address?.postalCode ?? "",

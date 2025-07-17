@@ -196,6 +196,7 @@ export default function AddPropertyPage() {
             )}
           </div>
           <NearbyMRTSection
+            form={form}
             nearbyMRT={nearbyMRT}
             handleAutoPopulateMRT={handleAutoPopulateMRTWithStatus}
           />
