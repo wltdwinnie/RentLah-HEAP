@@ -20,6 +20,16 @@ export async function POST(req: NextRequest) {
   const types = ["subway_station", "transit_station", "train_station"];
   let stations = [];
   let lastData = null;
+  type GooglePlaceStation = {
+    name: string;
+    geometry: {
+      location: {
+        lat: number;
+        lng: number;
+      };
+    };
+  };
+
   for (const type of types) {
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=${type}&key=${apiKey}`;
     console.log(`[MRT API] Google Places URL (${type}):`, url); // DEBUG
@@ -31,7 +41,7 @@ export async function POST(req: NextRequest) {
       JSON.stringify(data, null, 2)
     ); // DEBUG
     if (data.results && data.results.length > 0) {
-      stations = data.results.map((station: any) => ({
+      stations = data.results.map((station: GooglePlaceStation) => ({
         name: station.name,
         line: ["unknown"],
         distance:
