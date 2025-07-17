@@ -8,7 +8,6 @@ import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
 import { ChatUser, MessageType, ApiMessageResponse, ApiUserResponse } from "@/app/chat/types/chat";
 
-
 const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [chatid, setChatid] = useState<string>("");
   const [user, setUser] = useState<ChatUser | null>(null);
@@ -24,13 +23,20 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
   const room = user && currentUser ? `dm:${[user.name, currentUser.name].sort().join("-")}` : "";
 
-
   const scrollToBottom = (smooth = false) => {
     if (smooth) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     } else {
       messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
     }
+  };
+
+  // Helper function to ensure socket connection
+  const getSocket = () => {
+    if (!socket.connected) {
+      socket.connect();
+    }
+    return socket;
   };
 
   useEffect(() => {
@@ -74,7 +80,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     if (before) url.searchParams.append("before", before);
 
     const res = await fetch(url.toString());
-    const data: ApiMessageResponse[] = await res.json(); // Type the response
+    const data: ApiMessageResponse[] = await res.json();
 
     if (!Array.isArray(data) || data.length === 0) {
       setHasMore(false);
@@ -83,7 +89,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     }
 
     const formatted: MessageType[] = data.map((msg: ApiMessageResponse) => ({
-      sender: msg.sender_id === currentUser.id ? currentUser.name! : user.name!, // Use non-null assertion since we know they exist
+      sender: msg.sender_id === currentUser.id ? currentUser.name! : user.name!,
       message: msg.message,
       created_at: msg.created_at,
     }));
@@ -91,7 +97,13 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     const scroll = chatContainerRef.current;
     const prevHeight = scroll?.scrollHeight ?? 0;
 
-    setMessages((prev) => [...formatted.reverse(), ...prev]);
+    if (before) {
+      // For pagination: prepend older messages
+      setMessages((prev) => [...formatted, ...prev]);
+    } else {
+      // For initial load: set all messages
+      setMessages(formatted);
+    }
 
     requestAnimationFrame(() => {
       if (scroll && before) {
@@ -101,7 +113,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     });
 
     setLoadingOlder(false);
-  }, [room, currentUser, user, loadingOlder, setHasMore, setLoadingOlder, setMessages, chatContainerRef]);
+  }, [room, currentUser, user, loadingOlder]);
 
   useEffect(() => {
     const container = chatContainerRef.current;
@@ -126,11 +138,13 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     }
   }, [room, currentUser, user, firstRenderDone, fetchMessages]);
 
-
+  // Socket connection and message handling
   useEffect(() => {
     if (!room || !currentUser || !user || joined) return;
     
     try {
+      console.log("🔌 Attempting to join room:", room, "as:", currentUser.name);
+      
       // Make sure socket is connected first
       getSocket();
       
@@ -138,28 +152,56 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       setJoined(true);
 
       const onMessage = (data: unknown) => {
+        console.log("📨 Received socket message:", data);
+        
         // Cast data to the expected type with type checking
         const messageData = data as { sender: string; message: string; created_at?: string };
         
         if (typeof messageData?.sender === 'string' && 
-            typeof messageData?.message === 'string' && 
-            messageData.sender !== currentUser.name) {
+            typeof messageData?.message === 'string') {
           
-          const newMessage: MessageType = {
-            sender: messageData.sender,
-            message: messageData.message,
-            created_at: messageData.created_at || new Date().toISOString(),
-          };
-          setMessages((prev) => [...prev, newMessage]);
-          // Smooth scroll for incoming messages
-          requestAnimationFrame(() => scrollToBottom(true));
+          console.log("✅ Valid message from:", messageData.sender, "current user:", currentUser.name);
+          
+          // Only add to state if it's NOT from current user (to avoid duplicates)
+          if (messageData.sender !== currentUser.name) {
+            const newMessage: MessageType = {
+              sender: messageData.sender,
+              message: messageData.message,
+              created_at: messageData.created_at || new Date().toISOString(),
+            };
+            
+            console.log("➕ Adding message to state:", newMessage);
+            setMessages((prev) => [...prev, newMessage]);
+            
+            // Smooth scroll for incoming messages
+            requestAnimationFrame(() => scrollToBottom(true));
+          } else {
+            console.log("🚫 Ignoring own message via socket");
+          }
+        } else {
+          console.log("❌ Invalid message format:", messageData);
         }
       };
 
+      const onConnect = () => {
+        console.log("🟢 Socket connected");
+      };
+      
+      const onDisconnect = () => {
+        console.log("🔴 Socket disconnected");
+      };
+
       socket.on("message", onMessage);
-      return () => { socket.off("message", onMessage); };
+      socket.on("connect", onConnect);
+      socket.on("disconnect", onDisconnect);
+      
+      return () => { 
+        socket.off("message", onMessage);
+        socket.off("connect", onConnect);
+        socket.off("disconnect", onDisconnect);
+      };
     } catch (err) {
-      console.warn("Chat socket connection unavailable:", err);
+      console.warn("❌ Chat socket connection unavailable:", err);
     }
   }, [room, currentUser, user, joined]);
 
@@ -173,20 +215,35 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       created_at: timestamp,
     };
 
+    console.log("📤 Sending message:", msgData, "to room:", room);
+    
+    // Add message to local state immediately (for sender)
     setMessages((prev) => [...prev, msgData]);
+    
+    // Emit to socket (will be received by other users in the room)
     socket.emit("message", { ...msgData, room });
+    
     requestAnimationFrame(() => scrollToBottom(true));
 
-    await fetch("/api/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sender_id: currentUser.id,
-        receiver_id: user.id,
-        room,
-        message,
-      }),
-    });
+    // Save to database
+    try {
+      const response = await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sender_id: currentUser.id,
+          receiver_id: user.id,
+          room,
+          message,
+        }),
+      });
+      
+      if (!response.ok) {
+        console.error("❌ Failed to save message to database");
+      }
+    } catch (err) {
+      console.error("❌ Error saving message:", err);
+    }
   };
 
   if (!user || !chatid || !currentUser) return <div>Loading...</div>;
@@ -198,6 +255,11 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto bg-gray-200 p-4 mb-2 border rounded-lg"
       >
+        {loadingOlder && (
+          <div className="flex justify-center py-2">
+            <div className="text-gray-500 text-sm">Loading older messages...</div>
+          </div>
+        )}
         {messages.map((msg, i) => (
           <div key={i}>
             {/* Timestamp Header */}
