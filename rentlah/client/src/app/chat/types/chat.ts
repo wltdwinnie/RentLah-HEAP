@@ -1,8 +1,8 @@
 export interface ChatUser {
   id: string;
-  username: string;
-  imageUrl: string;
-  name?: string;     
+  name: string;
+  image?: string;
+  email?: string;
 }
 
 export interface ChatFormProps {

@@ -5,7 +5,7 @@ export function PropertyImageUpload({
   onUploadComplete,
   onUploadError,
 }: {
-  onUploadComplete: (res: unknown) => void;
+  onUploadComplete: (res: { url: string; key: string; name: string }[]) => void;
   onUploadError?: (error: Error) => void;
 }) {
   return (

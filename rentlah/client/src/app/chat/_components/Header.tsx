@@ -12,7 +12,7 @@ const Header = ({ imageUrl, name }: HeaderProps) => {
         </Link>
 
         <Avatar className="h-10 w-10">
-          <AvatarImage src={imageUrl} />
+          <AvatarImage src={imageUrl || ""} />
           <AvatarFallback>{name.substring(0, 1)}</AvatarFallback>
         </Avatar>
 

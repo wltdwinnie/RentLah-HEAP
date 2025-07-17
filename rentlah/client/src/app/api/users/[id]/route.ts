@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { dbPool } from "@/lib/auth";
 
+interface Params {
+  id: string;
+}
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Params }
 ) {
+  const { params } = context;
   const { id } = params;
 
   try {
@@ -18,8 +23,7 @@ export async function GET(
     }
 
     const user = rows[0];
-    
-    // Provide fallback name if name is null/empty
+
     return NextResponse.json({
       ...user,
       name: user.name || user.email?.split('@')[0] || `User-${user.id.slice(0, 8)}`

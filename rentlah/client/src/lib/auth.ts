@@ -14,7 +14,7 @@ export const auth = betterAuth({
         enabled: true,
         autoSignIn: true,
         requireEmailVerification: true,
-        sendResetPassword: async ({ user, url, token }, request) => {
+        sendResetPassword: async ({ user, url }) => {
             await sendEmail({
                 to: user.email,
                 subject: "Reset your password",
@@ -23,7 +23,7 @@ export const auth = betterAuth({
         }
     },
         emailVerification: {
-            sendVerificationEmail: async ({ user, url, token }, request) => {
+            sendVerificationEmail: async ({ user, url }) => {
                 await sendEmail({
                     to: user.email,
                     subject: "Verify your email address",
@@ -39,7 +39,7 @@ export const auth = betterAuth({
             },
         },
         session: {
-            expiresIn: 60 * 60 * 24 * 14, // 1 day (in seconds)
+            expiresIn: 60 * 60 * 24 * 14, // 14 day (in seconds)
             updateAge: 60 * 60 * 24 // Refresh session tokens daily
         }
     });

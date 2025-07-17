@@ -3,22 +3,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { authClient } from "@/lib/authClient";
-
-type SessionUser = {
-  email: string;
-  name?: string;
-  image?: string;
-  user_metadata?: {
-    name?: string;
-  };
-};
-
-type SessionData = {
-  user?: SessionUser;
-};
+import Image from "next/image";
 
 export default function MyAccountPage() {
-  const [user, setUser] = useState<{ email: string; name?: string; image?: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; name?: string; image?: string | null } | null>(null);
   const [showModal, setShowModal] = useState(false);
   const { t } = useTranslation();
 
@@ -47,10 +35,12 @@ export default function MyAccountPage() {
       {user.image && (
         <>
           <div className="flex justify-center">
-            <img
+            <Image
               src={user.image}
               alt="Profile"
-              className="w-20 h-20 rounded-full border shadow-md cursor-pointer"
+              width={80}
+              height={80}
+              className="rounded-full border shadow-md cursor-pointer"
               onClick={() => setShowModal(true)}
             />
           </div>
@@ -59,16 +49,18 @@ export default function MyAccountPage() {
           {showModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <div className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-xl max-w-sm w-full">
-                <img
-                  src={user.image}
+                <Image
+                  src={user.image || ''}
                   alt="Zoomed Profile"
+                  width={400}
+                  height={400}
                   className="w-full rounded-md object-cover"
                 />
                 <button
                   onClick={() => setShowModal(false)}
                   className="mt-4 w-full py-2 bg-zinc-200 dark:bg-zinc-700 rounded text-center"
                 >
-                  Close
+                  {t("Close")}
                 </button>
               </div>
             </div>

@@ -15,14 +15,29 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
   const [users, setUsers] = useState<ChatUser[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [selectedCommunity, setSelectedCommunity] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch current user
+  // Fetch current user and redirect if not logged in
   useEffect(() => {
     const fetchCurrentUser = async () => {
-      const res = await fetch("/api/me");
-      if (!res.ok) return;
-      const data = await res.json();
-      setCurrentUserId(data.id);
+      try {
+        setIsLoading(true);
+        const res = await fetch("/api/me");
+        if (!res.ok) {
+          // User is not logged in, redirect to homepage
+          alert("You need to log in to access the chat feature.");
+          window.location.href = "/";
+          return;
+        }
+        const data = await res.json();
+        setCurrentUserId(data.id);
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+        alert("You need to log in to access the chat feature.");
+        window.location.href = "/";
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchCurrentUser();
   }, []);
@@ -45,6 +60,17 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
     exit: { x: "-100%", opacity: 0 },
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>Loading chat...</p>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="flex flex-col h-screen overflow-x-hidden">
       <div className="flex flex-1 min-h-0">
@@ -79,7 +105,8 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
                 <CommunityBar onSelectCommunity={(name) => setSelectedCommunity(name)} />
 
                 <ItemList
-                  title={<span style={{ color: "#192e9a" }}>Chat</span>}
+                  title="Chat"
+                  titleClassName="text-blue-800"
                   action={
                     <ChevronDown
                       className={`h-4 w-4 text-gray-500 transition-transform cursor-pointer ${
@@ -94,8 +121,9 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
                       <DMConversationItem
                         key={user.id}
                         id={user.id}
-                        username={user.name}
-                        imageUrl={user.image}
+                        name={user.name || "User"}
+                        image={user.image}
+                        email={user.email}
                       />
                     ))}
                 </ItemList>

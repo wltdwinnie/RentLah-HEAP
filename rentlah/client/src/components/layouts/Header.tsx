@@ -14,7 +14,7 @@ import { authClient } from "@/lib/authClient";
 export default function Header() {
   const [showModal, setShowModal] = useState(false);
   const [authType, setAuthType] = useState<"login" | "signup">("login");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ id: string; name?: string; email?: string; image?: string | null } | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
   const pathname = usePathname();
@@ -25,11 +25,17 @@ export default function Header() {
   // Check authentication status
   useEffect(() => {
     const checkAuth = async () => {
-      console.log("Checking auth status...");
+      if (process.env.NODE_ENV === 'development') {
+        console.log("Checking auth status...");
+      }
       const session = await authClient.getSession();
-      console.log("Session response:", session); // Debugging
+      if (process.env.NODE_ENV === 'development') {
+        console.log("Session response:", session); // Debugging
+      }
       if (session && session.data && "user" in session.data) {
-        console.log("Authenticated user:", session.data.user);
+        if (process.env.NODE_ENV === 'development') {
+          console.log("Authenticated user:", session.data.user);
+        }
         setUser(session.data.user);
       } else {
         //Temporaty. Will add GUI later
@@ -42,7 +48,7 @@ export default function Header() {
       setAuthLoading(false);
     };
     checkAuth();
-  }, []);
+  }, [isHomePage, router]);
 
   const openModal = (type: "login" | "signup") => {
     setAuthType(type);
@@ -55,21 +61,32 @@ export default function Header() {
     setTimeout(async () => {
       try {
         const session = await authClient.getSession();
-        setUser(session && "user" in session ? session.user : null);
+        if (session && typeof session === 'object' && "user" in session) {
+          const sessionUser = session.user as { id: string; name?: string; email?: string; image?: string | null };
+          setUser(sessionUser);
+        } else {
+          setUser(null);
+        }
       } catch (error) {
-        console.log("Auth refresh failed:", error);
+        if (process.env.NODE_ENV === 'development') {
+          console.log("Auth refresh failed:", error);
+        }
       }
     }, 100);
   };
 
   const handleLogout = async () => {
     try {
-      console.log("Logging out...");
+      if (process.env.NODE_ENV === 'development') {
+        console.log("Logging out...");
+      }
       await authClient.signOut();
       setUser(null);
       router.refresh();
     } catch (error) {
-      console.error("Logout failed:", error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Logout failed:", error);
+      }
     }
   };
 

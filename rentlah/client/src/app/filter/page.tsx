@@ -12,7 +12,8 @@ import { useListingFilters } from "@/hooks/useListingFilters";
 import { useDebouncedCallback } from "use-debounce";
 import { fetchListings as fetchListingsApi } from "@/lib/fetchListings";
 
-export default function FilterPage() {
+// Create a client component that uses the hook
+function FilterPageClient() {
   const {
     selectedUniversity,
     handleUniversityChange,
@@ -130,5 +131,14 @@ export default function FilterPage() {
         </main>
       </div>
     </SidebarProvider>
+  );
+}
+
+// Export the main page component with Suspense
+export default function FilterPage() {
+  return (
+    <Suspense fallback={<div className="p-4">Loading filters...</div>}>
+      <FilterPageClient />
+    </Suspense>
   );
 }

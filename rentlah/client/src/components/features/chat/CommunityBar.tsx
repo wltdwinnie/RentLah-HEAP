@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
 
 const communities = [

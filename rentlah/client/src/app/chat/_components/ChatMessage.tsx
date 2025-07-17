@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { formatTimestamp } from "@/utils/timeUtils";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { formatTimestamp } from '@/utils/timeUtils';
 import { ChatMessageProps } from "@/app/chat/types/chat";
-
 const ChatMessage = ({
   sender,
   message,
@@ -22,10 +22,12 @@ const ChatMessage = ({
       }`}
     >
       {!isOwnMessage && otherUserImage && (
-        <img
+        <Image
           src={otherUserImage}
           alt={sender}
-          className="h-8 w-8 rounded-full object-cover"
+          width={32}
+          height={32}
+          className="rounded-full object-cover"
         />
       )}
 
