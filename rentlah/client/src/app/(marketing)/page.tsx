@@ -1,17 +1,20 @@
 "use client";
 import styles from './Home.module.css';
-import Link from 'next/link';
-import Image from 'next/image';
 import { UniversityDropdown } from '@/components/quickfilters/university-filter';
 import { useRouter } from 'next/navigation';
 import { PropertyCardGroup } from "@/components/propertycard-group";
-import { sampleListings } from "@/lib/sample-data";
 import { ShieldCheck, Wallet, MapPin, Users} from "lucide-react";
-
-const featuredListings = sampleListings.slice(0, 3); // Adjust the number as needed
+import { fetchListings } from '@/lib/fetchListings';
+import { useEffect, useState } from 'react';
+import { Listing } from '@/lib/definition';
 
 export default function Home() {
   const router = useRouter();
+  const [featuredListings, setFeaturedListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    fetchListings({ isFeatured: true }).then((data) => setFeaturedListings(data));
+    });
 
   const handleUniversitySelect = (uni: string) => {
     const match = uni.match(/\(([^)]+)\)/);
@@ -30,7 +33,7 @@ export default function Home() {
               RentLah!
             </h1>
             <p className={styles.welcdescription}>
-              Looking for a place to stay while studying in Singapore? <br></br> You've come to the right place. 
+              Looking for a place to stay while studying in Singapore? <br /> You&apos;ve come to the right place. 
             </p>
             <p className={styles.welcdescription}>
               Select your university below to get started!
@@ -92,22 +95,22 @@ export default function Home() {
           <h2 className={styles.subTitle}>Students&apos; Testimonials</h2>
           <div className={styles.testimonials}>
             <div className={styles.testimonialCard}>
-              <p>"Super convenient! I found a room near NUS in just 3 days."</p>
+              <p>&quot;Super convenient! I found a room near NUS in just 3 days.&quot;</p>
               <br></br>
               <span>- Student from NUS</span>
             </div>
             <div className={styles.testimonialCard}>
-              <p>"Love how I can compare listings by school!"</p>
+              <p>&quot;Love how I can compare listings by school!&quot;</p>
               <br></br>
               <span>- Student from SMU</span>
             </div>
             <div className={styles.testimonialCard}>
-              <p>"The filters and map view saved us so much time!"</p>
+              <p>&quot;The filters and map view saved us so much time!&quot;</p>
               <br></br>
               <span>- Student from NTU</span>
             </div>
             <div className={styles.testimonialCard}>
-              <p>"I love that the listings were verified, and I could chat with landlords directly on the platform."</p>
+              <p>&quot;I love that the listings were verified, and I could chat with landlords directly on the platform.&quot;</p>
               <br></br>
               <span>- Student from SMU</span>
             </div>
