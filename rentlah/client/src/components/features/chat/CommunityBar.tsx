@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { CommunityInfo, CommunityBarProps, ImageErrorState } from "@/app/chat/types/chat";
 
-const communities = [
+const defaultCommunities: CommunityInfo[] = [
   {
     name: "NUS",
     logo: "/logos/NUS.jpg",
@@ -38,17 +38,16 @@ const communities = [
   },
 ];
 
+const CommunityBar = ({ onSelectCommunity, communities = defaultCommunities }: CommunityBarProps) => {
+  const [open, setOpen] = useState<boolean>(true);
+  const [imageErrors, setImageErrors] = useState<ImageErrorState>({});
 
-type Props = {
-  onSelectCommunity: (name: string) => void;
-};
-
-const CommunityBar = ({ onSelectCommunity }: Props) => {
-  const [open, setOpen] = useState(true);
-  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
-
-  const handleImageError = (communityName: string) => {
+  const handleImageError = (communityName: string): void => {
     setImageErrors(prev => ({ ...prev, [communityName]: true }));
+  };
+
+  const handleCommunitySelect = (community: CommunityInfo): void => {
+    onSelectCommunity(community.name.toLowerCase());
   };
 
   return (
@@ -65,25 +64,25 @@ const CommunityBar = ({ onSelectCommunity }: Props) => {
 
       {open && (
         <div className="mt-2 space-y-1">
-          {communities.map((comm) => (
+          {communities.map((community: CommunityInfo) => (
             <button
-              key={comm.name}
-              onClick={() => onSelectCommunity(comm.name.toLowerCase())}
+              key={community.name}
+              onClick={() => handleCommunitySelect(community)}
               className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded-md w-full"
-              title={comm.fullName}
+              title={community.fullName}
             >
               <div className="relative w-10 h-10 flex-shrink-0">
                 <Image
-                  src={imageErrors[comm.name] ? comm.fallbackLogo : comm.logo}
-                  alt={`${comm.name} logo`}
+                  src={imageErrors[community.name] ? community.fallbackLogo : community.logo}
+                  alt={`${community.name} logo`}
                   width={40}
                   height={40}
                   className="object-contain rounded"
-                  onError={() => handleImageError(comm.name)}
+                  onError={() => handleImageError(community.name)}
                 />
               </div>
               <span className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">
-                {comm.name}
+                {community.name}
               </span>
             </button>
           ))}

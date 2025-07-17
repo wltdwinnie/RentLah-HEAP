@@ -21,18 +21,16 @@ type AvatarImageProps = {
 };
 
 export function AvatarImage({ src, alt = "avatar", className }: AvatarImageProps) {
-  // Don't render if src is empty, null, or undefined
-  if (!src || src.trim() === "") {
-    return null;
-  }
+  const fallback = "/assets/profile_pic.webp";
+  const safeSrc = !src ? fallback : src;
 
   return (
     <Image 
-      src={src} 
-      alt={alt} 
-      width={40}
-      height={40}
+      src={safeSrc}
+      alt={alt}
       className={`h-full w-full object-cover ${className}`} 
+      width={40} 
+      height={40} 
     />
   );
 }

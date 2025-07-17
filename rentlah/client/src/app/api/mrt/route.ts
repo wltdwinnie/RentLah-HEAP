@@ -32,14 +32,18 @@ export async function POST(req: NextRequest) {
 
   for (const type of types) {
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=${type}&key=${apiKey}`;
-    console.log(`[MRT API] Google Places URL (${type}):`, url); // DEBUG
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[MRT API] Google Places URL (${type}):`, url); // DEBUG
+    }
     const res = await fetch(url);
     const data = await res.json();
     lastData = data;
-    console.log(
-      `[MRT API] Google Places response (${type}):`,
-      JSON.stringify(data, null, 2)
-    ); // DEBUG
+    if (process.env.NODE_ENV === 'development') {
+      console.log(
+        `[MRT API] Google Places response (${type}):`,
+        JSON.stringify(data, null, 2)
+      ); // DEBUG
+    }
     if (data.results && data.results.length > 0) {
       stations = data.results.map((station: GooglePlaceStation) => ({
         name: station.name,

@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { Listing } from "@/lib/definition";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Footprints, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, Footprints } from "lucide-react";
+import { Button, SaveButton } from "@/components/ui/button";
 import { useState } from "react";
 
 const Card = React.forwardRef<
@@ -87,15 +87,6 @@ interface PropertyCardProps {
 const PropertyCard = ({ listing }: PropertyCardProps) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Debug logging
-  console.log("PropertyCard listing:", {
-    id: listing.id,
-    images: listing.images,
-    hasImages: listing.images && listing.images.length > 0,
-    currentImageIndex,
-    currentImage: listing.images?.[currentImageIndex],
-  });
 
   const handleClick = () => {
     router.push(`/properties/${listing.id}`, { scroll: false });
@@ -178,19 +169,15 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
           )}
 
           <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start">
-            {/* <div className="bg-black/50 text-white px-3 py-2 rounded-lg text-sm font-semibold">
-              ${listing.perMonth}/mo
-            </div> */}
-            <Button
-              size="icon"
-              className="bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation();
-                // TODO: Implement save functionality
+            <SaveButton
+              initialSaved={false}
+              onToggle={(saved) => {
+                console.log(
+                  "the accomodation is saved",
+                  saved
+                ); /* implement saved accomodation logic */
               }}
-            >
-              <Heart className="h-5 w-5 text-white" />
-            </Button>
+            />
           </div>
         </div>
         <CardHeader>

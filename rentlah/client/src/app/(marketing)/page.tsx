@@ -13,9 +13,8 @@ export default function Home() {
   const [featuredListings, setFeaturedListings] = useState<Listing[]>([]);
 
   useEffect(() => {
-    fetchListings({ isFeatured: true }).then((data) => {
-      setFeaturedListings(data.slice(0, 3));
-    });
+    fetchListings({ isFeatured: true }).then((data) => setFeaturedListings(data))
+      .catch(err => console.error("Error fetching featured listings:", err));
   }, []);
 
   const handleUniversitySelect = (uni: string) => {
@@ -37,7 +36,7 @@ export default function Home() {
               loop
               playsInline
               preload="auto"
-              poster="/assets/sgp-cityscape.jpeg"  // fallback image
+              poster="/assets/sgp-landscape.jpeg"  // fallback image
             >
               <source src="/assets/cityscape-video.mp4" type="video/mp4" />
               {/* Add more sources for cross-browser support if needed */}
@@ -50,7 +49,7 @@ export default function Home() {
               </h1>
               <p className={styles.welcdescription}>
                 Looking for a place to stay while studying in Singapore? <br />
-                You've come to the right place. 
+                You&apos;ve come to the right place. 
               </p>
               <p className={styles.welcdescription}>
                 Select your university below to get started!

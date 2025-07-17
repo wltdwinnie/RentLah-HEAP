@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import "@/styles/globals.css";
+import I18nProvider from "@/components/i18n-provider";
 
 
 const geistSans = Geist({
@@ -26,7 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300 antialiased`}
       >
-        <NuqsAdapter>{children}</NuqsAdapter>
+        <I18nProvider>
+          <NuqsAdapter>{children}</NuqsAdapter>
+        </I18nProvider>
       </body>
     </html>
   );
