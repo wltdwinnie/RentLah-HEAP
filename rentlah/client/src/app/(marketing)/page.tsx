@@ -13,8 +13,10 @@ export default function Home() {
   const [featuredListings, setFeaturedListings] = useState<Listing[]>([]);
 
   useEffect(() => {
-    fetchListings({ isFeatured: true }).then((data) => setFeaturedListings(data));
+    fetchListings({ isFeatured: true }).then((data) => {
+      setFeaturedListings(data.slice(0, 3));
     });
+  }, []);
 
   const handleUniversitySelect = (uni: string) => {
     const match = uni.match(/\(([^)]+)\)/);
@@ -75,7 +77,7 @@ export default function Home() {
           <div className={styles.sectionHeader}>
             <h2 className={styles.subTitle}>Featured Listings</h2>
           </div>
-          <div>
+          <div className={styles.homeFeaturedCardGroup}>
             <PropertyCardGroup listings={featuredListings} />
           </div>
         </div>

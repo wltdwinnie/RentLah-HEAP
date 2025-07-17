@@ -118,7 +118,7 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
   };
 
   return (
-    <div onClick={handleClick} className="h-[460px]">
+    <div onClick={handleClick} className="h-[480px]">
       <Card className="h-full overflow-hidden">
         <div className="relative w-full h-[200px] group">
           <Image

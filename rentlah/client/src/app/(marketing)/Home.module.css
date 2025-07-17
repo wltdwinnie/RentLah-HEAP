@@ -203,12 +203,19 @@
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
+    will-change: transform;
 }
 
 .benefitCard svg {
     margin-bottom: 0.75rem;       /* Space below icon */
 }
 
+.benefitCard:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+  z-index: 2;
+}
 
 /* Testimonials */
 .testimonialCard {
@@ -219,6 +226,8 @@
     border-radius: 6px;
     font-style: italic;
     color: #333;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
+    will-change: transform;
 }
 
 .testimonials {
@@ -227,6 +236,12 @@
     justify-content: center;
     flex-wrap: wrap;
     margin-top: 1.5rem;
+}
+
+.testimonialCard:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+  z-index: 2;
 }
 
 .blacktext {
