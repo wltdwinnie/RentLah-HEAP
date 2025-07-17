@@ -8,11 +8,16 @@ interface MRT {
 }
 
 interface NearbyMRTSectionProps {
+  form: {
+    coordinatesLat: string;
+    coordinatesLng: string;
+  };
   nearbyMRT: MRT[];
   handleAutoPopulateMRT: (lat: number, lng: number) => Promise<MRTInfo[]>;
 }
 
 export function NearbyMRTSection({
+  form,
   nearbyMRT,
   handleAutoPopulateMRT,
 }: NearbyMRTSectionProps) {
@@ -21,7 +26,30 @@ export function NearbyMRTSection({
       <label className="block font-medium mb-1">Nearby MRT</label>
       <button
         type="button"
-        onClick={() => handleAutoPopulateMRT}
+        onClick={() => {
+          // console.log(`[inside NearbyMRTSection] Coordinates: ${form.coordinatesLat}, ${form.coordinatesLng}`);
+          if (
+            form &&
+            typeof form.coordinatesLat !== "undefined" &&
+            typeof form.coordinatesLng !== "undefined"
+          ) {
+            const lat = Number(form.coordinatesLat);
+            const lng = Number(form.coordinatesLng);
+            if (!isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0) {
+              handleAutoPopulateMRT(lat, lng);
+            } else {
+              console.error(
+                "Coordinates are required to fetch nearby MRT stations."
+              );
+              alert(
+                "Please enter valid coordinates before fetching nearby MRT stations."
+              );
+            }
+          } else {
+            console.error("Form or coordinates are undefined.");
+            alert("Form or coordinates are undefined. Please check your form.");
+          }
+        }}
         className="bg-blue-700 hover:bg-blue-800 text-white rounded-2xl p-2 mb-2 transition-colors"
       >
         Auto-populate Nearby MRT

@@ -128,6 +128,7 @@ export function PropertyFormPage({
         />
         <ParkingSection form={form} handleChange={handleChange} />
         <NearbyMRTSection
+          form={form ? { coordinatesLat: form.coordinatesLat ?? "", coordinatesLng: form.coordinatesLng ?? "" } : { coordinatesLat: "", coordinatesLng: "" }}
           nearbyMRT={nearbyMRT}
           handleAutoPopulateMRT={handleAutoPopulateMRT}
         />

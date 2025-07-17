@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { geocodeAddress } from "@/lib/address-utils";
 import { AddPropertyFormState } from "@/lib/definition";
+import { InsertListing } from "@/db/schema";
 import { useAmenities } from "./useAmenities";
 import { useMRT } from "./useMRT";
 import {
@@ -12,6 +13,7 @@ import {
   sanitizeArray,
   sanitizeDate,
 } from "./validation";
+import { AptType, FurnishingType, GenderType, LeasePeriodType, NationalityType, ParkingType, PropertyType, UtilityType } from "@/lib/constants";
 
 export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
   const [form, setForm] = useState<AddPropertyFormState>({
@@ -110,6 +112,7 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
         coordinatesLat: coords.lat.toString(),
         coordinatesLng: coords.lng.toString(),
       }));
+        console.log(`[inside handle auto] Coordinates auto-populated: ${form.coordinatesLat}, ${form.coordinatesLng}`);
     } catch {
       setError("Failed to fetch coordinates from address");
     }
@@ -133,6 +136,7 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
             coordinatesLat: coords.lat.toString(),
             coordinatesLng: coords.lng.toString(),
           }));
+          console.log(`[inside submit] Coordinates auto-populated: ${form.coordinatesLat}, ${form.coordinatesLng}`);
         } catch {
           setError(
             "Failed to auto-populate coordinates. Please check the address."
@@ -142,28 +146,24 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
         }
       }
       // Data sanitization
-      const data = {
-        id: uuidv4(),
+      const data: InsertListing = {
+        id: updatedForm.id || uuidv4(),
         description: updatedForm.description,
         userId: updatedForm.userId,
-        aptType: updatedForm.aptType,
-        propertyType: updatedForm.propertyType,
+        aptType: updatedForm.aptType as AptType, // ensure enum type
+        propertyType: updatedForm.propertyType as PropertyType,
         bedrooms: sanitizeNumber(updatedForm.bedrooms),
         bathrooms: sanitizeNumber(updatedForm.bathrooms),
         hasStudy: !!updatedForm.hasStudy,
         hasHelper: !!updatedForm.hasHelper,
         hasBalcony: !!updatedForm.hasBalcony,
-        furnishing: updatedForm.furnishing,
+        furnishing: updatedForm.furnishing as FurnishingType,
         sqft: sanitizeNumber(updatedForm.sqft),
         addressBlk: sanitizeNumber(updatedForm.addressBlk),
         addressStreet: updatedForm.addressStreet,
         addressPostalCode: updatedForm.addressPostalCode,
-        addressFloor: updatedForm.addressFloor
-          ? sanitizeNumber(updatedForm.addressFloor)
-          : undefined,
-        addressUnit: updatedForm.addressUnit
-          ? sanitizeNumber(updatedForm.addressUnit)
-          : undefined,
+        addressFloor: updatedForm.addressFloor ? sanitizeNumber(updatedForm.addressFloor) : undefined,
+        addressUnit: updatedForm.addressUnit ? sanitizeNumber(updatedForm.addressUnit) : undefined,
         coordinates: {
           lat: sanitizeNumber(updatedForm.coordinatesLat),
           lng: sanitizeNumber(updatedForm.coordinatesLng),
@@ -171,45 +171,51 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
         nearbyMRT: mrtHook.nearbyMRT,
         facilities: sanitizeFacilities(updatedForm.facilities),
         parkingAvailable: !!updatedForm.parkingAvailable,
-        parkingType:
-          updatedForm.parkingType === "" ? null : updatedForm.parkingType,
-        parkingSpaces: updatedForm.parkingSpaces
-          ? sanitizeNumber(updatedForm.parkingSpaces)
-          : 0,
+        parkingType: updatedForm.parkingType === "" ? undefined : updatedForm.parkingType as ParkingType,
+        parkingSpaces: updatedForm.parkingSpaces ? sanitizeNumber(updatedForm.parkingSpaces) : 0,
         nearbyAmenities: amenitiesHook.amenities,
-        perMonth: sanitizeNumber(updatedForm.perMonth),
-        utilitiesIncluded: sanitizeArray(updatedForm.utilitiesIncluded),
-        deposit: sanitizeNumber(updatedForm.securityDeposit),
-        agentFee: updatedForm.agentFee
-          ? sanitizeNumber(updatedForm.agentFee)
-          : undefined,
-        leasePeriod: updatedForm.leasePeriod,
-        preferredGender: updatedForm.preferredGender || "No Preference",
-        preferredNationality:
-          updatedForm.preferredNationality || "No Preference",
-        preferredOccupation: sanitizeOccupation(
-          updatedForm.preferredOccupation
-        ),
+        perMonth: String(sanitizeNumber(updatedForm.perMonth)),
+        utilitiesIncluded: sanitizeArray(updatedForm.utilitiesIncluded) as UtilityType[],
+        deposit: String(sanitizeNumber(updatedForm.securityDeposit)),
+        agentFee: updatedForm.agentFee ? String(sanitizeNumber(updatedForm.agentFee)) : undefined,
+        leasePeriod: updatedForm.leasePeriod as LeasePeriodType,
+        preferredGender: updatedForm.preferredGender !== "No Preference" ? updatedForm.preferredGender as GenderType : undefined,
+        preferredNationality: updatedForm.preferredNationality !== "No Preference" ? updatedForm.preferredNationality as NationalityType : undefined,
+        preferredOccupation: sanitizeOccupation(updatedForm.preferredOccupation),
         maxOccupants: sanitizeNumber(updatedForm.maxOccupants),
         images: images,
         isActive: !!updatedForm.isActive,
         isFeatured: !!updatedForm.isFeatured,
         isVerified: !!updatedForm.isVerified,
-        universityTravelTimes: updatedForm.universityTravelTimes,
-        availableFrom: sanitizeDate(updatedForm.availableFrom),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        availableFrom: sanitizeDate(updatedForm.availableFrom) ? new Date(sanitizeDate(updatedForm.availableFrom) as string) : new Date(),
+        universityTravelTimes: updatedForm.universityTravelTimes ? JSON.parse(updatedForm.universityTravelTimes) : undefined,
       };
-      const res = await fetch("/api/listings/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      let res;
+      if (data.id) {
+        // Update existing listing
+        res = await fetch(`/api/listings/${data.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } else {
+        // Create new listing
+        data.id = uuidv4();
+        res = await fetch("/api/listings/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
       if (res.ok) {
         setSuccess(true);
         setForm((f) => ({ ...f, description: "" }));
         setLastAddedId(data.id);
       } else {
         const errData = await res.json();
-        setError(errData.error || "Failed to add property");
+        setError(errData.error || "Failed to save property");
       }
     } catch {
       setError("Unknown error");
