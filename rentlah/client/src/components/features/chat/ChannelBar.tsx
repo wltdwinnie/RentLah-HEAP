@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Channel, ChannelBarProps } from "@/app/chat/types/chat";
+import { useMemo } from "react";
 
 const defaultChannels: Channel[] = [
   { name: "general" },

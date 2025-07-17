@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
-import { socket } from "@/lib/socketClient";
+import { getSocket, socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
 import { ChatUser, MessageType, ApiMessageResponse, ApiUserResponse } from "@/app/chat/types/chat";
 
