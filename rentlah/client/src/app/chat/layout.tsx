@@ -17,14 +17,13 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
   const [selectedCommunity, setSelectedCommunity] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch current user and redirect if not logged in
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         setIsLoading(true);
         const res = await fetch("/api/me");
         if (!res.ok) {
-          // User is not logged in, redirect to homepage
+
           alert("You need to log in to access the chat feature.");
           window.location.href = "/";
           return;
@@ -42,7 +41,6 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
     fetchCurrentUser();
   }, []);
 
-  // Fetch all users
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await fetch("/api/users");
