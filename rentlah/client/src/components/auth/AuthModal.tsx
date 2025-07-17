@@ -102,7 +102,7 @@ export default function AuthModal({ onClose, type }: Props) {
       }
 
       onClose();
-      router.push("/");
+      window.location.reload();
     }
 
     setLoading(false);

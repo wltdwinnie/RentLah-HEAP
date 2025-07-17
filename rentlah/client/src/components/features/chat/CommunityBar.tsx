@@ -38,7 +38,12 @@ const communities = [
   },
 ];
 
-const CommunityBar = () => {
+
+type Props = {
+  onSelectCommunity: (name: string) => void;
+};
+
+const CommunityBar = ({ onSelectCommunity }: Props) => {
   const [open, setOpen] = useState(true);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
@@ -48,43 +53,39 @@ const CommunityBar = () => {
 
   return (
     <Card className="p-4 w-full max-w-full">
-
       <div
         className="flex items-center justify-between cursor-pointer select-none"
         onClick={() => setOpen(!open)}
       >
         <h2 className="text-2xl font-bold tracking-tight text-[#192e9a]">Communities</h2>
         <ChevronDown
-          className={`h-4 w-4 text-gray-500 transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
+          className={`h-4 w-4 text-gray-500 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </div>
-
 
       {open && (
         <div className="mt-2 space-y-1">
           {communities.map((comm) => (
-            <Link
+            <button
               key={comm.name}
-              href={`/community/${comm.name.toLowerCase()}`}
-              className="flex items-center gap-3 overflow-hidden hover:bg-gray-100 p-2 rounded-md transition-colors duration-200 w-full group"
+              onClick={() => onSelectCommunity(comm.name.toLowerCase())}
+              className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded-md w-full"
               title={comm.fullName}
             >
-            <div className="relative w-10 h-10 flex-shrink-0">
+              <div className="relative w-10 h-10 flex-shrink-0">
                 <Image
                   src={imageErrors[comm.name] ? comm.fallbackLogo : comm.logo}
                   alt={`${comm.name} logo`}
                   width={40}
                   height={40}
-                  className="object-contain group-hover:scale-105 transition-transform duration-200 rounded"
+                  className="object-contain rounded"
                   onError={() => handleImageError(comm.name)}
                 />
               </div>
-              <span className="text-sm font-medium text-ellipsis whitespace-nowrap overflow-hidden group-hover:text-blue-600 transition-colors duration-200">
+              <span className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">
                 {comm.name}
               </span>
-            </Link>
+            </button>
           ))}
         </div>
       )}

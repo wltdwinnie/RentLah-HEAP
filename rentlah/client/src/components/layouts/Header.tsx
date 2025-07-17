@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./Header.module.css";
 import Link from "next/link";
-import { SettingsMenu } from "@/components/settings-menu";
+// import { SettingsMenu } from "@/components/settings-menu";
 import { usePathname, useRouter } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
 import { Bell } from "lucide-react";
@@ -43,36 +43,6 @@ export default function Header() {
     };
     checkAuth();
   }, []);
-
-  // useEffect(() => {
-  // const autoLoginAfterVerification = async () => {
-  //   try {
-  //     const email = localStorage.getItem("auth_email");
-  //     const password = localStorage.getItem("auth_password");
-
-  //     if (email && password) {
-  //       const result = await authClient.signIn.email({ email, password });
-
-  //       if (!result.error) {
-  //         const session = await authClient.getSession();
-  //         setUser(session?.data?.user ?? null);
-
-  //         localStorage.removeItem("auth_email");
-  //         localStorage.removeItem("auth_password");
-          
-  //       } else {
-  //         console.log("Auto-login failed:", result.error);
-  //       }
-  //     }
-  //   } catch (err: any) {
-  //     console.log("Auto-login error:", err);
-  //   } finally {
-  //     // Clean URL
-  //     router.replace("/");
-  //   }
-  // };
-//   autoLoginAfterVerification();
-// }, [router]);
 
   const openModal = (type: "login" | "signup") => {
     setAuthType(type);
@@ -137,7 +107,7 @@ export default function Header() {
               <div className={styles.profileSection}>
                 <div className={styles.profileDropdown}>
                   <Image
-                    src="/assets/profile_pic.jpg"
+                    src= {user.image ? user.image : "/assets/profile_pic.webp"}
                     alt="Profile"
                     width={32}
                     height={32}
