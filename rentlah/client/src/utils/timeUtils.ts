@@ -1,13 +1,11 @@
 import { MessageType } from "@/app/chat/types/chat"
 
-// Helper function to ensure we're working with proper Date objects
+
 const parseTimestamp = (timestamp: string | Date): Date => {
   if (timestamp instanceof Date) {
     return timestamp;
   }
-  
-  // If the timestamp doesn't end with 'Z' and doesn't have timezone info,
-  // assume it's UTC and add 'Z' to make it explicit
+
   if (typeof timestamp === 'string' && 
       !timestamp.endsWith('Z') && 
       !timestamp.includes('+') && 
@@ -18,7 +16,7 @@ const parseTimestamp = (timestamp: string | Date): Date => {
   return new Date(timestamp);
 };
 
-// Helper function to add 8 hours to any timestamp
+
 const addEightHours = (date: Date): Date => {
   const newDate = new Date(date);
   newDate.setHours(newDate.getHours() + 8);
@@ -106,8 +104,7 @@ export const getTimestampHeader = (timestamp: string | Date): string => {
   if (messageDate > weekAgo) {
     return date.toLocaleDateString([], { weekday: 'long' });
   }
-  
-  // For older messages
+
   return date.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' });
 };
 
