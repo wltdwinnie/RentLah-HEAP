@@ -2,8 +2,6 @@
 
 import { useQueryState, parseAsString } from "nuqs";
 import { UNIVERSITIES } from "@/lib/constants";
-import { useDebouncedCallback } from 'use-debounce';
-
 
 /**
  * Utility functions for university display formatting

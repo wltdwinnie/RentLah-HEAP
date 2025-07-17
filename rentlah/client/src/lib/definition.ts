@@ -1,4 +1,15 @@
-import { MRT_LINES } from "./constants";
+import {
+  AptType,
+  MRT_LINES,
+  PropertyType,
+  FurnishingType,
+  LeasePeriodType,
+  ParkingType,
+  GenderType,
+  NationalityType,
+  AmenityType,
+  UtilityType,
+} from "./constants";
 
 export type Listing = {
   // Identifier
@@ -6,21 +17,8 @@ export type Listing = {
   description: string; // Brief description of the property
 
   // Property Details
-  aptType:
-    | "executive"
-    | "studio-apartment"
-    | "studio"
-    | "1-bedroom"
-    | "2-bedroom"
-    | "3-bedroom"
-    | "4-bedroom"
-    | "5-bedroom"
-    | "penthouse"
-    | "semi-detached"
-    | "detached"
-    | "others";
-
-  propertyType: "HDB" | "Condo" | "Landed";
+  aptType: AptType;
+  propertyType: PropertyType;
 
   // Room Configuration
   roomConfig: {
@@ -32,14 +30,14 @@ export type Listing = {
   };
 
   // Furnishing & Area
-  furnishing: "Unfurnished" | "Partially Furnished" | "Fully Furnished";
+  furnishing: FurnishingType;
   sqft: number; // in square feet
 
   // Location & Accessibility
   address: {
     blk: number;
     street: string;
-    postalCode: string; // Singapore postal codes should be strings to preserve leading zeros
+    postalCode: string;
     floor?: number;
     unit?: number;
     coordinates: {
@@ -53,7 +51,7 @@ export type Listing = {
 
   parking: {
     available: boolean;
-    type?: "Covered" | "Open" | "Mechanical";
+    type?: ParkingType;
     spaces?: number;
   };
 
@@ -61,17 +59,15 @@ export type Listing = {
 
   // Financial Terms
   perMonth: number;
-  utilities: {
-    included: string[]; // ["Water", "Electricity", "Internet", "Cable TV"]
-    deposit: number; // security deposit amount
-    agentFee?: number;
-  };
-  leasePeriod: "long-term" | "short-term";
+  utilitiesIncluded: UtilityType[]; // e.g. ["PUB", "Internet", "AirCon Service"]
+  deposit: number; // security deposit amount
+  agentFee?: number;
+  leasePeriod: LeasePeriodType;
 
   // Tenant Preferences
   tenantPreferences?: {
-    gender?: "Male" | "Female" | "No Preference";
-    nationality?: "Singaporean/PR" | "Foreigner" | "No Preference";
+    gender?: GenderType;
+    nationality?: NationalityType;
     occupation?: string[];
     maxOccupants: number;
   };
@@ -84,12 +80,16 @@ export type Listing = {
   isActive: boolean; // Whether the listing is currently active
   isFeatured: boolean; // Whether the listing is featured
   isVerified: boolean; // Whether the listing has been verified by an admin
+  availableFrom: Date; // Date property for when the property is available from
 
   // Travel times to universities (precomputed, JSON object: { [postalCode]: { distanceKm, durationMin } })
-  universityTravelTimes?: Record<string, { distanceKm: number; durationMin: number }>;
+  universityTravelTimes?: Record<
+    string,
+    { distanceKm: number; durationMin: number }
+  >;
 };
 
-export type MRTLine = typeof MRT_LINES[number];
+export type MRTLine = (typeof MRT_LINES)[number];
 
 export type MRTInfo = {
   name: string;
@@ -100,5 +100,59 @@ export type MRTInfo = {
 export type LocationInfo = {
   name: string;
   distance: number; // in meters
-  type: "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym";
+  type: AmenityType; // "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym", ...
 };
+
+export interface AddPropertyFormState {
+  addressBlk: string;
+  addressStreet: string;
+  addressPostalCode: string;
+  addressFloor: string;
+  addressUnit: string;
+  coordinatesLat: string;
+  coordinatesLng: string;
+  description: string;
+  aptType: string;
+  propertyType: string;
+  bedrooms: number;
+  bathrooms: number;
+  hasStudy: boolean;
+  hasHelper: boolean;
+  hasBalcony: boolean;
+  furnishing: string;
+  sqft: number;
+  facilities: string[];
+  parkingAvailable: boolean;
+  parkingType: string;
+  parkingSpaces: string;
+  nearbyAmenities: LocationInfo[];
+  perMonth: number;
+  utilitiesIncluded: UtilityType[];
+  securityDeposit: number;
+  agentFee: number;
+  leasePeriod: string;
+  preferredGender: string;
+  preferredNationality: string;
+  preferredOccupation: string;
+  maxOccupants: string;
+  isActive: boolean;
+  isFeatured: boolean;
+  isVerified: boolean;
+  universityTravelTimes: string;
+  userId: string;
+  availableFrom: string;
+}
+
+export interface ListingFilters {
+  id?: string;
+  university?: string;
+  propertyType?: PropertyType;
+  minPrice?: number;
+  maxPrice?: number;
+  bedrooms?: number[];
+  furnishing?: FurnishingType[];
+  amenities?: string[];
+  distanceFromUniversity?: number;
+  isVerified?: boolean;
+  isFeatured?: boolean;
+}
