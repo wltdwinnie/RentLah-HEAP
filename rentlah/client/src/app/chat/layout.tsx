@@ -16,7 +16,6 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [selectedCommunity, setSelectedCommunity] = useState<string | null>(null);
 
-  // Fetch current user
   useEffect(() => {
     const fetchCurrentUser = async () => {
       const res = await fetch("/api/me");
@@ -27,7 +26,6 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
     fetchCurrentUser();
   }, []);
 
-  // Fetch all users
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await fetch("/api/users");

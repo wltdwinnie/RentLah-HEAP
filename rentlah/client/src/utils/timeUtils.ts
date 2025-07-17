@@ -1,10 +1,33 @@
 import { MessageType } from "@/app/chat/types/chat"
 
-export const formatTimestamp = (timestamp: string | Date): string => {
-  // Handle both ISO strings and Date objects
-  const date = new Date(timestamp);
+// Helper function to ensure we're working with proper Date objects
+const parseTimestamp = (timestamp: string | Date): Date => {
+  if (timestamp instanceof Date) {
+    return timestamp;
+  }
   
-  // Check if date is valid
+  // If the timestamp doesn't end with 'Z' and doesn't have timezone info,
+  // assume it's UTC and add 'Z' to make it explicit
+  if (typeof timestamp === 'string' && 
+      !timestamp.endsWith('Z') && 
+      !timestamp.includes('+') && 
+      !timestamp.includes('-', 10)) {
+    return new Date(timestamp + 'Z');
+  }
+  
+  return new Date(timestamp);
+};
+
+// Helper function to add 8 hours to any timestamp
+const addEightHours = (date: Date): Date => {
+  const newDate = new Date(date);
+  newDate.setHours(newDate.getHours() + 8);
+  return newDate;
+};
+
+export const formatTimestamp = (timestamp: string | Date): string => {
+  const date = parseTimestamp(timestamp);
+  
   if (isNaN(date.getTime())) {
     return 'Invalid date';
   }
@@ -16,25 +39,24 @@ export const formatTimestamp = (timestamp: string | Date): string => {
   
   const messageDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   
-  // Check if it's today
+  // Add 8 hours to the time for display only
+  const displayTime = addEightHours(date);
+  
   if (messageDate.getTime() === today.getTime()) {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return displayTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
   
-  // Check if it's yesterday
   if (messageDate.getTime() === yesterday.getTime()) {
-    return `Yesterday ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    return `Yesterday ${displayTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   }
   
-  // Check if it's within this week
   const weekAgo = new Date(today);
   weekAgo.setDate(weekAgo.getDate() - 7);
   if (messageDate > weekAgo) {
-    return `${date.toLocaleDateString([], { weekday: 'long' })} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    return `${date.toLocaleDateString([], { weekday: 'long' })} ${displayTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   }
   
-  // For older messages
-  return `${date.toLocaleDateString([], { month: 'short', day: 'numeric' })} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  return `${date.toLocaleDateString([], { month: 'short', day: 'numeric' })} ${displayTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 };
 
 export const shouldShowTimestampHeader = (
@@ -44,10 +66,9 @@ export const shouldShowTimestampHeader = (
 ): boolean => {
   if (!previousMsg) return true;
   
-  const currentTime = new Date(currentMsg.created_at);
-  const previousTime = new Date(previousMsg.created_at);
-  
-  // Check if dates are valid
+  const currentTime = parseTimestamp(currentMsg.created_at);
+  const previousTime = parseTimestamp(previousMsg.created_at);
+
   if (isNaN(currentTime.getTime()) || isNaN(previousTime.getTime())) {
     return false;
   }
@@ -58,9 +79,8 @@ export const shouldShowTimestampHeader = (
 };
 
 export const getTimestampHeader = (timestamp: string | Date): string => {
-  const date = new Date(timestamp);
+  const date = parseTimestamp(timestamp);
   
-  // Check if date is valid
   if (isNaN(date.getTime())) {
     return 'Invalid date';
   }
@@ -72,17 +92,15 @@ export const getTimestampHeader = (timestamp: string | Date): string => {
   
   const messageDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   
-  // Check if it's today
+
   if (messageDate.getTime() === today.getTime()) {
     return "Today";
   }
-  
-  // Check if it's yesterday
+
   if (messageDate.getTime() === yesterday.getTime()) {
     return "Yesterday";
   }
   
-  // Check if it's within this week
   const weekAgo = new Date(today);
   weekAgo.setDate(weekAgo.getDate() - 7);
   if (messageDate > weekAgo) {
@@ -93,17 +111,15 @@ export const getTimestampHeader = (timestamp: string | Date): string => {
   return date.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' });
 };
 
-// Helper function to check if two timestamps are on the same day
 export const isSameDay = (timestamp1: string | Date, timestamp2: string | Date): boolean => {
-  const date1 = new Date(timestamp1);
-  const date2 = new Date(timestamp2);
+  const date1 = parseTimestamp(timestamp1);
+  const date2 = parseTimestamp(timestamp2);
   
   return date1.getDate() === date2.getDate() &&
          date1.getMonth() === date2.getMonth() &&
          date1.getFullYear() === date2.getFullYear();
 };
 
-// Alternative: Show timestamp header only when date changes (not just time gap)
 export const shouldShowTimestampHeaderByDate = (
   currentMsg: MessageType, 
   previousMsg: MessageType | undefined

@@ -19,7 +19,6 @@ export async function GET(
 
     const user = rows[0];
     
-    // Provide fallback name if name is null/empty
     return NextResponse.json({
       ...user,
       name: user.name || user.email?.split('@')[0] || `User-${user.id.slice(0, 8)}`

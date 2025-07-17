@@ -33,7 +33,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     }
   };
 
-  // Resolve route param
   useEffect(() => {
     const resolveParams = async () => {
       const resolved = await params;
@@ -42,7 +41,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     resolveParams();
   }, [params]);
 
-  // Fetch current user
   useEffect(() => {
     const fetchCurrentUser = async () => {
       const res = await fetch("/api/me");
@@ -116,7 +114,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     return () => container?.removeEventListener("scroll", onScroll);
   }, [messages, hasMore, loadingOlder]);
 
-  // Initial message load
   useEffect(() => {
     if (room && currentUser && user && !firstRenderDone) {
       fetchMessages().then(() => {
@@ -164,7 +161,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
     setMessages((prev) => [...prev, msgData]);
     socket.emit("message", { ...msgData, room });
-    // Smooth scroll for sent messages
     requestAnimationFrame(() => scrollToBottom(true));
 
     await fetch("/api/messages", {

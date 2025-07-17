@@ -31,7 +31,6 @@ const Page = ({ params }: CommunityPageProps) => {
 
   const room = `community:${communityName}-${channelName}`;
 
-  // Helper function to scroll to bottom instantly
   const scrollToBottom = (smooth = false): void => {
     if (smooth) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -40,7 +39,6 @@ const Page = ({ params }: CommunityPageProps) => {
     }
   };
 
-  // Fetch current user
   useEffect(() => {
     const fetchCurrentUser = async (): Promise<void> => {
       try {
@@ -62,7 +60,6 @@ const Page = ({ params }: CommunityPageProps) => {
     fetchCurrentUser();
   }, []);
 
-  // Fetch messages
   const fetchMessages = async (before?: string): Promise<void> => {
     if (!room || !currentUser || loadingOlder) return;
 
@@ -134,7 +131,7 @@ const Page = ({ params }: CommunityPageProps) => {
     }
   };
 
-  // Scroll listener to load older messages
+
   useEffect(() => {
     const container = chatContainerRef.current;
     const onScroll = (): void => {
@@ -147,19 +144,17 @@ const Page = ({ params }: CommunityPageProps) => {
     return () => container?.removeEventListener("scroll", onScroll);
   }, [messages, hasMore, loadingOlder]);
 
-  // Initial message load
   useEffect(() => {
     if (room && currentUser && !firstRenderDone) {
       fetchMessages().then(() => {
         requestAnimationFrame(() => {
-          scrollToBottom(false); // No animation for initial load
+          scrollToBottom(false); 
           setFirstRenderDone(true);
         });
       });
     }
   }, [room, currentUser, firstRenderDone]);
 
-  // Join socket room and listen for messages
   useEffect(() => {
     if (!room || !currentUser || joined) return;
 
@@ -218,7 +213,6 @@ const Page = ({ params }: CommunityPageProps) => {
 
     requestAnimationFrame(() => scrollToBottom(true));
 
-    // Save message to database
     try {
       const response = await fetch("/api/messages", {
         method: "POST",
@@ -235,7 +229,6 @@ const Page = ({ params }: CommunityPageProps) => {
         const errorText = await response.text();
         console.error("Error response:", errorText);
       } else {
-        // DEBUG: Log successful response
         const responseData = await response.json();
         console.log("Message saved successfully:", responseData);
       }
