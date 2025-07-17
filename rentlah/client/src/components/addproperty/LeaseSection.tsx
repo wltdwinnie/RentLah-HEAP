@@ -1,12 +1,13 @@
 import React from "react";
 import { floatingLabel, floatingInput, floatingSelect } from "./floatingStyles";
-import { LEASE_PERIOD_TYPES } from "@/lib/constants";
+import { LEASE_PERIOD_TYPES, UTILITIES } from "@/lib/constants";
 
 interface LeaseSectionProps {
   form: {
     perMonth: string;
-    utilitiesIncluded: string;
+    utilitiesIncluded: string[];
     securityDeposit: string;
+    facilities?: string; // now a comma-separated string
     agentFee: string;
     leasePeriod: string;
     availableFrom: string;
@@ -14,9 +15,10 @@ interface LeaseSectionProps {
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  handleToggleUtility: (utility: string) => void;
 }
 
-export function LeaseSection({ form, handleChange }: LeaseSectionProps) {
+export function LeaseSection({ form, handleChange, handleToggleUtility }: LeaseSectionProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="relative">
@@ -30,15 +32,22 @@ export function LeaseSection({ form, handleChange }: LeaseSectionProps) {
         />
         <label className={floatingLabel}>Monthly Rent</label>
       </div>
-      <div className="relative">
-        <input
-          name="utilitiesIncluded"
-          value={form.utilitiesIncluded}
-          onChange={handleChange}
-          className={floatingInput}
-          placeholder=" "
-        />
-        <label className={floatingLabel}>Utilities Included</label>
+      <div className="relative flex flex-col gap-2">
+        <span className="block font-medium mb-1">Utilities Included</span>
+        <div className="flex gap-4">
+          {UTILITIES.map((utility) => (
+            <label key={utility} className="flex items-center gap-1">
+              <input
+                type="checkbox"
+                name="utilitiesIncluded"
+                value={utility}
+                checked={Array.isArray(form.utilitiesIncluded) ? form.utilitiesIncluded.includes(utility) : false}
+                onChange={() => handleToggleUtility(utility)}
+              />
+              {utility}
+            </label>
+          ))}
+        </div>
       </div>
       <div className="relative">
         <input
@@ -50,6 +59,15 @@ export function LeaseSection({ form, handleChange }: LeaseSectionProps) {
           placeholder=" "
         />
         <label className={floatingLabel}>Security Deposit</label>
+      </div>
+      <div className="relative">
+        <input
+          name="facilities"
+          value={form.facilities || ""}
+          onChange={handleChange}
+          className={floatingInput}
+        />
+        <label className={floatingLabel}>Facilities (comma separated)</label>
       </div>
       <div className="relative">
         <input

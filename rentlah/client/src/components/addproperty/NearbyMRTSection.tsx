@@ -1,3 +1,4 @@
+import { MRTInfo } from "@/lib/definition";
 import React from "react";
 
 interface MRT {
@@ -8,7 +9,7 @@ interface MRT {
 
 interface NearbyMRTSectionProps {
   nearbyMRT: MRT[];
-  handleAutoPopulateMRT: () => void;
+  handleAutoPopulateMRT: (lat: number, lng: number) => Promise<MRTInfo[]>;
 }
 
 export function NearbyMRTSection({
@@ -20,7 +21,7 @@ export function NearbyMRTSection({
       <label className="block font-medium mb-1">Nearby MRT</label>
       <button
         type="button"
-        onClick={handleAutoPopulateMRT}
+        onClick={() => handleAutoPopulateMRT}
         className="bg-blue-700 hover:bg-blue-800 text-white rounded-2xl p-2 mb-2 transition-colors"
       >
         Auto-populate Nearby MRT

@@ -79,33 +79,35 @@ export function PropertyDetailsSection({
         />
         <label className={floatingLabel}>Bathrooms</label>
       </div>
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="hasStudy"
-          checked={form.hasStudy}
-          onChange={handleChange}
-        />{" "}
-        Study
-      </label>
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="hasHelper"
-          checked={form.hasHelper}
-          onChange={handleChange}
-        />{" "}
-        Helper&apos;s Room
-      </label>
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="hasBalcony"
-          checked={form.hasBalcony}
-          onChange={handleChange}
-        />{" "}
-        Balcony
-      </label>
+      <div className="flex flex-col col-span-2 md:col-span-1 gap-2">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="hasStudy"
+            checked={form.hasStudy}
+            onChange={handleChange}
+          />{" "}
+          Has Personal Study Room
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="hasHelper"
+            checked={form.hasHelper}
+            onChange={handleChange}
+          />{" "}
+          Has Helper&apos;s Room
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="hasBalcony"
+            checked={form.hasBalcony}
+            onChange={handleChange}
+          />{" "}
+          Has Balcony
+        </label>
+      </div>
       <div className="relative">
         <select
           name="furnishing"

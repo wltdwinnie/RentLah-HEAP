@@ -19,6 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { authClient } from "@/lib/authClient";
+import { format } from "date-fns";
 
 const containerStyle = {
   width: "100%",
@@ -47,11 +48,15 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
   });
 
   // Calculate deterministic coordinates based on the listing id
-  // const idNum = parseInt(listing.id, 10);
-  const center = {
-    lat: listing.address.coordinates.lat,
-    lng: listing.address.coordinates.lng,
-  };
+  const defaultCenter = { lat: 1.3521, lng: 103.8198 }; // Singapore
+  const center =
+    Number.isFinite(listing.address.coordinates?.lat) &&
+    Number.isFinite(listing.address.coordinates?.lng)
+      ? {
+          lat: listing.address.coordinates.lat,
+          lng: listing.address.coordinates.lng,
+        }
+      : defaultCenter;
 
   const nextImage = () => {
     if (listing.images) {
@@ -339,8 +344,8 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                     Utilities Included
                   </p>
                   <p className="font-semibold">
-                    {listing.utilities.included.length > 0
-                      ? listing.utilities.included.join(", ")
+                    {listing.utilitiesIncluded.length > 0
+                      ? listing.utilitiesIncluded.join(", ")
                       : "Not included"}
                   </p>
                 </div>
@@ -348,13 +353,13 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                   <p className="text-sm text-muted-foreground">
                     Security Deposit
                   </p>
-                  <p className="font-semibold">${listing.utilities.deposit}</p>
+                  <p className="font-semibold">${listing.deposit}</p>
                 </div>
-                {listing.utilities.agentFee && (
+                {listing.agentFee && (
                   <div>
                     <p className="text-sm text-muted-foreground">Agent Fee</p>
                     <p className="font-semibold">
-                      ${listing.utilities.agentFee}
+                      ${listing.agentFee}
                     </p>
                   </div>
                 )}
@@ -364,7 +369,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                   </p>
                   <p className="font-semibold">
                     {listing.availableFrom
-                      ? new Date(listing.availableFrom).toLocaleDateString()
+                      ? format(new Date(listing.availableFrom), "dd/MM/yyyy")
                       : "N/A"}
                   </p>
                 </div>
@@ -372,7 +377,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                   <p className="text-sm text-muted-foreground">Created At</p>
                   <p className="font-semibold">
                     {listing.createdAt
-                      ? new Date(listing.createdAt).toLocaleDateString()
+                      ? format(new Date(listing.createdAt), "dd/MM/yyyy")
                       : "N/A"}
                   </p>
                 </div>
