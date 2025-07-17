@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@uploadthing/react": "^7.3.2",
-    "date-fns": "^4.1.0",
-    "uploadthing": "^7.7.3"
-  }
-}
