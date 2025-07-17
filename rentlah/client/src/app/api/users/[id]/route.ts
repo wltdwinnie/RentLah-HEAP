@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { dbPool } from "@/lib/auth";
 
-interface Params {
-  id: string;
-}
-
-export async function GET(
-  req: NextRequest,
-  context: { params: Params }
-) {
-  const { params } = context;
-  const { id } = params;
+// Simpler approach - Next.js handles this internally
+export async function GET(req: NextRequest) {
+  // Extract the ID from the pathname
+  const pathname = req.nextUrl.pathname;
+  const id = pathname.split('/').pop();
 
   try {
     const { rows } = await dbPool.query(

@@ -159,20 +159,27 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
       socket.emit("join-room", { room, username: currentUser.name });
       setJoined(true);
 
-      const onMessage = async (data: {
-        sender: string;
-        sender_id?: string;
-        user_id?: string;
-        message: string;
-        created_at?: string;
-      }) => {
-        if (data.sender !== currentUser.name && data.sender_id !== currentUser.id) {
-          let senderName = data.sender;
+      const onMessage = async (data: unknown) => {
+        // Cast data to the expected type with type checking
+        const messageData = data as {
+          sender: string;
+          sender_id?: string;
+          user_id?: string;
+          message: string;
+          created_at?: string;
+        };
+        
+        if (typeof messageData?.sender === 'string' && 
+            typeof messageData?.message === 'string' && 
+            messageData.sender !== currentUser.name && 
+            messageData.sender_id !== currentUser.id) {
+            
+          let senderName = messageData.sender;
           
           // For community chats, we need to fetch the username from the user ID
           // because the socket server sends user ID in data.sender for community chats
-          if (data.sender_id || data.user_id) {
-            const senderId = data.sender_id || data.user_id;
+          if (messageData.sender_id || messageData.user_id) {
+            const senderId = messageData.sender_id || messageData.user_id;
             try {
               const userRes = await fetch(`/api/users?id=${senderId}`);
               if (userRes.ok) {
@@ -187,9 +194,9 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
           
           const newMessage: MessageType = {
             sender: senderName,
-            message: data.message,
-            created_at: data.created_at || new Date().toISOString(),
-            sender_id: data.sender_id || data.user_id,
+            message: messageData.message,
+            created_at: messageData.created_at || new Date().toISOString(),
+            sender_id: messageData.sender_id || messageData.user_id,
           };
           
           setMessages((prev) => [...prev, newMessage]);

@@ -139,16 +139,18 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       socket.emit("join-room", { room, username: currentUser.name });
       setJoined(true);
 
-      const onMessage = (data: {
-        sender: string;
-        message: string;
-        created_at?: string;
-      }) => {
-        if (data.sender !== currentUser.name) {
+      const onMessage = (data: unknown) => {
+        // Cast data to the expected type with type checking
+        const messageData = data as { sender: string; message: string; created_at?: string };
+        
+        if (typeof messageData?.sender === 'string' && 
+            typeof messageData?.message === 'string' && 
+            messageData.sender !== currentUser.name) {
+          
           const newMessage: MessageType = {
-            sender: data.sender,
-            message: data.message,
-            created_at: data.created_at || new Date().toISOString(),
+            sender: messageData.sender,
+            message: messageData.message,
+            created_at: messageData.created_at || new Date().toISOString(),
           };
           setMessages((prev) => [...prev, newMessage]);
           // Smooth scroll for incoming messages
