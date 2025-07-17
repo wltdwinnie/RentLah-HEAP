@@ -4,14 +4,15 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
-import { socket, getSocket } from "@/lib/socketClient";
+import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
-import { MessageType } from "@/app/chat/types/chat";
+import { ChatUser, MessageType, ApiMessageResponse, ApiUserResponse } from "@/app/chat/types/chat";
+
 
 const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [chatid, setChatid] = useState<string>("");
-  const [user, setUser] = useState<{ id: string; name: string; image?: string } | null>(null);
-  const [currentUser, setCurrentUser] = useState<{ id: string; name: string; image?: string } | null>(null);
+  const [user, setUser] = useState<ChatUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<ChatUser | null>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
@@ -32,7 +33,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     }
   };
 
-  // Resolve route param
   useEffect(() => {
     const resolveParams = async () => {
       const resolved = await params;
@@ -41,7 +41,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     resolveParams();
   }, [params]);
 
-  // Fetch current user
   useEffect(() => {
     const fetchCurrentUser = async () => {
       const res = await fetch("/api/me");
@@ -75,7 +74,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     if (before) url.searchParams.append("before", before);
 
     const res = await fetch(url.toString());
-    const data = await res.json();
+    const data: ApiMessageResponse[] = await res.json(); // Type the response
 
     if (!Array.isArray(data) || data.length === 0) {
       setHasMore(false);
@@ -83,8 +82,8 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       return;
     }
 
-    const formatted: MessageType[] = data.map((msg: { sender_id: string; message: string; created_at: string }) => ({
-      sender: msg.sender_id === currentUser!.id ? currentUser!.name : user!.name,
+    const formatted: MessageType[] = data.map((msg: ApiMessageResponse) => ({
+      sender: msg.sender_id === currentUser.id ? currentUser.name! : user.name!, // Use non-null assertion since we know they exist
       message: msg.message,
       created_at: msg.created_at,
     }));
@@ -116,7 +115,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     return () => container?.removeEventListener("scroll", onScroll);
   }, [messages, hasMore, loadingOlder, fetchMessages]);
 
-  // Initial message load
   useEffect(() => {
     if (room && currentUser && user && !firstRenderDone) {
       fetchMessages().then(() => {
@@ -177,7 +175,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
     setMessages((prev) => [...prev, msgData]);
     socket.emit("message", { ...msgData, room });
-    // Smooth scroll for sent messages
     requestAnimationFrame(() => scrollToBottom(true));
 
     await fetch("/api/messages", {

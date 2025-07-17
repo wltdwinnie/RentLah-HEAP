@@ -3,20 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { Channel, ChannelBarProps } from "@/app/chat/types/chat";
 
-const channels = [
+const defaultChannels: Channel[] = [
   { name: "general" },
-  { name: "annoucements" },
-  { name: "looking-for-roomates" },
+  { name: "announcements" }, // Fixed typo from "annoucements"
+  { name: "looking-for-roommates" }, // Fixed typo from "looking-for-roomates"
 ];
 
-type Props = {
-  communityName: string;
-  onBack: () => void;
-};
-
-const ChannelBar = ({ communityName, onBack }: Props) => {
+const ChannelBar = ({ communityName, onBack, channels = defaultChannels }: ChannelBarProps) => {
   const pathname = usePathname();
+
+  const activeChannel = useMemo(() => {
+    return channels.find(channel => pathname?.endsWith(`/${channel.name}`));
+  }, [pathname, channels]);
 
   return (
     <div className="flex flex-col gap-2 p-4 border-r bg-white h-full dark:bg-zinc-900">
@@ -39,7 +39,7 @@ const ChannelBar = ({ communityName, onBack }: Props) => {
       </div>
 
       <ul className="space-y-1">
-        {channels.map((channel) => {
+        {channels.map((channel: Channel) => {
           const active = pathname?.endsWith(`/${channel.name}`);
           return (
             <li key={channel.name}>

@@ -1,4 +1,3 @@
-// app/chat/_components/DMConversationItem.tsx
 "use client";
 
 import React from "react";

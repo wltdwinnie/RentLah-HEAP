@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
     }
 
     const user = rows[0];
-
     return NextResponse.json({
       ...user,
       name: user.name || user.email?.split('@')[0] || `User-${user.id.slice(0, 8)}`
