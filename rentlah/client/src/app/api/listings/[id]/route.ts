@@ -2,11 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateListing } from "@/db/queries/update";
 
 // PUT /api/listings/[id]
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = await params;
+export async function PUT(req: NextRequest, params: unknown) {
+  const id = (params as { id?: string }).id;
   const body = await req.json();
 
   if (!id) {
