@@ -5,7 +5,7 @@ import { HeaderProps } from "@/app/chat/types/chat";
 
 const Header = ({ imageUrl, name }: HeaderProps) => {
   return (
-    <div className="w-full h-14 flex items-center justify-between px-4 border-b bg-white">
+    <div className="w-full h-14 flex items-center justify-between px-4 border-b bg-white dark:bg-black">
       <div className="flex items-center gap-3">
         <Link href="/chat" className="block lg:hidden">
           <CircleArrowLeft />

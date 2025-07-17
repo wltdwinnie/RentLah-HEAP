@@ -267,7 +267,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
       />
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto bg-gray-200 p-4 mb-2 border rounded-lg"
+        className="flex-1 overflow-y-auto bg-gray-200 p-4 mb-2 border rounded-lg dark:bg-zinc-900"
       >
         {messages.map((msg, i) => (
           <div key={i}>

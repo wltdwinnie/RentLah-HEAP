@@ -137,7 +137,7 @@ export default function Header() {
                 <div className={styles.profileMenu}>
                   <div className={styles.profileEmail}>{user.email}</div>
                   <hr className={styles.profileDivider} />
-                  <button className={styles.profileButton}>My Profile</button>
+                  
                   <button
                     className={styles.profileButton}
                     onClick={() => router.push("/settings")}

@@ -13,7 +13,8 @@ type Props = ChatUser;
 const DMConversationItem = ({ id, image, name }: Props) => {
   return (
     <Link href={`/chat/${id}`} className="w-full">
-      <Card className="p-2 flex flex-row items-center gap-4 truncate">
+     <Card className="p-2 flex flex-row items-center gap-4 truncate bg-white text-black dark:bg-black dark:text-white">
+
         <div className="flex flex-row items-center gap-4 truncate">
           <Avatar>
             <AvatarImage src={image} />

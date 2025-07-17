@@ -121,7 +121,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     if (room && currentUser && user && !firstRenderDone) {
       fetchMessages().then(() => {
         requestAnimationFrame(() => {
-          scrollToBottom(false); 
+          scrollToBottom(false);
           setFirstRenderDone(true);
         });
       });
@@ -131,22 +131,22 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
   useEffect(() => {
     if (!room || !currentUser || !user || joined) return;
-    
+
     try {
       // Make sure socket is connected first
       getSocket();
-      
+
       socket.emit("join-room", { room, username: currentUser.name });
       setJoined(true);
 
       const onMessage = (data: unknown) => {
         // Cast data to the expected type with type checking
         const messageData = data as { sender: string; message: string; created_at?: string };
-        
-        if (typeof messageData?.sender === 'string' && 
-            typeof messageData?.message === 'string' && 
-            messageData.sender !== currentUser.name) {
-          
+
+        if (typeof messageData?.sender === 'string' &&
+          typeof messageData?.message === 'string' &&
+          messageData.sender !== currentUser.name) {
+
           const newMessage: MessageType = {
             sender: messageData.sender,
             message: messageData.message,
@@ -195,11 +195,12 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   if (!user || !chatid || !currentUser) return <div>Loading...</div>;
 
   return (
+
     <div className="flex flex-col h-full">
       <Header imageUrl={user.image} name={user.name} />
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto bg-gray-200 p-4 mb-2 border rounded-lg"
+        className="flex-1 overflow-y-auto p-4 mb-2 border rounded-lg bg-white text-black dark:bg-black dark:text-white"
       >
         {messages.map((msg, i) => (
           <div key={i}>
@@ -211,7 +212,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
                 </div>
               </div>
             )}
-            
+
             {/* Chat Message */}
             <ChatMessage
               sender={msg.sender}
