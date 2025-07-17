@@ -5,17 +5,26 @@ import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
 import { socket } from "@/lib/socketClient";
-import { shouldShowTimestampHeader, getTimestampHeader, MessageType } from "@/utils/timeUtils";
+import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
+import { 
+  MessageType, 
+  ChatUser, 
+  ApiMessageResponse, 
+  ApiUserResponse, 
+  SocketMessageData, 
+  SenderNameMap,
+  CommunityPageProps 
+} from "@/app/chat/types/chat";
 
-const Page = ({ params }: { params: Promise<{ communityName: string; channelName: string }> }) => {
+const Page = ({ params }: CommunityPageProps) => {
   const { communityName, channelName } = use(params);
   
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<ChatUser | null>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [loadingOlder, setLoadingOlder] = useState(false);
-  const [joined, setJoined] = useState(false);
-  const [firstRenderDone, setFirstRenderDone] = useState(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loadingOlder, setLoadingOlder] = useState<boolean>(false);
+  const [joined, setJoined] = useState<boolean>(false);
+  const [firstRenderDone, setFirstRenderDone] = useState<boolean>(false);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -23,7 +32,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
   const room = `community:${communityName}-${channelName}`;
 
   // Helper function to scroll to bottom instantly
-  const scrollToBottom = (smooth = false) => {
+  const scrollToBottom = (smooth = false): void => {
     if (smooth) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     } else {
@@ -33,12 +42,19 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
 
   // Fetch current user
   useEffect(() => {
-    const fetchCurrentUser = async () => {
+    const fetchCurrentUser = async (): Promise<void> => {
       try {
         const res = await fetch("/api/me");
         if (!res.ok) return;
-        const data = await res.json();
-        setCurrentUser({ id: data.id, name: data.name || data.email?.split("@")[0] });
+        const data: ApiUserResponse = await res.json();
+        setCurrentUser({ 
+          id: data.id, 
+          name: data.name || data.email?.split("@")[0] || "Unknown User",
+          email: data.email,
+          image: data.image,
+          username: data.username,
+          imageUrl: data.imageUrl
+        });
       } catch (error) {
         console.error("Error fetching current user:", error);
       }
@@ -47,7 +63,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
   }, []);
 
   // Fetch messages
-  const fetchMessages = async (before?: string) => {
+  const fetchMessages = async (before?: string): Promise<void> => {
     if (!room || !currentUser || loadingOlder) return;
 
     setLoadingOlder(true);
@@ -65,7 +81,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
         return;
       }
 
-      const data = await res.json();
+      const data: ApiMessageResponse[] = await res.json();
 
       if (!Array.isArray(data) || data.length === 0) {
         setHasMore(false);
@@ -73,15 +89,15 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
         return;
       }
 
-      const uniqueSenderIds = [...new Set(data.map((msg: any) => msg.sender_id))];
-      const senderNames: { [key: string]: string } = {};
+      const uniqueSenderIds = [...new Set(data.map((msg: ApiMessageResponse) => msg.sender_id))];
+      const senderNames: SenderNameMap = {};
       
       await Promise.all(
-        uniqueSenderIds.map(async (senderId) => {
+        uniqueSenderIds.map(async (senderId: string): Promise<void> => {
           try {
             const userRes = await fetch(`/api/users?id=${senderId}`);
             if (userRes.ok) {
-              const userData = await userRes.json();
+              const userData: ApiUserResponse = await userRes.json();
               senderNames[senderId] = userData.name || userData.email?.split("@")[0] || "Unknown User";
             } else {
               senderNames[senderId] = "Unknown User";
@@ -93,7 +109,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
         })
       );
 
-      const formatted: MessageType[] = data.map((msg: any) => ({
+      const formatted: MessageType[] = data.map((msg: ApiMessageResponse) => ({
         sender: senderNames[msg.sender_id] || "Unknown User",
         message: msg.message,
         created_at: msg.created_at,
@@ -121,7 +137,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
   // Scroll listener to load older messages
   useEffect(() => {
     const container = chatContainerRef.current;
-    const onScroll = () => {
+    const onScroll = (): void => {
       if (container && container.scrollTop === 0 && hasMore && !loadingOlder) {
         const earliest = messages[0]?.created_at;
         if (earliest) fetchMessages(earliest);
@@ -150,7 +166,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
     socket.emit("join-room", { room, username: currentUser.name });
     setJoined(true);
 
-    const onMessage = async (data: any) => {
+    const onMessage = async (data: SocketMessageData): Promise<void> => {
       if (data.sender !== currentUser.name && data.sender_id !== currentUser.id) {
         let senderName = data.sender;
         
@@ -161,7 +177,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
           try {
             const userRes = await fetch(`/api/users?id=${senderId}`);
             if (userRes.ok) {
-              const userData = await userRes.json();
+              const userData: ApiUserResponse = await userRes.json();
               senderName = userData.name || userData.email?.split("@")[0] || "Unknown User";
             }
           } catch (error) {
@@ -186,12 +202,12 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
     return () => socket.off("message", onMessage);
   }, [room, currentUser, joined]);
 
-  const handleSendMessage = async (message: string) => {
+  const handleSendMessage = async (message: string): Promise<void> => {
     if (!currentUser) return;
 
     const timestamp = new Date().toISOString();
     const msgData: MessageType = {
-      sender: currentUser.name,
+      sender: currentUser.name!,
       message,
       created_at: timestamp,
       sender_id: currentUser.id, // Add sender_id for ownership tracking
@@ -233,9 +249,8 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
   return (
     <div className="flex flex-col h-full">
       <Header 
-        imageUrl={null} // No user image for community
+        imageUrl={undefined} // No user image for community
         name={`#${channelName}`} // Show channel name with #
-        subtitle={communityName} // Show community name as subtitle
       />
       <div
         ref={chatContainerRef}
@@ -257,7 +272,7 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
               sender={msg.sender}
               message={msg.message}
               isOwnMessage={msg.sender_id === currentUser.id} 
-              otherUserImage={null} 
+              otherUserImage={undefined} 
               created_at={msg.created_at}
             />
           </div>

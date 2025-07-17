@@ -5,13 +5,14 @@ import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
 import { socket } from "@/lib/socketClient";
-import { shouldShowTimestampHeader, getTimestampHeader, MessageType } from "@/utils/timeUtils";
-import { ChatUser, MessageType } from "@/app/chat/types/chat";
+import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
+import { ChatUser, MessageType, ApiMessageResponse, ApiUserResponse } from "@/app/chat/types/chat";
+
 
 const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [chatid, setChatid] = useState<string>("");
-  const [user, setUser] = useState<any>(null);
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [user, setUser] = useState<ChatUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<ChatUser | null>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
@@ -74,7 +75,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     if (before) url.searchParams.append("before", before);
 
     const res = await fetch(url.toString());
-    const data = await res.json();
+    const data: ApiMessageResponse[] = await res.json(); // Type the response
 
     if (!Array.isArray(data) || data.length === 0) {
       setHasMore(false);
@@ -82,8 +83,8 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       return;
     }
 
-    const formatted: MessageType[] = data.map((msg: any) => ({
-      sender: msg.sender_id === currentUser.id ? currentUser.name : user.name,
+    const formatted: MessageType[] = data.map((msg: ApiMessageResponse) => ({
+      sender: msg.sender_id === currentUser.id ? currentUser.name! : user.name!, // Use non-null assertion since we know they exist
       message: msg.message,
       created_at: msg.created_at,
     }));

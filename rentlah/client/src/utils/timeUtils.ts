@@ -1,3 +1,5 @@
+import { MessageType } from "@/app/chat/types/chat"
+
 export const formatTimestamp = (timestamp: string | Date): string => {
   // Handle both ISO strings and Date objects
   const date = new Date(timestamp);
@@ -111,19 +113,7 @@ export const shouldShowTimestampHeaderByDate = (
   return !isSameDay(currentMsg.created_at, previousMsg.created_at);
 };
 
-// Type definitions
-export interface MessageType {
-  sender: string;
-  message: string;
-  created_at: string;
-  sender_id?: string;
-}
 
-export interface DatabaseMessage {
-  id: number;
-  sender_id: string;
-  receiver_id: string;
-  room: string;
-  message: string;
-  created_at: string;
-}
+
+
+
