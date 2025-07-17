@@ -25,7 +25,9 @@ export function transformMRTLinesFromDB(
         MRT_LINES.includes(line as MRTLine)
       );
       if (validLines.length === 0) {
-        console.warn(`MRT station ${mrt.name} has no valid MRT lines`);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`MRT station ${mrt.name} has no valid MRT lines`);
+        }
         return null;
       }
       return {

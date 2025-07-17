@@ -1,9 +1,10 @@
 import { config } from 'dotenv';
-import { defineConfig } from "drizzle-kit";
+import type { Config } from 'drizzle-kit';
 
 config({ path: '.env' });
 
-export default defineConfig({
+// Export configuration directly as a Config object
+export default {
   schema: "./src/db/schema.ts",
   out: "./migrations",
   dialect: "postgresql",
@@ -12,5 +13,5 @@ export default defineConfig({
   },
   tablesFilter: ["!account", "!session", "!user", "!verification", "!messages", "!scraped_rentals"],
   schemaFilter: ["public"],
-});
+} as Config;
 

@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
-import { socket } from "@/lib/socketClient";
-import { shouldShowTimestampHeader, getTimestampHeader, MessageType } from "@/utils/timeUtils";
-import { ChatUser, MessageType } from "@/app/chat/types/chat";
+import { socket, getSocket } from "@/lib/socketClient";
+import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
+import { MessageType } from "@/app/chat/types/chat";
 
 const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [chatid, setChatid] = useState<string>("");
-  const [user, setUser] = useState<any>(null);
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [user, setUser] = useState<{ id: string; name: string; image?: string } | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ id: string; name: string; image?: string } | null>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
@@ -47,7 +47,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       const res = await fetch("/api/me");
       if (!res.ok) return;
       const data = await res.json();
-      setCurrentUser({ id: data.id, name: data.name || data.email?.split("@")[0] });
+      setCurrentUser({ id: data.id, name: data.name || data.email?.split("@")[0], image: data.image });
     };
     fetchCurrentUser();
   }, []);
@@ -59,12 +59,13 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       const res = await fetch(`/api/users?id=${chatid}`);
       if (!res.ok) return;
       const data = await res.json();
-      setUser({ ...data, name: data.name || data.email?.split("@")[0] });
+      setUser({ id: data.id, name: data.name || data.email?.split("@")[0], image: data.image });
     };
     fetchUser();
   }, [chatid]);
 
-  const fetchMessages = async (before?: string) => {
+  // Fetch messages
+  const fetchMessages = useCallback(async (before?: string) => {
     if (!room || !currentUser || !user || loadingOlder) return;
 
     setLoadingOlder(true);
@@ -82,8 +83,8 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       return;
     }
 
-    const formatted: MessageType[] = data.map((msg: any) => ({
-      sender: msg.sender_id === currentUser.id ? currentUser.name : user.name,
+    const formatted: MessageType[] = data.map((msg: { sender_id: string; message: string; created_at: string }) => ({
+      sender: msg.sender_id === currentUser!.id ? currentUser!.name : user!.name,
       message: msg.message,
       created_at: msg.created_at,
     }));
@@ -101,7 +102,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     });
 
     setLoadingOlder(false);
-  };
+  }, [room, currentUser, user, loadingOlder, setHasMore, setLoadingOlder, setMessages, chatContainerRef]);
 
   useEffect(() => {
     const container = chatContainerRef.current;
@@ -113,7 +114,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     };
     container?.addEventListener("scroll", onScroll);
     return () => container?.removeEventListener("scroll", onScroll);
-  }, [messages, hasMore, loadingOlder]);
+  }, [messages, hasMore, loadingOlder, fetchMessages]);
 
   // Initial message load
   useEffect(() => {
@@ -125,30 +126,43 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
         });
       });
     }
-  }, [room, currentUser, user, firstRenderDone]);
+  }, [room, currentUser, user, firstRenderDone, fetchMessages]);
 
 
   useEffect(() => {
     if (!room || !currentUser || !user || joined) return;
+    
+    try {
+      // Make sure socket is connected first
+      getSocket();
+      
+      socket.emit("join-room", { room, username: currentUser.name });
+      setJoined(true);
 
-    socket.emit("join-room", { room, username: currentUser.name });
-    setJoined(true);
+      const onMessage = (data: unknown) => {
+        // Cast data to the expected type with type checking
+        const messageData = data as { sender: string; message: string; created_at?: string };
+        
+        if (typeof messageData?.sender === 'string' && 
+            typeof messageData?.message === 'string' && 
+            messageData.sender !== currentUser.name) {
+          
+          const newMessage: MessageType = {
+            sender: messageData.sender,
+            message: messageData.message,
+            created_at: messageData.created_at || new Date().toISOString(),
+          };
+          setMessages((prev) => [...prev, newMessage]);
+          // Smooth scroll for incoming messages
+          requestAnimationFrame(() => scrollToBottom(true));
+        }
+      };
 
-    const onMessage = (data: any) => {
-      if (data.sender !== currentUser.name) {
-        const newMessage: MessageType = {
-          sender: data.sender,
-          message: data.message,
-          created_at: data.created_at || new Date().toISOString(),
-        };
-        setMessages((prev) => [...prev, newMessage]);
-
-        requestAnimationFrame(() => scrollToBottom(true));
-      }
-    };
-
-    socket.on("message", onMessage);
-    return () => socket.off("message", onMessage);
+      socket.on("message", onMessage);
+      return () => { socket.off("message", onMessage); };
+    } catch (err) {
+      console.warn("Chat socket connection unavailable:", err);
+    }
   }, [room, currentUser, user, joined]);
 
   const handleSendMessage = async (message: string) => {

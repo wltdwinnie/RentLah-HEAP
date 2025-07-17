@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   try {
     let query: string;
-    const values: any[] = [room];
+    const values: (string | number)[] = [room];
 
     if (before) {
       // For pagination: get messages older than 'before' timestamp

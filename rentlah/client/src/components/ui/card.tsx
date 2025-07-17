@@ -88,15 +88,6 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Debug logging
-  console.log("PropertyCard listing:", {
-    id: listing.id,
-    images: listing.images,
-    hasImages: listing.images && listing.images.length > 0,
-    currentImageIndex,
-    currentImage: listing.images?.[currentImageIndex],
-  });
-
   const handleClick = () => {
     router.push(`/properties/${listing.id}`, { scroll: false });
   };
@@ -186,7 +177,8 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
               className="bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
-                // TODO: Implement save functionality
+                // Save functionality - could be implemented with user favorites
+                console.log('Save listing:', listing.id);
               }}
             >
               <Heart className="h-5 w-5 text-white" />

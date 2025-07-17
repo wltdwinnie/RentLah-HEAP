@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { dbPool } from "@/lib/auth";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+// Simpler approach - Next.js handles this internally
+export async function GET(req: NextRequest) {
+  // Extract the ID from the pathname
+  const pathname = req.nextUrl.pathname;
+  const id = pathname.split('/').pop();
 
   try {
     const { rows } = await dbPool.query(
@@ -18,8 +18,7 @@ export async function GET(
     }
 
     const user = rows[0];
-    
-    // Provide fallback name if name is null/empty
+
     return NextResponse.json({
       ...user,
       name: user.name || user.email?.split('@')[0] || `User-${user.id.slice(0, 8)}`

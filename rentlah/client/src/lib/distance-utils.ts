@@ -141,7 +141,9 @@ export async function getGoogleTravelDistanceAndTime(
     }
     return null;
   } catch (e) {
-    console.error("Google Distance Matrix API error", e);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Google Distance Matrix API error", e);
+    }
     return null;
   }
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 
-type Props = {
+// Layout component type definition
+interface ChatLayoutProps {
   children: React.ReactNode;
-  params: { chatid: string };
-};
+}
 
-const ConversationLayout = ({ children }: Props) => {
+// This layout doesn't need to use params directly
+const ConversationLayout = ({ children }: ChatLayoutProps) => {
   return (
     <>
       {children}
