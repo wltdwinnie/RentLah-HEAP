@@ -14,7 +14,7 @@ const defaultChannels: Channel[] = [
 
 const ChannelBar = ({ communityName, onBack, channels = defaultChannels }: ChannelBarProps) => {
   const pathname = usePathname();
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const activeChannel = useMemo(() => {
     return channels.find(channel => pathname?.endsWith(`/${channel.name}`));
   }, [pathname, channels]);

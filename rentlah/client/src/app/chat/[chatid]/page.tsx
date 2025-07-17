@@ -6,7 +6,7 @@ import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
 import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
-import { ChatUser, MessageType, ApiMessageResponse, ApiUserResponse } from "@/app/chat/types/chat";
+import { ChatUser, MessageType, ApiMessageResponse } from "@/app/chat/types/chat";
 
 const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [chatid, setChatid] = useState<string>("");
@@ -210,7 +210,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
     const timestamp = new Date().toISOString();
     const msgData: MessageType = {
-      sender: currentUser.name,
+      sender: currentUser.name || currentUser.id,
       message,
       created_at: timestamp,
     };
@@ -250,7 +250,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header imageUrl={user.image} name={user.name} />
+      <Header imageUrl={user.image} name={user.name?? user.id} />
       <div
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto bg-gray-200 p-4 mb-2 border rounded-lg"
