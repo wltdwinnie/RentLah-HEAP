@@ -94,17 +94,27 @@
 .actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
 }
 
-.bell {
+.bell, .chat {
     font-size: 1.2rem;
     background: transparent;
     border: none;
     cursor: pointer;
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem;
+    transition: background 0.1s, color 0.2s;
+    border-radius: 50%;
+}
+.bell:hover, .chat:hover {
+    color: var(--primary-dark);
+    background: rgba(0,0,0,0.04);
 }
 
-.dark .bell {
+.dark .bell, .dark .chat {
     color: white;
 }
 
