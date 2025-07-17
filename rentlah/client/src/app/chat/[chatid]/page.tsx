@@ -6,6 +6,7 @@ import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
 import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader, MessageType } from "@/utils/timeUtils";
+import { ChatUser, MessageType } from "@/app/chat/types/chat";
 
 const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [chatid, setChatid] = useState<string>("");
@@ -22,7 +23,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
   const room = user && currentUser ? `dm:${[user.name, currentUser.name].sort().join("-")}` : "";
 
-  // Helper function to scroll to bottom instantly
+
   const scrollToBottom = (smooth = false) => {
     if (smooth) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -63,7 +64,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     fetchUser();
   }, [chatid]);
 
-  // Fetch messages
   const fetchMessages = async (before?: string) => {
     if (!room || !currentUser || !user || loadingOlder) return;
 
@@ -103,7 +103,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     setLoadingOlder(false);
   };
 
-  // Scroll listener to load older messages
   useEffect(() => {
     const container = chatContainerRef.current;
     const onScroll = () => {
@@ -121,14 +120,14 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     if (room && currentUser && user && !firstRenderDone) {
       fetchMessages().then(() => {
         requestAnimationFrame(() => {
-          scrollToBottom(false); // No animation for initial load
+          scrollToBottom(false); 
           setFirstRenderDone(true);
         });
       });
     }
   }, [room, currentUser, user, firstRenderDone]);
 
-  // Join socket room and listen for messages
+
   useEffect(() => {
     if (!room || !currentUser || !user || joined) return;
 
@@ -143,7 +142,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
           created_at: data.created_at || new Date().toISOString(),
         };
         setMessages((prev) => [...prev, newMessage]);
-        // Smooth scroll for incoming messages
+
         requestAnimationFrame(() => scrollToBottom(true));
       }
     };

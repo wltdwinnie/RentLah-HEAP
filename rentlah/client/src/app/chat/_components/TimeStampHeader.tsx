@@ -1,9 +1,6 @@
 
 import React from 'react';
-
-interface TimestampHeaderProps {
-  timestamp: string;
-}
+import { TimestampHeaderProps } from "@/app/chat/types/chat";
 
 const TimestampHeader: React.FC<TimestampHeaderProps> = ({ timestamp }) => {
   return (

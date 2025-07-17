@@ -8,19 +8,11 @@ import DMConversationItem from "@/app/chat/_components/DMConversationItem";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-type Props = {
-  children: React.ReactNode;
-};
+import { ChatUser, ChatLayoutProps } from "@/app/chat/types/chat";
 
-type User = {
-  id: string;
-  name: string;
-  image: string;
-};
-
-const ChatLayout = ({ children }: Props) => {
+const ChatLayout = ({ children }: ChatLayoutProps) => {
   const [chatOpen, setChatOpen] = useState(true);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<ChatUser[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [selectedCommunity, setSelectedCommunity] = useState<string | null>(null);
 
@@ -47,7 +39,6 @@ const ChatLayout = ({ children }: Props) => {
 
   const filteredUsers = users.filter((user) => user.id !== currentUserId);
 
-  // Sidebar variants for animation
   const variants = {
     hidden: { x: "-100%", opacity: 0 },
     visible: { x: 0, opacity: 1 },
@@ -86,7 +77,7 @@ const ChatLayout = ({ children }: Props) => {
                 className="absolute inset-0 overflow-y-auto hover-scrollbar"
               >
                 <CommunityBar onSelectCommunity={(name) => setSelectedCommunity(name)} />
-                
+
                 <ItemList
                   title={<span style={{ color: "#192e9a" }}>Chat</span>}
                   action={
@@ -114,9 +105,7 @@ const ChatLayout = ({ children }: Props) => {
         </div>
 
         {/* MAIN CONTENT */}
-        <main className="flex-1 min-w-0 overflow-auto hover-scrollbar p-4">
-          {children}
-        </main>
+        <main className="flex-1 min-w-0 overflow-auto hover-scrollbar p-4">{children}</main>
       </div>
     </div>
   );

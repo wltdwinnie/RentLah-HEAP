@@ -73,11 +73,9 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
         return;
       }
 
-      // For community messages, we need to fetch user names for each unique sender_id
       const uniqueSenderIds = [...new Set(data.map((msg: any) => msg.sender_id))];
       const senderNames: { [key: string]: string } = {};
       
-      // Fetch names for all unique senders
       await Promise.all(
         uniqueSenderIds.map(async (senderId) => {
           try {
@@ -213,7 +211,6 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
           room,
           message,
           sender_id: currentUser.id,
-          // Don't send sender_name - it's not stored in DB
         }),
       });
 
@@ -259,8 +256,8 @@ const Page = ({ params }: { params: Promise<{ communityName: string; channelName
             <ChatMessage
               sender={msg.sender}
               message={msg.message}
-              isOwnMessage={msg.sender_id === currentUser.id} // Use sender_id for ownership comparison
-              otherUserImage={null} // No specific user image for community
+              isOwnMessage={msg.sender_id === currentUser.id} 
+              otherUserImage={null} 
               created_at={msg.created_at}
             />
           </div>

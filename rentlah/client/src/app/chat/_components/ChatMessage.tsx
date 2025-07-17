@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { formatTimestamp } from '@/utils/timeUtils';
+import React, { useState } from "react";
+import { formatTimestamp } from "@/utils/timeUtils";
+import { ChatMessageProps } from "@/app/chat/types/chat";
 
-interface ChatMessageProps {
-    sender: string;
-    message: string;
-    isOwnMessage: boolean;
-    otherUserImage?: string;
-    created_at: string;
-}
-
-const ChatMessage = ({ sender, message, isOwnMessage, otherUserImage, created_at }: ChatMessageProps) => {
+const ChatMessage = ({
+  sender,
+  message,
+  isOwnMessage,
+  otherUserImage,
+  created_at,
+}: ChatMessageProps) => {
   const [showTimestamp, setShowTimestamp] = useState<boolean>(false);
 
   const handleMessageClick = (): void => {
@@ -37,14 +36,16 @@ const ChatMessage = ({ sender, message, isOwnMessage, otherUserImage, created_at
           }`}
           onClick={handleMessageClick}
         >
-          {!isOwnMessage && (
-            <p className="text-sm font-bold mb-1">{sender}</p>
-          )}
+          {!isOwnMessage && <p className="text-sm font-bold mb-1">{sender}</p>}
           <p>{message}</p>
         </div>
-        
+
         {showTimestamp && (
-          <div className={`text-xs text-gray-500 mt-1 ${isOwnMessage ? 'text-right' : 'text-left'}`}>
+          <div
+            className={`text-xs text-gray-500 mt-1 ${
+              isOwnMessage ? "text-right" : "text-left"
+            }`}
+          >
             {formatTimestamp(created_at)}
           </div>
         )}
