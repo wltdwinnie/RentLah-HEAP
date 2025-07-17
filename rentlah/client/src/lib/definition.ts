@@ -1,4 +1,15 @@
-import { AptType, MRT_LINES, PropertyType, FurnishingType, LeasePeriodType, ParkingType, GenderType, NationalityType, AmenityType } from "./constants";
+import {
+  AptType,
+  MRT_LINES,
+  PropertyType,
+  FurnishingType,
+  LeasePeriodType,
+  ParkingType,
+  GenderType,
+  NationalityType,
+  AmenityType,
+  UtilityType,
+} from "./constants";
 
 export type Listing = {
   // Identifier
@@ -26,7 +37,7 @@ export type Listing = {
   address: {
     blk: number;
     street: string;
-    postalCode: string; 
+    postalCode: string;
     floor?: number;
     unit?: number;
     coordinates: {
@@ -36,7 +47,7 @@ export type Listing = {
   };
   nearbyMRT: MRTInfo[];
 
-  facilities?: AmenityType[]; // ["Swimming Pool", "Gym", "Tennis Court", "BBQ Pit", "Playground"]
+  facilities?: string[]; // ["Swimming Pool", "Gym", "Tennis Court", "BBQ Pit", "Playground"]
 
   parking: {
     available: boolean;
@@ -48,11 +59,9 @@ export type Listing = {
 
   // Financial Terms
   perMonth: number;
-  utilities: {
-    included: string[]; // ["Water", "Electricity", "Internet", "Cable TV"]
-    deposit: number; // security deposit amount
-    agentFee?: number;
-  };
+  utilitiesIncluded: UtilityType[]; // e.g. ["PUB", "Internet", "AirCon Service"]
+  deposit: number; // security deposit amount
+  agentFee?: number;
   leasePeriod: LeasePeriodType;
 
   // Tenant Preferences
@@ -71,7 +80,7 @@ export type Listing = {
   isActive: boolean; // Whether the listing is currently active
   isFeatured: boolean; // Whether the listing is featured
   isVerified: boolean; // Whether the listing has been verified by an admin
-  availableFrom?: Date | string; // Date property for when the property is available from
+  availableFrom: Date; // Date property for when the property is available from
 
   // Travel times to universities (precomputed, JSON object: { [postalCode]: { distanceKm, durationMin } })
   universityTravelTimes?: Record<
@@ -91,7 +100,7 @@ export type MRTInfo = {
 export type LocationInfo = {
   name: string;
   distance: number; // in meters
-  type: "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym";
+  type: AmenityType; // "School" | "Mall" | "Hawker Centre" | "Clinic" | "Gym", ...
 };
 
 export interface AddPropertyFormState {
@@ -111,16 +120,16 @@ export interface AddPropertyFormState {
   hasHelper: boolean;
   hasBalcony: boolean;
   furnishing: string;
-  sqft: string;
-  facilities: string;
+  sqft: number;
+  facilities: string[];
   parkingAvailable: boolean;
   parkingType: string;
   parkingSpaces: string;
-  nearbyAmenities: any[];
-  perMonth: string;
-  utilitiesIncluded: string;
-  securityDeposit: string;
-  agentFee: string;
+  nearbyAmenities: LocationInfo[];
+  perMonth: number;
+  utilitiesIncluded: UtilityType[];
+  securityDeposit: number;
+  agentFee: number;
   leasePeriod: string;
   preferredGender: string;
   preferredNationality: string;
@@ -132,4 +141,18 @@ export interface AddPropertyFormState {
   universityTravelTimes: string;
   userId: string;
   availableFrom: string;
+}
+
+export interface ListingFilters {
+  id?: string;
+  university?: string;
+  propertyType?: PropertyType;
+  minPrice?: number;
+  maxPrice?: number;
+  bedrooms?: number[];
+  furnishing?: FurnishingType[];
+  amenities?: string[];
+  distanceFromUniversity?: number;
+  isVerified?: boolean;
+  isFeatured?: boolean;
 }

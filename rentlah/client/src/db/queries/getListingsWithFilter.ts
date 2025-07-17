@@ -1,22 +1,12 @@
 import { and, eq, gte, lte, inArray } from "drizzle-orm";
 import { db } from "../db";
-import { listings, propertyTypeEnum, furnishingEnum } from "../schema";
+import { listings } from "../schema";
 import { transformListingFromDB } from "@/lib/utils";
-import { Listing } from "@/lib/definition";
+import { Listing, ListingFilters } from "@/lib/definition";
 
-export interface ListingFilter {
-  university?: string;
-  propertyType?: (typeof propertyTypeEnum.enumValues)[number];
-  minPrice?: number;
-  maxPrice?: number;
-  bedrooms?: number[];
-  furnishing?: (typeof furnishingEnum.enumValues)[number][];
-  amenities?: string[];
-  distanceFromUniversity?: number;
-}
 
 export async function getListingsWithFilter(
-  filter: ListingFilter,
+  filter: ListingFilters,
   offset: number = 0,
   limit: number = 50
 ): Promise<Listing[]> {
@@ -37,6 +27,15 @@ export async function getListingsWithFilter(
   }
   if (filter.furnishing && filter.furnishing.length > 0) {
     whereClauses.push(inArray(listings.furnishing, filter.furnishing));
+  }
+  if (filter.id) {
+    whereClauses.push(eq(listings.id, filter.id));
+  }
+  if (typeof filter.isVerified === "boolean") {
+    whereClauses.push(eq(listings.isVerified, filter.isVerified));
+  }
+  if (typeof filter.isFeatured === "boolean") {
+    whereClauses.push(eq(listings.isFeatured, filter.isFeatured));
   }
 
   const results = await db

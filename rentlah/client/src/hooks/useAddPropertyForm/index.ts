@@ -1,7 +1,17 @@
+// Main useAddPropertyForm hook, imports helpers/hooks
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { geocodeAddress, fetchNearbyMRT } from "@/lib/address-utils";
-import { AddPropertyFormState, LocationInfo } from "@/lib/definition";
+import { geocodeAddress } from "@/lib/address-utils";
+import { AddPropertyFormState } from "@/lib/definition";
+import { useAmenities } from "./useAmenities";
+import { useMRT } from "./useMRT";
+import {
+  sanitizeFacilities,
+  sanitizeOccupation,
+  sanitizeNumber,
+  sanitizeArray,
+  sanitizeDate,
+} from "./validation";
 
 export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
   const [form, setForm] = useState<AddPropertyFormState>({
@@ -21,16 +31,16 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
     hasHelper: false,
     hasBalcony: false,
     furnishing: "Unfurnished",
-    sqft: "",
-    facilities: "",
+    sqft: 0,
+    facilities: [],
     parkingAvailable: false,
     parkingType: "",
     parkingSpaces: "",
     nearbyAmenities: [],
-    perMonth: "",
-    utilitiesIncluded: "",
-    securityDeposit: "",
-    agentFee: "",
+    perMonth: 0,
+    utilitiesIncluded: [],
+    securityDeposit: 0,
+    agentFee: 0,
     leasePeriod: "long-term",
     preferredGender: "No Preference",
     preferredNationality: "No Preference",
@@ -47,15 +57,13 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [images, setImages] = useState<string[]>([]);
-  const [nearbyMRT, setNearbyMRT] = useState<
-    { name: string; line: string[]; distance: number }[]
-  >([]);
-  const [amenityName, setAmenityName] = useState("");
-  const [amenityDistance, setAmenityDistance] = useState("");
-  const [amenityType, setAmenityType] = useState("Mall");
-  const [amenities, setAmenities] = useState<LocationInfo[]>([]);
+  const [lastAddedId, setLastAddedId] = useState<string>("");
 
-  // Ensure userId is updated if user changes
+  // Amenities hook
+  const amenitiesHook = useAmenities();
+  // MRT hook
+  const mrtHook = useMRT();
+
   useEffect(() => {
     setForm((prev) => ({ ...prev, userId: user || "" }));
   }, [user]);
@@ -77,13 +85,42 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
     }));
   };
 
+  const handleToggleUtility = (utility: string) => {
+    setForm((prev) => {
+      const current = Array.isArray(prev.utilitiesIncluded)
+        ? prev.utilitiesIncluded
+        : [];
+      if (current.includes(utility)) {
+        return {
+          ...prev,
+          utilitiesIncluded: current.filter((u) => u !== utility),
+        };
+      } else {
+        return { ...prev, utilitiesIncluded: [...current, utility] };
+      }
+    });
+  };
+
+  const handleAutoPopulateCoordinates = async () => {
+    try {
+      const address = `${form.addressBlk} ${form.addressStreet} Singapore ${form.addressPostalCode}`;
+      const coords = await geocodeAddress(address, GOOGLE_API_KEY);
+      setForm((prev) => ({
+        ...prev,
+        coordinatesLat: coords.lat.toString(),
+        coordinatesLng: coords.lng.toString(),
+      }));
+    } catch {
+      setError("Failed to fetch coordinates from address");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     setError("");
     setSuccess(false);
     try {
-      // Auto-populate coordinates if missing
       const updatedForm = { ...form };
       if (!form.coordinatesLat || !form.coordinatesLng) {
         try {
@@ -104,69 +141,62 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
           return;
         }
       }
+      // Data sanitization
       const data = {
         id: uuidv4(),
         description: updatedForm.description,
         userId: updatedForm.userId,
         aptType: updatedForm.aptType,
         propertyType: updatedForm.propertyType,
-        bedrooms: Number(updatedForm.bedrooms),
-        bathrooms: Number(updatedForm.bathrooms),
-        hasStudy: updatedForm.hasStudy,
-        hasHelper: updatedForm.hasHelper,
-        hasBalcony: updatedForm.hasBalcony,
+        bedrooms: sanitizeNumber(updatedForm.bedrooms),
+        bathrooms: sanitizeNumber(updatedForm.bathrooms),
+        hasStudy: !!updatedForm.hasStudy,
+        hasHelper: !!updatedForm.hasHelper,
+        hasBalcony: !!updatedForm.hasBalcony,
         furnishing: updatedForm.furnishing,
-        sqft: Number(updatedForm.sqft),
-        addressBlk: Number(updatedForm.addressBlk),
+        sqft: sanitizeNumber(updatedForm.sqft),
+        addressBlk: sanitizeNumber(updatedForm.addressBlk),
         addressStreet: updatedForm.addressStreet,
         addressPostalCode: updatedForm.addressPostalCode,
         addressFloor: updatedForm.addressFloor
-          ? Number(updatedForm.addressFloor)
+          ? sanitizeNumber(updatedForm.addressFloor)
           : undefined,
         addressUnit: updatedForm.addressUnit
-          ? Number(updatedForm.addressUnit)
+          ? sanitizeNumber(updatedForm.addressUnit)
           : undefined,
         coordinates: {
-          lat: Number(updatedForm.coordinatesLat),
-          lng: Number(updatedForm.coordinatesLng),
+          lat: sanitizeNumber(updatedForm.coordinatesLat),
+          lng: sanitizeNumber(updatedForm.coordinatesLng),
         },
-        nearbyMRT: nearbyMRT,
-        facilities: updatedForm.facilities
-          ? updatedForm.facilities.split(",").map((f: string) => f.trim())
-          : [],
-        parkingAvailable: updatedForm.parkingAvailable,
+        nearbyMRT: mrtHook.nearbyMRT,
+        facilities: sanitizeFacilities(updatedForm.facilities),
+        parkingAvailable: !!updatedForm.parkingAvailable,
         parkingType:
           updatedForm.parkingType === "" ? null : updatedForm.parkingType,
         parkingSpaces: updatedForm.parkingSpaces
-          ? Number(updatedForm.parkingSpaces)
+          ? sanitizeNumber(updatedForm.parkingSpaces)
+          : 0,
+        nearbyAmenities: amenitiesHook.amenities,
+        perMonth: sanitizeNumber(updatedForm.perMonth),
+        utilitiesIncluded: sanitizeArray(updatedForm.utilitiesIncluded),
+        deposit: sanitizeNumber(updatedForm.securityDeposit),
+        agentFee: updatedForm.agentFee
+          ? sanitizeNumber(updatedForm.agentFee)
           : undefined,
-        nearbyAmenities: amenities,
-        perMonth: updatedForm.perMonth,
-        utilitiesIncluded: updatedForm.utilitiesIncluded
-          ? updatedForm.utilitiesIncluded
-              .split(",")
-              .map((u: string) => u.trim())
-          : [],
-        securityDeposit: updatedForm.securityDeposit,
-        agentFee: updatedForm.agentFee || undefined,
         leasePeriod: updatedForm.leasePeriod,
         preferredGender: updatedForm.preferredGender || "No Preference",
         preferredNationality:
           updatedForm.preferredNationality || "No Preference",
-        preferredOccupation: updatedForm.preferredOccupation
-          ? updatedForm.preferredOccupation
-              .split(",")
-              .map((o: string) => o.trim())
-          : [],
-        maxOccupants: Number(updatedForm.maxOccupants),
+        preferredOccupation: sanitizeOccupation(
+          updatedForm.preferredOccupation
+        ),
+        maxOccupants: sanitizeNumber(updatedForm.maxOccupants),
         images: images,
-        isActive: updatedForm.isActive,
-        isFeatured: updatedForm.isFeatured,
-        isVerified: updatedForm.isVerified,
-        universityTravelTimes: updatedForm.universityTravelTimes
-          ? JSON.parse(updatedForm.universityTravelTimes)
-          : {},
-        availableFrom: updatedForm.availableFrom,
+        isActive: !!updatedForm.isActive,
+        isFeatured: !!updatedForm.isFeatured,
+        isVerified: !!updatedForm.isVerified,
+        universityTravelTimes: updatedForm.universityTravelTimes,
+        availableFrom: sanitizeDate(updatedForm.availableFrom),
       };
       const res = await fetch("/api/listings/add", {
         method: "POST",
@@ -176,6 +206,7 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
       if (res.ok) {
         setSuccess(true);
         setForm((f) => ({ ...f, description: "" }));
+        setLastAddedId(data.id);
       } else {
         const errData = await res.json();
         setError(errData.error || "Failed to add property");
@@ -185,61 +216,6 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const handleAutoPopulateCoordinates = async () => {
-    try {
-      const address = `${form.addressBlk} ${form.addressStreet} Singapore ${form.addressPostalCode}`;
-      const coords = await geocodeAddress(address, GOOGLE_API_KEY);
-      setForm((prev) => ({
-        ...prev,
-        coordinatesLat: coords.lat.toString(),
-        coordinatesLng: coords.lng.toString(),
-      }));
-    } catch {
-      setError("Failed to fetch coordinates from address");
-    }
-  };
-
-  const handleAutoPopulateMRT = async (): Promise<
-    {
-      name: string;
-      line: string[];
-      distance: number;
-    }[]
-  > => {
-    try {
-      const lat = Number(form.coordinatesLat);
-      const lng = Number(form.coordinatesLng);
-      if (!lat || !lng) throw new Error("Coordinates required");
-      const stations = await fetchNearbyMRT(lat, lng);
-      setNearbyMRT(stations);
-      return stations;
-    } catch {
-      setError("Failed to fetch nearby MRT stations");
-      setNearbyMRT([]);
-      return [];
-    }
-  };
-
-  const handleAddAmenity = () => {
-    if (!amenityName || !amenityDistance || isNaN(Number(amenityDistance)))
-      return;
-    setAmenities((prev) => [
-      ...prev,
-      {
-        name: amenityName,
-        distance: Number(amenityDistance),
-        type: amenityType as LocationInfo["type"],
-      },
-    ]);
-    setAmenityName("");
-    setAmenityDistance("");
-    setAmenityType("Mall");
-  };
-
-  const handleRemoveAmenity = (idx: number) => {
-    setAmenities((prev) => prev.filter((_, i) => i !== idx));
   };
 
   return {
@@ -253,21 +229,12 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
     setError,
     images,
     setImages,
-    nearbyMRT,
-    setNearbyMRT,
-    amenityName,
-    setAmenityName,
-    amenityDistance,
-    setAmenityDistance,
-    amenityType,
-    setAmenityType,
-    amenities,
-    setAmenities,
+    lastAddedId,
+    ...amenitiesHook,
+    ...mrtHook,
     handleChange,
+    handleToggleUtility,
     handleSubmit,
     handleAutoPopulateCoordinates,
-    handleAutoPopulateMRT,
-    handleAddAmenity,
-    handleRemoveAmenity,
   };
 }

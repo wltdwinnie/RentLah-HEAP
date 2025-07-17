@@ -123,12 +123,24 @@ export const NATIONALITY_TYPES = [
 ] as const;
 export type NationalityType = typeof NATIONALITY_TYPES[number];
 
-// Amenity Types (for facilities)
+// Amenity Types (For nearby amenities)
 export const AMENITY_TYPES = [
-  "Swimming Pool",
+  "Mall",
+  "School",
+  "Hawker Centre",
+  "Clinic",
   "Gym",
-  "Tennis Court",
-  "BBQ Pit",
-  "Playground",
+  "Park",
+  "Supermarket",
+  "Library",
+  "Community Centre",
+  "Restaurant",
+  "Bus Stop",
+  "Others",
 ] as const;
 export type AmenityType = typeof AMENITY_TYPES[number];
+
+// Utility Types 
+export const UTILITIES = [
+  "PUB", "Internet", "AirCon Service"];
+export type UtilityType = typeof UTILITIES[number];
