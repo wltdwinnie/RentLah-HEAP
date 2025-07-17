@@ -7,7 +7,7 @@ import Link from "next/link";
 // import { SettingsMenu } from "@/components/settings-menu";
 import { usePathname, useRouter } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
-import { Bell } from "lucide-react";
+import { Bell, MessageSquare } from "lucide-react";
 import Notification from "../features/Notification";
 import { authClient } from "@/lib/authClient";
 
@@ -99,6 +99,10 @@ export default function Header() {
           >
             <Bell className="h-6 w-6" />
           </button>
+
+          <Link href="/chat" className={styles.chat}>
+            <MessageSquare className="h-6 w-6" />
+          </Link>
 
           {/* Auth buttons or user profile */}
           {!authLoading &&
