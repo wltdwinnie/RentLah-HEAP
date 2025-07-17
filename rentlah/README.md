@@ -66,4 +66,4 @@ Deploying to Vercel
 3. Set the project root to /client when prompted.
 4. Framework: Next.js
 5. Add required environment variables in Project Settings.
-6. Click Deploy.
+6. Click Deploy. 

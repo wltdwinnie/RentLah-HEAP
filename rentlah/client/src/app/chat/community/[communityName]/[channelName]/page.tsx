@@ -6,19 +6,19 @@ import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
 import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
-import { 
-  MessageType, 
-  ChatUser, 
-  ApiMessageResponse, 
-  ApiUserResponse, 
-  SocketMessageData, 
+import {
+  MessageType,
+  ChatUser,
+  ApiMessageResponse,
+  ApiUserResponse,
+  SocketMessageData,
   SenderNameMap,
-  CommunityPageProps 
+  CommunityPageProps
 } from "@/app/chat/types/chat";
 
 const Page = ({ params }: CommunityPageProps) => {
   const { communityName, channelName } = use(params);
-  
+
   const [currentUser, setCurrentUser] = useState<ChatUser | null>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -45,8 +45,8 @@ const Page = ({ params }: CommunityPageProps) => {
         const res = await fetch("/api/me");
         if (!res.ok) return;
         const data: ApiUserResponse = await res.json();
-        setCurrentUser({ 
-          id: data.id, 
+        setCurrentUser({
+          id: data.id,
           name: data.name || data.email?.split("@")[0] || "Unknown User",
           email: data.email,
           image: data.image,
@@ -71,7 +71,7 @@ const Page = ({ params }: CommunityPageProps) => {
       if (before) url.searchParams.append("before", before);
 
       const res = await fetch(url.toString());
-      
+
       if (!res.ok) {
         console.error("Failed to fetch messages:", res.status, res.statusText);
         setLoadingOlder(false);
@@ -88,7 +88,7 @@ const Page = ({ params }: CommunityPageProps) => {
 
       const uniqueSenderIds = [...new Set(data.map((msg: ApiMessageResponse) => msg.sender_id))];
       const senderNames: SenderNameMap = {};
-      
+
       await Promise.all(
         uniqueSenderIds.map(async (senderId: string): Promise<void> => {
           try {
@@ -147,7 +147,7 @@ const Page = ({ params }: CommunityPageProps) => {
     if (room && currentUser && !firstRenderDone) {
       fetchMessages().then(() => {
         requestAnimationFrame(() => {
-          scrollToBottom(false); 
+          scrollToBottom(false);
           setFirstRenderDone(true);
         });
       });
@@ -178,23 +178,28 @@ const Page = ({ params }: CommunityPageProps) => {
               senderName = "Unknown User";
             }
           }
-          
+
           const newMessage: MessageType = {
             sender: senderName,
             message: data.message,
             created_at: data.created_at || new Date().toISOString(),
             sender_id: data.sender_id || data.user_id,
           };
-          
+
           setMessages((prev) => [...prev, newMessage]);
           requestAnimationFrame(() => scrollToBottom(true));
         }
       };
 
-      socket.on("message", onMessage);
-      
+      const wrappedOnMessage = (...args: unknown[]) => {
+        const data = args[0] as SocketMessageData;
+        void onMessage(data);
+      };
+
+      socket.on("message", wrappedOnMessage);
+
       return () => {
-        socket.off("message", onMessage);
+        socket.off("message", wrappedOnMessage);
       };
     } catch (err) {
       console.warn("Chat socket connection unavailable:", err);
@@ -245,7 +250,7 @@ const Page = ({ params }: CommunityPageProps) => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header 
+      <Header
         imageUrl={undefined}
         name={`#${channelName}`}
       />
@@ -262,12 +267,12 @@ const Page = ({ params }: CommunityPageProps) => {
                 </div>
               </div>
             )}
-            
+
             <ChatMessage
               sender={msg.sender}
               message={msg.message}
-              isOwnMessage={msg.sender_id === currentUser.id} 
-              otherUserImage={undefined} 
+              isOwnMessage={msg.sender_id === currentUser.id}
+              otherUserImage={undefined}
               created_at={msg.created_at}
             />
           </div>
