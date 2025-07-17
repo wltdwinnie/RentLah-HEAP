@@ -17,6 +17,7 @@ export default function EditPropertyPage({
   const [loading, setLoading] = useState(true);
   const [initialData, setInitialData] = useState<Listing | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [userId, setUserId] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -28,6 +29,16 @@ export default function EditPropertyPage({
     }
     fetchListing();
   }, [id]);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const session = await import("@/lib/authClient").then(m => m.authClient.getSession());
+      if (session && session.data && session.data.user) {
+        setUserId(session.data.user.id);
+      }
+    }
+    fetchUser();
+  }, []);
 
   const {
     form,
@@ -101,6 +112,14 @@ export default function EditPropertyPage({
   }, [success]);
 
   if (loading) return <div>Loading...</div>;
+  if (initialData && userId && initialData.userId !== userId) {
+    return (
+      <div className="max-w-2xl mx-auto py-8 text-center">
+        <h1 className="text-2xl font-bold mb-4">Unauthorized</h1>
+        <p className="text-red-600">You do not have permission to edit this listing.</p>
+      </div>
+    );
+  }
 
   return (
     <>
