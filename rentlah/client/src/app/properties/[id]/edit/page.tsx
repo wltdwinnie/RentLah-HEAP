@@ -177,6 +177,7 @@ export default function EditPropertyPage({
         handleRemoveAmenity={handleRemoveAmenity}
         title="Edit Property"
         availableFrom={form.availableFrom}
+        mode="edit"
       />
     </>
   );
