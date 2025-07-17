@@ -35,6 +35,7 @@
     max-width: 100vw;
     padding-left: 0;
     padding-right: 0;
+    padding-top: 100px;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
     display: flex;
@@ -49,25 +50,51 @@
     background: none;
 }
 
-.welcomeSection::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/assets/sgp-landscape.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(5px);
-    z-index: 0;
-    transform: scale(1.05);
-}
-
 .welcomeSection > * {
     position: relative;
     z-index: 1;
+}
+
+.videoBg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none; /* makes sure clicks go to content, not video */
+}
+
+.boxOverlay {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background: rgba(255,255,255,0.80);
+    backdrop-filter: blur(5px);
+    padding: 2.5rem 3rem;
+    border-radius: 1.5rem;
+    max-width: 600px;
+    width: 90vw;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,.10);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+@media (max-width: 600px) {
+  .boxOverlay {
+    max-width: 95vw;
+    padding: 1.5rem 1rem;
+    top: 65%;
+  }
+}
+
+.rentlahBold {
+  font-weight: 900; /* Extra bold or black */
+  color: hsl(var(--primary)); /* Optional: keep same primary color or customize */
+
 }
 
 .title {
@@ -75,7 +102,7 @@
     font-weight: bold;
     color: hsl(var(--primary));
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+
 }
 
 .welcdescription {
@@ -95,11 +122,51 @@
 }
 
 .imageContainer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: auto;
-  z-index: 10;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: auto;
+    z-index: 10;
+}
+
+.uniDropdownHome {
+    min-width: 420px;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    font-size: 1.25rem;
+    border-radius: 1rem;
+}
+
+.uniSelectBlock {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.uniDropdownHomeBig {
+    min-width: 420px;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    font-size: 1.25rem;
+    border-radius: 1rem;
+    padding-left: 3rem; /* leaves space for the icon */
+}
+
+.gradHatAbsolute {
+    position: absolute;
+    left: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1.5rem;
+    width: 1.5rem;
+    color: var(--primary);
+    pointer-events: none;
+    z-index: 2;
+    height: 2rem;
+    width: 2rem;
+    color: var(--primary);
 }
 
 /* Featured Listings */
@@ -136,12 +203,19 @@
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
+    will-change: transform;
 }
 
 .benefitCard svg {
     margin-bottom: 0.75rem;       /* Space below icon */
 }
 
+.benefitCard:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+  z-index: 2;
+}
 
 /* Testimonials */
 .testimonialCard {
@@ -152,6 +226,8 @@
     border-radius: 6px;
     font-style: italic;
     color: #333;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
+    will-change: transform;
 }
 
 .testimonials {
@@ -162,9 +238,14 @@
     margin-top: 1.5rem;
 }
 
-.whitetext {
-    color: #fff;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+.testimonialCard:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+  z-index: 2;
+}
+
+.blacktext {
+    color: #000;
 }
 
 .lightbluetext {

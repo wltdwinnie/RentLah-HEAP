@@ -1,5 +1,3 @@
-// /chat/community/[communityName]/page.tsx
-
 export default function CommunityHome() {
   return (
     <div className="p-4">

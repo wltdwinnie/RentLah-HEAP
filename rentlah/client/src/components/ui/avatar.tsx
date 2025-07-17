@@ -1,5 +1,3 @@
-// src/components/ui/avatar.tsx
-
 import * as React from "react";
 import Image from "next/image";
 
@@ -17,13 +15,26 @@ export function Avatar({ children, className }: AvatarProps) {
 }
 
 type AvatarImageProps = {
-  src: string;
+  src?: string;
   alt?: string;
   className?: string;
 };
 
 export function AvatarImage({ src, alt = "avatar", className }: AvatarImageProps) {
-  return <Image src={src} alt={alt} className={`h-full w-full object-cover ${className}`} />;
+  // Don't render if src is empty, null, or undefined
+  if (!src || src.trim() === "") {
+    return null;
+  }
+
+  return (
+    <Image 
+      src={src} 
+      alt={alt} 
+      width={40}
+      height={40}
+      className={`h-full w-full object-cover ${className}`} 
+    />
+  );
 }
 
 type AvatarFallbackProps = {

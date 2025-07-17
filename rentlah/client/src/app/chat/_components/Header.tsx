@@ -1,13 +1,9 @@
 import { CircleArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { HeaderProps } from "@/app/chat/types/chat";
 
-type Props = {
-  imageUrl?: string;
-  name: string;
-};
-
-const Header = ({ imageUrl, name }: Props) => {
+const Header = ({ imageUrl, name }: HeaderProps) => {
   return (
     <div className="w-full h-14 flex items-center justify-between px-4 border-b bg-white">
       <div className="flex items-center gap-3">
