@@ -10,7 +10,7 @@ export default defineConfig({
   dbCredentials: {
     url: process.env.DATABASE_URL!,
   },
-  tablesFilter: ["!account", "!session", "!user", "!verification"],
+  tablesFilter: ["!account", "!session", "!user", "!verification", "!messages", "!scraped_rentals"],
   schemaFilter: ["public"],
 });
 

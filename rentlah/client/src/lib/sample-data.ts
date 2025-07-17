@@ -52,10 +52,8 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 3200,
-    utilities: {
-      included: ["Water", "Internet"],
-      deposit: 6400,
-    },
+    utilitiesIncluded: ["Internet"],
+    deposit: 6400,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 4,
@@ -67,14 +65,15 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
-      NTU: { distanceKm: 22.1, durationMin: 55 },
+      NUS: { distanceKm: 2.1, durationMin: 8 },
+      NTU: { distanceKm: 18.5, durationMin: 40 },
       SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SUTD: { distanceKm: 22.0, durationMin: 55 },
+      SIT: { distanceKm: 10.2, durationMin: 28 },
+      SUSS: { distanceKm: 5.5, durationMin: 15 },
     },
   },
   {
@@ -132,11 +131,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 3800,
-    utilities: {
-      included: ["Water", "Electricity", "Internet"],
-      deposit: 7600,
-      agentFee: 1900,
-    },
+    utilitiesIncluded: ["PUB", "Internet"],
+    deposit: 7600,
+    agentFee: 1900,
     leasePeriod: "long-term",
     tenantPreferences: {
       gender: "No Preference",
@@ -155,14 +152,15 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: true,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
-      NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      NTU: { distanceKm: 2.2, durationMin: 7 },
+      SMU: { distanceKm: 15.8, durationMin: 45 },
+      SUTD: { distanceKm: 8.4, durationMin: 20 },
+      SIT: { distanceKm: 5.2, durationMin: 12 },
+      SUSS: { distanceKm: 20.5, durationMin: 60 },
     },
   },
   {
@@ -215,11 +213,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 12000,
-    utilities: {
-      included: [],
-      deposit: 24000,
-      agentFee: 6000,
-    },
+    utilitiesIncluded: [],
+    deposit: 24000,
+    agentFee: 6000,
     leasePeriod: "long-term",
     tenantPreferences: {
       nationality: "No Preference",
@@ -232,11 +228,12 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: true,
     isVerified: false,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
-      NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
+      NUS: { distanceKm: 22.3, durationMin: 60 },
+      NTU: { distanceKm: 12.1, durationMin: 30 },
+      SMU: { distanceKm: 2.8, durationMin: 10 },
       SUTD: { distanceKm: 18.4, durationMin: 45 },
       SIT: { distanceKm: 15.2, durationMin: 40 },
       SUSS: { distanceKm: 10.5, durationMin: 30 },
@@ -289,10 +286,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 2400,
-    utilities: {
-      included: ["Water"],
-      deposit: 4800,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 4800,
+    agentFee: 1200,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 4,
@@ -308,14 +304,15 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -381,11 +378,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 15000,
-    utilities: {
-      included: ["Water", "Electricity", "Internet", "Cable TV"],
-      deposit: 30000,
-      agentFee: 7500,
-    },
+    utilitiesIncluded: ["PUB", "Internet", "AirCon Service"],
+    deposit: 30000,
+    agentFee: 7500,
     leasePeriod: "long-term",
     tenantPreferences: {
       nationality: "No Preference",
@@ -403,6 +398,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: true,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -474,11 +470,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 8500,
-    utilities: {
-      included: ["Water"],
-      deposit: 17000,
-      agentFee: 4250,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 17000,
+    agentFee: 4250,
     leasePeriod: "long-term",
     tenantPreferences: {
       nationality: "No Preference",
@@ -492,14 +486,15 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -549,10 +544,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 1800,
-    utilities: {
-      included: ["Water", "Internet"],
-      deposit: 3600,
-    },
+    utilitiesIncluded: ["PUB", "Internet"],
+    deposit: 3600,
+    agentFee: 900,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 2,
@@ -569,6 +563,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -629,11 +624,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 14000,
-    utilities: {
-      included: [],
-      deposit: 28000,
-      agentFee: 7000,
-    },
+    utilitiesIncluded: [],
+    deposit: 28000,
+    agentFee: 7000,
     leasePeriod: "long-term",
     tenantPreferences: {
       nationality: "No Preference",
@@ -646,14 +639,15 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: true,
     isVerified: false,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -707,10 +701,8 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 3500,
-    utilities: {
-      included: ["Water"],
-      deposit: 7000,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 7000,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 6,
@@ -722,14 +714,15 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -782,11 +775,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 2800,
-    utilities: {
-      included: ["Water", "Electricity", "Internet"],
-      deposit: 5600,
-      agentFee: 1400,
-    },
+    utilitiesIncluded: ["PUB", "Internet"],
+    deposit: 5600,
+    agentFee: 1400,
     leasePeriod: "long-term",
     tenantPreferences: {
       gender: "No Preference",
@@ -801,6 +792,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -825,7 +817,7 @@ export const sampleListings: Listing[] = [
       },
     },
     description:
-      "[SAMPLE] Modern 3-bedroom BTO flat in vibrant Punggol New Town. Featuring contemporary design with open concept living. Close to Punggol MRT and Waterway Point shopping mall. Perfect for young families with nearby schools and recreational facilities. Bright and airy with excellent Punggol Waterway views.",
+      "[SAMPLE] Modern 3-bedroom BTO flat in vibrant Punggol New Town. Featuring contemporary design with open concept living. Close to Punggol MRT and PUBway Point shopping mall. Perfect for young families with nearby schools and recreational facilities. Bright and airy with excellent Punggol PUBway views.",
     aptType: "3-bedroom",
     propertyType: "HDB",
     roomConfig: {
@@ -851,21 +843,19 @@ export const sampleListings: Listing[] = [
     },
     nearbyAmenities: [
       {
-        name: "Waterway Point",
+        name: "PUBway Point",
         distance: 400,
         type: "Mall",
       },
       {
-        name: "Punggol Waterway Park",
+        name: "Punggol PUBway Park",
         distance: 600,
         type: "Gym",
       },
     ],
     perMonth: 3000,
-    utilities: {
-      included: ["Water"],
-      deposit: 6000,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 6000,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 4,
@@ -877,6 +867,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -943,11 +934,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 6500,
-    utilities: {
-      included: ["Water", "Internet"],
-      deposit: 13000,
-      agentFee: 3250,
-    },
+    utilitiesIncluded: ["PUB", "Internet"],
+    deposit: 13000,
+    agentFee: 3250,
     leasePeriod: "long-term",
     tenantPreferences: {
       nationality: "No Preference",
@@ -961,14 +950,15 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: true,
     isVerified: false,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
-      NUS: { distanceKm: 12.3, durationMin: 35 },
+      NUS: { distanceKm: 10.3, durationMin: 25 },
       NTU: { distanceKm: 22.1, durationMin: 55 },
-      SMU: { distanceKm: 7.8, durationMin: 25 },
-      SUTD: { distanceKm: 18.4, durationMin: 45 },
-      SIT: { distanceKm: 15.2, durationMin: 40 },
-      SUSS: { distanceKm: 10.5, durationMin: 30 },
+      SMU: { distanceKm: 17.8, durationMin: 50 },
+      SUTD: { distanceKm: 4.4, durationMin: 12 },
+      SIT: { distanceKm: 25.2, durationMin: 70 },
+      SUSS: { distanceKm: 8.5, durationMin: 22 },
     },
   },
   {
@@ -1022,10 +1012,8 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 3800,
-    utilities: {
-      included: ["Water"],
-      deposit: 7600,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 7600,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 6,
@@ -1037,6 +1025,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -1059,7 +1048,7 @@ export const sampleListings: Listing[] = [
       },
     },
     description:
-      "[SAMPLE] Exclusive waterfront bungalow in prestigious Sentosa Cove. Panoramic sea views with private beach access. Spacious 5-bedroom layout with entertainment areas and wine cellar. Resort-style living with marina berth included. Ultimate luxury for discerning tenants seeking privacy and exclusivity.",
+      "[SAMPLE] Exclusive PUBfront bungalow in prestigious Sentosa Cove. Panoramic sea views with private beach access. Spacious 5-bedroom layout with entertainment areas and wine cellar. Resort-style living with marina berth included. Ultimate luxury for discerning tenants seeking privacy and exclusivity.",
     aptType: "detached",
     propertyType: "Landed",
     roomConfig: {
@@ -1102,11 +1091,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 25000,
-    utilities: {
-      included: [],
-      deposit: 50000,
-      agentFee: 12500,
-    },
+    utilitiesIncluded: [],
+    deposit: 50000,
+    agentFee: 12500,
     leasePeriod: "long-term",
     tenantPreferences: {
       nationality: "No Preference",
@@ -1120,6 +1107,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: true,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -1178,10 +1166,8 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 2200,
-    utilities: {
-      included: ["Water"],
-      deposit: 4400,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 4400,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 2,
@@ -1193,6 +1179,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -1258,11 +1245,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 3200,
-    utilities: {
-      included: ["Water", "Internet"],
-      deposit: 6400,
-      agentFee: 1600,
-    },
+    utilitiesIncluded: ["PUB", "Internet"],
+    deposit: 6400,
+    agentFee: 1600,
     leasePeriod: "long-term",
     tenantPreferences: {
       occupation: ["Young Professional"],
@@ -1275,6 +1260,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: false,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -1336,10 +1322,8 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 3600,
-    utilities: {
-      included: ["Water"],
-      deposit: 7200,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 7200,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 6,
@@ -1351,6 +1335,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -1423,11 +1408,9 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 12500,
-    utilities: {
-      included: ["Water", "Internet"],
-      deposit: 25000,
-      agentFee: 6250,
-    },
+    utilitiesIncluded: ["PUB", "Internet"],
+    deposit: 25000,
+    agentFee: 6250,
     leasePeriod: "long-term",
     tenantPreferences: {
       nationality: "No Preference",
@@ -1441,6 +1424,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: true,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -1501,10 +1485,8 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 2800,
-    utilities: {
-      included: ["Water"],
-      deposit: 5600,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 5600,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 4,
@@ -1516,6 +1498,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },
@@ -1577,10 +1560,8 @@ export const sampleListings: Listing[] = [
       },
     ],
     perMonth: 3400,
-    utilities: {
-      included: ["Water"],
-      deposit: 6800,
-    },
+    utilitiesIncluded: ["PUB"],
+    deposit: 6800,
     leasePeriod: "long-term",
     tenantPreferences: {
       maxOccupants: 6,
@@ -1596,6 +1577,7 @@ export const sampleListings: Listing[] = [
     isActive: true,
     isFeatured: false,
     isVerified: true,
+    availableFrom: new Date("2025-01-01T00:00:00Z"),
     // Add mock universityTravelTimes for demo
     universityTravelTimes: {
       NUS: { distanceKm: 12.3, durationMin: 35 },

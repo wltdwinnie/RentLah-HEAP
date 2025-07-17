@@ -119,7 +119,6 @@ export function parseDistanceFilter(distanceFilter: string): number | null {
  * @param destination { lat, lng }
  * @param apiKey Google Maps API key (Distance Matrix API enabled)
  * @returns { distanceKm, durationMin } or null if failed
- * Note: Do NOT expose your API key in client-side production code!
  */
 export async function getGoogleTravelDistanceAndTime(
   origin: { lat: number; lng: number },
