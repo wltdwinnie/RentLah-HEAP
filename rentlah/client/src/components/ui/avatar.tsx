@@ -1,6 +1,7 @@
 // src/components/ui/avatar.tsx
 
 import * as React from "react";
+import Image from "next/image";
 
 type AvatarProps = {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ type AvatarImageProps = {
 };
 
 export function AvatarImage({ src, alt = "avatar", className }: AvatarImageProps) {
-  return <img src={src} alt={alt} className={`h-full w-full object-cover ${className}`} />;
+  return <Image src={src} alt={alt} className={`h-full w-full object-cover ${className}`} />;
 }
 
 type AvatarFallbackProps = {

@@ -5,11 +5,11 @@ export function PropertyImageUpload({
   onUploadComplete,
   onUploadError,
 }: {
-  onUploadComplete: (res: any) => void;
+  onUploadComplete: (res: unknown) => void;
   onUploadError?: (error: Error) => void;
 }) {
   return (
-    <UploadButton<OurFileRouter, unknown>
+    <UploadButton<OurFileRouter, "imageUploader">
       endpoint="imageUploader"
       onClientUploadComplete={onUploadComplete}
       onUploadError={onUploadError}
