@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "../components/theme-provider";
 import "@/styles/globals.css";
+import Header from "@/components/layouts/Header";
+
 
 export const metadata: Metadata = {
   title: "RentLah",
@@ -15,7 +17,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <head />
+        <head>
+          <link rel="icon" type="image/png" href="/homeicon.png" />
+          <title>RentLah</title>
+          <meta name="description" content="Find your next home easily!" />
+        </head>
+
         <body>
           <ThemeProvider
             attribute="class"

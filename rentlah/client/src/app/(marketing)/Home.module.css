@@ -88,11 +88,10 @@
     text-align: center;
 }
 
-.dark .boxOverlay {
-    background: rgba(0,0,0,0.80);
+:global(.dark) .boxOverlay {
+    background: rgba(0, 0, 0, 0.377);
     color: white;
-}
-
+  }
 @media (max-width: 600px) {
   .boxOverlay {
     max-width: 95vw;
@@ -126,7 +125,7 @@
     ;
 }
 
-.dark .welcdescription {
+:global(.dark) .welcdescription {
     color: white;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
 }
@@ -136,7 +135,7 @@
     max-width: 600px;
     margin: 0 0 2rem 0;
 }
-.dark .description {
+:global(.dark) .description {
     color: white;
 }
 
@@ -278,6 +277,10 @@
 
 .blacktext {
     color: #000;
+}
+
+:global(.dark) .blacktext {
+    color: white;
 }
 
 .lightbluetext {

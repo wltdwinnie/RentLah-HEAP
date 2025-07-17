@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/authClient";
 import { Eye, EyeOff, Lock, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
+
 
 // Client component that uses useSearchParams
 const ResetPasswordClient = () => {
@@ -18,6 +20,8 @@ const ResetPasswordClient = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
     const searchParams = useSearchParams();
+    const { resolvedTheme } = useTheme();
+
     
     // Get token safely with useEffect
     useEffect(() => {
