@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { Listing } from "@/lib/definition";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Footprints, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, Footprints } from "lucide-react";
+import { Button, SaveButton } from "@/components/ui/button";
 import { useState } from "react";
 
 const Card = React.forwardRef<
@@ -169,20 +169,15 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
           )}
 
           <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start">
-            {/* <div className="bg-black/50 text-white px-3 py-2 rounded-lg text-sm font-semibold">
-              ${listing.perMonth}/mo
-            </div> */}
-            <Button
-              size="icon"
-              className="bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation();
-                // Save functionality - could be implemented with user favorites
-                console.log('Save listing:', listing.id);
+            <SaveButton
+              initialSaved={false}
+              onToggle={(saved) => {
+                console.log(
+                  "the accomodation is saved",
+                  saved
+                ); /* implement saved accomodation logic */
               }}
-            >
-              <Heart className="h-5 w-5 text-white" />
-            </Button>
+            />
           </div>
         </div>
         <CardHeader>
