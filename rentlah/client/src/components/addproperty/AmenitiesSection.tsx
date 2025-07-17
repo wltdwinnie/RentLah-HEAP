@@ -68,7 +68,7 @@ export function AmenitiesSection({
         <button
           type="button"
           onClick={handleAddAmenity}
-          className="bg-blue-700 hover:bg-blue-800 text-white rounded-2xl p-2 transition-colors"
+          className="bg-blue-700 hover:bg-blue-800 text-white rounded-2xl p-2 transition-colors w-20"
         >
           Add
         </button>

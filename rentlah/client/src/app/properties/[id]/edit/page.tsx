@@ -1,36 +1,34 @@
 "use client";
 
+import React from "react";
 import { useEffect, useState } from "react";
-import { useAddPropertyForm } from "@/hooks/useAddPropertyForm";
-import { AddressSection } from "@/components/addproperty/AddressSection";
-import { PropertyDetailsSection } from "@/components/addproperty/PropertyDetailsSection";
-import { AmenitiesSection } from "@/components/addproperty/AmenitiesSection";
-import { ParkingSection } from "@/components/addproperty/ParkingSection";
-import { LeaseSection } from "@/components/addproperty/LeaseSection";
-import { PreferencesSection } from "@/components/addproperty/PreferencesSection";
-import { PropertyImageUploadSection } from "@/components/addproperty/PropertyImageUploadSection";
-import { getListingById } from "@/db/queries/select";
-import { NearbyMRTSection } from "@/components/addproperty/NearbyMRTSection";
-import { Listing } from "@/lib/definition";
+import { useAddPropertyForm } from "@/hooks/useAddPropertyForm/index";
+import { Listing, MRTInfo } from "@/lib/definition";
+import { UtilityType } from "@/lib/constants";
+import { PropertyFormPage } from "@/components/addproperty/PropertyFormPage";
+import { useRouter } from "next/navigation";
 
 export default function EditPropertyPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = React.use(params);
   const [loading, setLoading] = useState(true);
-  const [initialData, setInitialData] = useState<any>();
+  const [initialData, setInitialData] = useState<Listing | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchListing() {
-      const listing = await getListingById(params.id);
-      setInitialData(listing[0]);
+      const res = await fetch(`/api/listings?id=${id}`);
+      const listings = await res.json();
+      setInitialData(listings[0]);
       setLoading(false);
     }
     fetchListing();
-  }, [params.id]);
+  }, [id]);
 
-  // Use the custom hook for all form state and handlers
   const {
     form,
     setForm,
@@ -49,91 +47,117 @@ export default function EditPropertyPage({
     setAmenityType,
     amenities,
     handleChange,
+    handleToggleUtility,
     handleSubmit,
     handleAutoPopulateCoordinates,
     handleAutoPopulateMRT,
     handleAddAmenity,
     handleRemoveAmenity,
   } = useAddPropertyForm(
-    initialData,
+    id,
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
   );
 
   useEffect(() => {
     if (initialData) {
-      setForm({ ...form, ...initialData });
+      setForm({
+        ...form,
+        ...initialData,
+        addressBlk: initialData.address?.blk?.toString() ?? "",
+        addressStreet: initialData.address?.street ?? "",
+        addressPostalCode: initialData.address?.postalCode ?? "",
+        addressFloor: initialData.address?.floor?.toString() ?? "",
+        addressUnit: initialData.address?.unit?.toString() ?? "",
+        coordinatesLat: initialData.address?.coordinates?.lat?.toString() ?? "",
+        coordinatesLng: initialData.address?.coordinates?.lng?.toString() ?? "",
+        bedrooms: initialData.roomConfig?.bedrooms ?? 0,
+        bathrooms: initialData.roomConfig?.bathrooms ?? 0,
+        sqft: initialData.sqft ?? 0,
+        facilities: Array.isArray(initialData.facilities)
+          ? initialData.facilities
+          : initialData.facilities
+          ? [initialData.facilities]
+          : [],
+        utilitiesIncluded: Array.isArray(initialData.utilitiesIncluded)
+          ? initialData.utilitiesIncluded as UtilityType[]
+          : [],
+        securityDeposit: initialData.deposit ?? initialData.perMonth,
+        agentFee: initialData.agentFee ?? 0,
+        perMonth: initialData.perMonth ?? 0,
+        universityTravelTimes: initialData.universityTravelTimes
+          ? JSON.stringify(initialData.universityTravelTimes)
+          : "",
+        availableFrom: initialData.availableFrom
+          ? new Date(initialData.availableFrom).toISOString().slice(0, 10)
+          : "",
+      });
       setImages(initialData.images || []);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData]);
 
+  useEffect(() => {
+    if (success) setShowSuccessModal(true);
+  }, [success]);
+
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-4">Edit Property</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 bg-white shadow-lg rounded-2xl p-8"
-      >
-        <AddressSection
-          form={form}
-          handleChange={handleChange}
-          handleAutoPopulateCoordinates={handleAutoPopulateCoordinates}
-        />
-        <textarea
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          placeholder="Description"
-          className="border p-3 rounded-2xl w-full"
-          required
-        />
-        <PropertyDetailsSection
-          form={{
-            ...form,
-            bedrooms: String(form.bedrooms ?? ""),
-            bathrooms: String(form.bathrooms ?? ""),
-            sqft: String(form.sqft ?? ""),
-          }}
-          handleChange={handleChange}
-        />
-
-        <AmenitiesSection
-          amenityName={amenityName}
-          setAmenityName={setAmenityName}
-          amenityDistance={amenityDistance}
-          setAmenityDistance={setAmenityDistance}
-          amenityType={amenityType}
-          setAmenityType={setAmenityType}
-          amenities={amenities}
-          handleAddAmenity={handleAddAmenity}
-          handleRemoveAmenity={handleRemoveAmenity}
-        />
-        <ParkingSection form={form} handleChange={handleChange} />
-        <NearbyMRTSection
-          nearbyMRT={nearbyMRT}
-          handleAutoPopulateMRT={handleAutoPopulateMRT}
-        />
-        <LeaseSection form={form} handleChange={handleChange} />
-        <PreferencesSection form={form} handleChange={handleChange} />
-        <PropertyImageUploadSection
-          images={images}
-          setImages={setImages}
-          setError={setError}
-        />
-        <button
-          type="submit"
-          className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-2xl transition-colors"
-          disabled={submitting}
-        >
-          {submitting ? "Saving..." : "Save Changes"}
-        </button>
-        {success && (
-          <div className="text-green-600">Property updated successfully!</div>
-        )}
-        {error && <div className="text-red-600">{error}</div>}
-      </form>
-    </div>
+    <>
+      {showSuccessModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+            <h2 className="text-xl font-bold mb-4">Property updated successfully!</h2>
+            <div className="flex flex-col gap-4">
+              <button
+                className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-2xl"
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  window.location.reload();
+                }}
+              >
+                Edit another listing
+              </button>
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl"
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  router.push(`/properties/${id}`);
+                }}
+              >
+                View updated property
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <PropertyFormPage
+        form={form}
+        setForm={setForm}
+        submitting={submitting}
+        success={success}
+        error={error}
+        setError={setError}
+        images={images}
+        setImages={setImages}
+        nearbyMRT={nearbyMRT as MRTInfo[]}
+        amenityName={amenityName}
+        setAmenityName={setAmenityName}
+        amenityDistance={amenityDistance}
+        setAmenityDistance={setAmenityDistance}
+        amenityType={amenityType}
+        setAmenityType={setAmenityType}
+        amenities={amenities}
+        handleChange={handleChange}
+        handleToggleUtility={handleToggleUtility}
+        handleSubmit={handleSubmit}
+        handleAutoPopulateCoordinates={handleAutoPopulateCoordinates}
+        handleAutoPopulateMRT={handleAutoPopulateMRT}
+        handleAddAmenity={handleAddAmenity}
+        handleRemoveAmenity={handleRemoveAmenity}
+        title="Edit Property"
+        availableFrom={form.availableFrom}
+      />
+    </>
   );
 }

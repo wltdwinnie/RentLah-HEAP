@@ -9,10 +9,14 @@ import { PropertyDetailsSection } from "@/components/addproperty/PropertyDetails
 import { PreferencesSection } from "@/components/addproperty/PreferencesSection";
 import { ParkingSection } from "@/components/addproperty/ParkingSection";
 import { LeaseSection } from "@/components/addproperty/LeaseSection";
-import { useAddPropertyForm } from "@/hooks/useAddPropertyForm";
+import { useAddPropertyForm } from "@/hooks/useAddPropertyForm/index";
+import { useRouter } from "next/navigation";
+import { MRTInfo } from "@/lib/definition";
 
 export default function AddPropertyPage() {
   const [user, setUser] = useState<string>("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,17 +36,14 @@ export default function AddPropertyPage() {
   // Use the custom hook for all form state and handlers
   const {
     form,
-    // setForm,
     submitting,
-    // setSubmitting,
     success,
-    // setSuccess,
     error,
     setError,
     images,
     setImages,
+    lastAddedId,
     nearbyMRT,
-    // setNearbyMRT,
     amenityName,
     setAmenityName,
     amenityDistance,
@@ -50,8 +51,8 @@ export default function AddPropertyPage() {
     amenityType,
     setAmenityType,
     amenities,
-    // setAmenities,
     handleChange,
+    handleToggleUtility,
     handleSubmit,
     handleAutoPopulateCoordinates,
     handleAutoPopulateMRT,
@@ -66,25 +67,60 @@ export default function AddPropertyPage() {
   const [mrtErrorMsg, setMrtErrorMsg] = useState("");
 
   // Wrap the hook's MRT handler to update status
-  const handleAutoPopulateMRTWithStatus = async () => {
+  const handleAutoPopulateMRTWithStatus = async (lat: number, lng: number): Promise<MRTInfo[]> => {
     setMrtStatus("loading");
     setMrtErrorMsg("");
     try {
-      const stations = await handleAutoPopulateMRT();
+      const stations = await handleAutoPopulateMRT(lat, lng);
       if (Array.isArray(stations) && stations.length > 0) {
         setMrtStatus("success");
       } else {
         setMrtStatus("success"); // No stations found, but not an error
       }
+      return stations;
     } catch {
       setMrtStatus("error");
       setMrtErrorMsg("Failed to fetch nearby MRT stations");
+      return [];
     }
   };
+
+  // Show modal when success is true
+  useEffect(() => {
+    if (success) setShowSuccessModal(true);
+  }, [success]);
 
   return (
     <div className="max-w-2xl mx-auto py-8">
       <h1 className="text-2xl font-bold mb-4">Add Property</h1>
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+            <h2 className="text-xl font-bold mb-4">Property added successfully!</h2>
+            <div className="flex flex-col gap-4">
+              <button
+                className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-2xl"
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  window.location.reload();
+                }}
+              >
+                Add another listing
+              </button>
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl"
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  router.push(`/properties/${lastAddedId}`);
+                }}
+              >
+                View added property
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {!isVerifiedUser ? (
         /* Display a message for unverified users */
         <div className="bg-yellow-100 text-yellow-800 p-4 rounded-2xl text-center font-semibold">
@@ -164,7 +200,17 @@ export default function AddPropertyPage() {
             handleAutoPopulateMRT={handleAutoPopulateMRTWithStatus}
           />
 
-          <LeaseSection form={form} handleChange={handleChange} />
+          <LeaseSection
+            form={{
+              ...form,
+              perMonth: String(form.perMonth ?? ""),
+              securityDeposit: String(form.securityDeposit ?? ""),
+              facilities: String(form.facilities ?? ""),
+              agentFee: form.agentFee !== undefined ? String(form.agentFee) : "",
+            }}
+            handleChange={handleChange}
+            handleToggleUtility={handleToggleUtility}
+          />
 
           <PreferencesSection form={form} handleChange={handleChange} />
 
