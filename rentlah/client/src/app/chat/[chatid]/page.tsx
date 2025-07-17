@@ -181,8 +181,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
           }
         } else {
           console.log("❌ Invalid message format:", messageData);
->>>>>>> e30f2c2bdbe46787fd772c34b768520bb0b915cc
-        }
+       }
       };
 
       const onConnect = () => {
