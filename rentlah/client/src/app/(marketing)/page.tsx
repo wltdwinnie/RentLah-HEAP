@@ -4,8 +4,9 @@ import { UniversityDropdown } from '@/components/quickfilters/university-filter'
 import { useRouter } from 'next/navigation';
 import { PropertyCardGroup } from "@/components/propertycard-group";
 import { fetchListings } from "@/lib/fetchListings";
-import { ShieldCheck, Wallet, MapPin, Users, GraduationCap} from "lucide-react";
-
+import { useEffect, useState } from 'react';
+import { ShieldCheck, Wallet, MapPin, Users, GraduationCap } from "lucide-react";
+import { Listing } from '@/lib/definition';
 
 export default function Home() {
   const router = useRouter();
