@@ -10,10 +10,11 @@
     z-index: 20; /* Add z-index for proper stacking */
 }
 
-.dark .header {
-    background-color: #18181b;
-}
-
+:global(html.dark) .header {
+    background-color: black;
+    color: white;
+  }
+  
 .logoContainer {
     flex-shrink: 0;
 }

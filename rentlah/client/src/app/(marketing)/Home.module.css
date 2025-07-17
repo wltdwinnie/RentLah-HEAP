@@ -83,6 +83,12 @@
     align-items: center;
     text-align: center;
 }
+
+.dark .boxOverlay {
+    background: rgba(0,0,0,0.80);
+    color: white;
+}
+
 @media (max-width: 600px) {
   .boxOverlay {
     max-width: 95vw;
@@ -97,6 +103,7 @@
 
 }
 
+
 .title {
     font-size: 4rem;
     font-weight: bold;
@@ -105,6 +112,7 @@
 
 }
 
+  
 .welcdescription {
     font-size: 1.2rem;
     color: #000;
@@ -114,11 +122,18 @@
     ;
 }
 
+.dark .welcdescription {
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+}
 .description {
     font-size: 1.2rem;
     color: #333;
     max-width: 600px;
     margin: 0 0 2rem 0;
+}
+.dark .description {
+    color: white;
 }
 
 .imageContainer {
@@ -137,6 +152,10 @@
     border-radius: 1rem;
 }
 
+.dark .uniDropdownHome {
+    color: white;
+}
+
 .uniSelectBlock {
     display: flex;
     align-items: center;
@@ -152,6 +171,9 @@
     font-size: 1.25rem;
     border-radius: 1rem;
     padding-left: 3rem; /* leaves space for the icon */
+}
+.dark .uniDropdownHomeBig {
+    color: white;
 }
 
 .gradHatAbsolute {
@@ -207,6 +229,12 @@
     will-change: transform;
 }
 
+/* Dark mode styling */
+:global(.dark) .benefitCard {
+    background: black;
+    color: white;
+  }
+  
 .benefitCard svg {
     margin-bottom: 0.75rem;       /* Space below icon */
 }

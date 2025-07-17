@@ -59,7 +59,8 @@ export function UniversityDropdown({
           ? universityDisplayUtils.getResponsiveDisplayText(selectedUniversity, isMobile)
           : universityDisplayUtils.getResponsiveDisplayText(value, isMobile)}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="rounded-xl">
+      <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
+
         {UNIVERSITIES.map((uni) => (
           <DropdownMenuItem
             key={uni.postalCode}

@@ -39,7 +39,7 @@ export default function Header() {
         setUser(session.data.user);
       } else {
         //Temporaty. Will add GUI later
-        if(!isHomePage){
+        if (!isHomePage) {
           alert("Please log in to access this page. Redirecting...");
           router.push("/");
         }
@@ -91,93 +91,93 @@ export default function Header() {
   };
 
   return (
-      <header className={styles.header}>
-        {/* Temporary logo */}
-        <div className={styles.logoContainer}>
-          <Link href="/">
-            <Image 
-              src="/assets/logo.png" 
-              alt="RentLah Logo" 
-              width={200} 
-              height={50}
-            />
-          </Link>
-        </div>
+    <header
+      className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 shadow-md">
+    
 
-        {/* Action Buttons */}
-        <div className={styles.actions}>
-          {/* Settings icon dropdown */}
-          {/* <div style={{ marginLeft: "1rem" }}>
-            <SettingsMenu />
-          </div> */}
-          <button
-            className={styles.bell}
-            onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-          >
-            <Bell className="h-6 w-6" />
-          </button>
+      {/* Temporary logo */}
+      <div className={styles.logoContainer}>
+        <Link href="/">
+          <Image
+            src="/assets/logo.png"
+            alt="RentLah Logo"
+            width={200}
+            height={50}
+          />
+        </Link>
+      </div>
 
-          <Link href="/chat" className={styles.chat}>
-            <MessageSquare className="h-6 w-6" />
-          </Link>
+      {/* Action Buttons */}
+      <div className="flex items-center gap-4">
+      <button
+        className={styles.bell}
+        onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+      >
+        <Bell className="h-6 w-6" />
+      </button>
 
-          {/* Auth buttons or user profile */}
-          {!authLoading &&
-            (user ? (
-              // Show Google logo as profile icon when authenticated
-              <div className={styles.profileSection}>
-                <div className={styles.profileDropdown}>
-                  <Image
-                    src= {user.image ? user.image : "/assets/profile_pic.webp"}
-                    alt="Profile"
-                    width={32}
-                    height={32}
-                    className={styles.profileIcon}
-                  />
-                  <div className={styles.profileMenu}>
-                    <div className={styles.profileEmail}>{user.email}</div>
-                    <hr className={styles.profileDivider} />
-                    <button className={styles.profileButton}>My Profile</button>
-                    <button
-                      className={styles.profileButton}
-                      onClick={() => router.push("/settings")}
-                    >
-                      Settings
-                    </button>
-                    <button
-                      className={styles.logoutButton}
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </button>
-                  </div>
+      <Link href="/chat" className={styles.chat}>
+        <MessageSquare className="h-6 w-6" />
+      </Link>
+
+
+        {/* Auth buttons or user profile */}
+        {!authLoading &&
+          (user ? (
+            // Show Google logo as profile icon when authenticated
+            <div className={styles.profileSection}>
+              <div className={styles.profileDropdown}>
+                <Image
+                  src={user.image ? user.image : "/assets/profile_pic.webp"}
+                  alt="Profile"
+                  width={32}
+                  height={32}
+                  className={styles.profileIcon}
+                />
+                <div className={styles.profileMenu}>
+                  <div className={styles.profileEmail}>{user.email}</div>
+                  <hr className={styles.profileDivider} />
+                  <button className={styles.profileButton}>My Profile</button>
+                  <button
+                    className={styles.profileButton}
+                    onClick={() => router.push("/settings")}
+                  >
+                    Settings
+                  </button>
+                  <button
+                    className={styles.logoutButton}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
                 </div>
               </div>
-            ) : (
-              // Show login/signup when not authenticated
-              <>
-                <button
-                  className={styles.login}
-                  onClick={() => openModal("login")}
-                >
-                  Login
-                </button>
-                <button
-                  className={styles.signup}
-                  onClick={() => openModal("signup")}
-                >
-                  Sign Up
-                </button>
-              </>
-            ))}
-        </div>
-        <Notification
-          isOpen={isNotificationOpen}
-          onClose={() => setIsNotificationOpen(false)}
-        />
+            </div>
+          ) : (
+            // Show login/signup when not authenticated
+            <>
+              <button
+                className={styles.login}
+                onClick={() => openModal("login")}
+              >
+                Login
+              </button>
+              <button
+                className={styles.signup}
+                onClick={() => openModal("signup")}
+              >
+                Sign Up
+              </button>
+            </>
+          ))}
+      </div>
+      <Notification
+        isOpen={isNotificationOpen}
+        onClose={() => setIsNotificationOpen(false)}
+      />
 
-        {/* Auth modal */}
-        {showModal && <AuthModal type={authType} onClose={handleModalClose} />}
-      </header>
+      {/* Auth modal */}
+      {showModal && <AuthModal type={authType} onClose={handleModalClose} />}
+    </header>
   );
 }

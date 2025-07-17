@@ -63,7 +63,8 @@ export function PriceRangeFilter({
       >
         {mounted ? displayValue : "All Prices"}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="rounded-xl">
+      <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
+
         {QUICK_FILTER_CONFIGS.PRICE_RANGES.map((range, index) => (
           <DropdownMenuItem
             key={index}
