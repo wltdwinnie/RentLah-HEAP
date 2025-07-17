@@ -6,7 +6,7 @@ import { UniversityDropdown } from '@/components/quickfilters/university-filter'
 import { useRouter } from 'next/navigation';
 import { PropertyCardGroup } from "@/components/propertycard-group";
 import { sampleListings } from "@/lib/sample-data";
-import { ShieldCheck, Wallet, MapPin, Users} from "lucide-react";
+import { ShieldCheck, Wallet, MapPin, Users, GraduationCap} from "lucide-react";
 
 const featuredListings = sampleListings.slice(0, 3); // Adjust the number as needed
 
@@ -25,20 +25,43 @@ export default function Home() {
       <section>
         <div className={styles.sectionInner}>
           <div className={styles.welcomeSection}>
-            <h1 className={styles.title}>
-              <span className={styles.whitetext}>Welcome to </span>
-              RentLah!
-            </h1>
-            <p className={styles.welcdescription}>
-              Looking for a place to stay while studying in Singapore? <br></br> You've come to the right place. 
-            </p>
-            <p className={styles.welcdescription}>
-              Select your university below to get started!
-            </p>
-            <UniversityDropdown 
-              className="w-[400px] my-6" 
-              onSelect={handleUniversitySelect}
-            />
+            <video
+              className={styles.videoBg}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/assets/sgp-cityscape.jpeg"  // fallback image
+            >
+              <source src="/assets/cityscape-video.mp4" type="video/mp4" />
+              {/* Add more sources for cross-browser support if needed */}
+              Your browser does not support this video.
+            </video>
+            <div className={styles.boxOverlay}>
+              <h1 className={styles.title}>
+                <span className={styles.blacktext}>Welcome to </span>
+                <span className={styles.rentlahBold}>RentLah!</span>
+              </h1>
+              <p className={styles.welcdescription}>
+                Looking for a place to stay while studying in Singapore? <br />
+                You've come to the right place. 
+              </p>
+              <p className={styles.welcdescription}>
+                Select your university below to get started!
+              </p>
+
+              <div style={{ position: "relative", display: "inline-block", width: "100%" }}>
+                <GraduationCap
+                  className={styles.gradHatAbsolute}
+                />
+                <UniversityDropdown
+                  className={styles.uniDropdownHome} // with extra padding-left via CSS
+                  onSelect={handleUniversitySelect}
+                />
+              </div>
+
+            </div>
           </div>
         </div>
       </section>
