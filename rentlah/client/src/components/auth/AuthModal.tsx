@@ -3,7 +3,6 @@
 import { useState } from "react";
 import styles from "./AuthModal.module.css";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/authClient";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -25,8 +24,6 @@ export default function AuthModal({ onClose, type }: Props) {
 
   const [forgotMode, setForgotMode] = useState(false);
   const [forgotEmailSent, setForgotEmailSent] = useState(false);
-
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,7 +87,9 @@ export default function AuthModal({ onClose, type }: Props) {
 
     if (type === "login") {
       const result = await authClient.signIn.email({ email, password });
-      console.log(result);
+      if (process.env.NODE_ENV === 'development') {
+        console.log(result);
+      }
       if (result.error !== null) {
         if(result.error.message === "Email not verified") {
           setError("Email not verified. Please check your inbox.");
@@ -128,8 +127,8 @@ export default function AuthModal({ onClose, type }: Props) {
         redirectTo: "/reset-password",
       });
       setForgotEmailSent(true);
-    } catch (err: any) {
-      setError("Something went wrong. Please try again.");
+    } catch (error: Error | unknown) {
+      setError(error instanceof Error ? error.message : "Failed to reset password.");
     } finally {
       setLoading(false);
     }
@@ -141,8 +140,8 @@ export default function AuthModal({ onClose, type }: Props) {
     try {
       await authClient.sendVerificationEmail({ email, callbackURL: "/" });
       setResendSuccess("Verification email resent! Check your inbox.");
-    } catch (err: any) {
-      setError(err.message || "Failed to resend verification email.");
+    } catch (err: Error | unknown) {
+      setError(err instanceof Error ? err.message : "Failed to resend verification email.");
     } finally {
       setResendLoading(false);
     }
@@ -152,10 +151,12 @@ export default function AuthModal({ onClose, type }: Props) {
     try {
       await authClient.signIn.social({ provider: "google" });
       const session = await authClient.getSession();
-      console.log("After Google sign-in session:", session);
+      if (process.env.NODE_ENV === 'development') {
+        console.log("After Google sign-in session:", session);
+      }
       onClose();
-    } catch (err: any) {
-      setError(err.message || "Authentication failed.");
+    } catch (err: Error | unknown) {
+      setError(err instanceof Error ? err.message : "Authentication failed.");
     }
   };
 

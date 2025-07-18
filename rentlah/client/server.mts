@@ -23,7 +23,7 @@ app.prepare().then(() => {
 
     socket.on("join-room", ({ room, username }) => {
       socket.join(room);
-      console.log(`User ${username} (${socket.id}) joined room ${room}`);
+      console.log(`User ${username} joined room ${room}`);
       socket.to(room).emit("user_joined", { username });
     });
 
@@ -37,6 +37,7 @@ app.prepare().then(() => {
         return;
       }
 
+      // Add timestamp if not provided
       const messageData = {
         sender,
         message,
@@ -44,7 +45,7 @@ app.prepare().then(() => {
       };
 
       console.log(`📤 Broadcasting message from ${sender} in room ${room}:`, messageData);
-      io.to(room).emit("message", messageData);
+      socket.to(room).emit("message", messageData);
     });
 
     socket.on("disconnect", () => {

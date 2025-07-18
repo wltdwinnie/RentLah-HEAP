@@ -55,7 +55,8 @@ export function PropertyTypeFilter({
       >
         {mounted ? displayValue : "All Property Types"}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="rounded-xl">
+      <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
+
         {PROPERTY_TYPES.map((type) => (
           <DropdownMenuItem
             key={type.value}

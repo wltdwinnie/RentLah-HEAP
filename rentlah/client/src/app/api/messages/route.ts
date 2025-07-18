@@ -12,9 +12,10 @@ export async function GET(req: NextRequest) {
 
   try {
     let query: string;
-    const values: any[] = [room];
+    const values: (string | number)[] = [room];
 
     if (before) {
+      // For pagination: get older messages (before the given timestamp)
       query = `
         SELECT * FROM (
           SELECT * FROM messages
@@ -26,6 +27,7 @@ export async function GET(req: NextRequest) {
       `;
       values.push(before);
     } else {
+      // For initial load: get the most recent messages
       query = `
         SELECT * FROM (
           SELECT * FROM messages

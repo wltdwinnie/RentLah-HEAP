@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import styles from "./ResetPassword.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/authClient";
 import { Eye, EyeOff, Lock, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
-const ResetPassword = () => {
+
+// Client component that uses useSearchParams
+const ResetPasswordClient = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -17,6 +20,8 @@ const ResetPassword = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
     const searchParams = useSearchParams();
+    const { resolvedTheme } = useTheme();
+
     
     // Get token safely with useEffect
     useEffect(() => {
@@ -202,4 +207,11 @@ const ResetPassword = () => {
     );
 };
 
-export default ResetPassword;
+// Export default component with Suspense boundary
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+      <ResetPasswordClient />
+    </Suspense>
+  );
+}

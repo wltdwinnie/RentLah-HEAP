@@ -39,11 +39,12 @@ export interface PropertyFormPageProps {
   handleRemoveAmenity: (index: number) => void;
   title: string;
   availableFrom: string;
+  mode?: "edit" | "add";
 }
 
 export function PropertyFormPage({
   form,
-//   setForm,
+  //   setForm,
   submitting,
   success,
   error,
@@ -67,6 +68,7 @@ export function PropertyFormPage({
   handleRemoveAmenity,
   title,
   availableFrom,
+  mode = "edit",
 }: PropertyFormPageProps) {
   function renderAvailableFrom(date: Date) {
     const today = new Date();
@@ -128,6 +130,14 @@ export function PropertyFormPage({
         />
         <ParkingSection form={form} handleChange={handleChange} />
         <NearbyMRTSection
+          form={
+            form
+              ? {
+                  coordinatesLat: form.coordinatesLat ?? "",
+                  coordinatesLng: form.coordinatesLng ?? "",
+                }
+              : { coordinatesLat: "", coordinatesLng: "" }
+          }
           nearbyMRT={nearbyMRT}
           handleAutoPopulateMRT={handleAutoPopulateMRT}
         />
@@ -154,6 +164,14 @@ export function PropertyFormPage({
           disabled={submitting}
         >
           {submitting ? "Saving..." : "Save Changes"}
+        </button>
+        {/* Cancel button */}
+        <button
+          type="button"
+          className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-2xl ml-2"
+          onClick={() => window.history.back()}
+        >
+          {mode === "edit" ? "Cancel changes" : "Cancel adding"}
         </button>
         {success && (
           <div className="text-green-600">Property updated successfully!</div>

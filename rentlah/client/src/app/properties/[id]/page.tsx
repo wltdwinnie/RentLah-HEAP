@@ -9,8 +9,15 @@ async function getProperty(id: string): Promise<Listing | undefined> {
   return listings[0];
 }
 
-export default async function PropertyPage({ params }: { params: { id: string } }) {
-  const listing = await getProperty(params.id);
+// Define the props type for the page component with Promise-based params
+interface PropertyPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function PropertyPage({ params }: PropertyPageProps) {
+  // Await the params to get the id
+  const resolvedParams = await params;
+  const listing = await getProperty(resolvedParams.id);
 
   if (!listing) {
     return (

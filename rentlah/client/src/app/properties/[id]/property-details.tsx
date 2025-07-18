@@ -5,11 +5,10 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import Image from "next/image";
 import { Listing } from "@/lib/definition";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, SaveButton } from "@/components/ui/button";
 import {
   ChevronLeft,
   ChevronRight,
-  Heart,
   MapPin,
   Bed,
   Bath,
@@ -28,7 +27,6 @@ const containerStyle = {
 
 export default function PropertyDetails({ listing }: { listing: Listing }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isSaved, setIsSaved] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
@@ -107,17 +105,15 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
           </Button>
         </div>
         {/* Save Button */}
-        <Button
-          size="icon"
-          className="absolute top-4 right-4 bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors pointer-events-auto"
-          onClick={() => setIsSaved(!isSaved)}
-        >
-          <Heart
-            className={`h-6 w-6 ${
-              isSaved ? "text-red-500 fill-red-500" : "text-white"
-            }`}
-          />
-        </Button>
+        <SaveButton
+          initialSaved={false}
+          onToggle={(saved) => {
+            console.log(
+              "the accomodation is saved",
+              saved
+            ); /* implement saved accomodation logic */
+          }}
+        />
         {/* Image Indicators */}
         {listing.images && listing.images.length > 0 && (
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 pointer-events-none">
@@ -358,9 +354,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                 {listing.agentFee && (
                   <div>
                     <p className="text-sm text-muted-foreground">Agent Fee</p>
-                    <p className="font-semibold">
-                      ${listing.agentFee}
-                    </p>
+                    <p className="font-semibold">${listing.agentFee}</p>
                   </div>
                 )}
                 <div>

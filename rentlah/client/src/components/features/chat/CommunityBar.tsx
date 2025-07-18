@@ -51,16 +51,15 @@ const CommunityBar = ({ onSelectCommunity, communities = defaultCommunities }: C
   };
 
   return (
-    <Card className="p-4 w-full max-w-full">
-      <div
-        className="flex items-center justify-between cursor-pointer select-none"
-        onClick={() => setOpen(!open)}
-      >
-        <h2 className="text-2xl font-bold tracking-tight text-[#192e9a]">Communities</h2>
-        <ChevronDown
-          className={`h-4 w-4 text-gray-500 transition-transform ${open ? "rotate-180" : ""}`}
-        />
-      </div>
+    <Card className="p-4 w-full max-w-full hover:bg-gray-50 hover:bg-opacity-5 transition-colors duration-200">      <div
+      className="flex items-center justify-between cursor-pointer select-none"
+      onClick={() => setOpen(!open)}
+    >
+      <h2 className="text-2xl font-bold tracking-tight text-[#192e9a]">Communities</h2>
+      <ChevronDown
+        className={`h-4 w-4 text-gray-500 transition-transform ${open ? "rotate-180" : ""}`}
+      />
+    </div>
 
       {open && (
         <div className="mt-2 space-y-1">

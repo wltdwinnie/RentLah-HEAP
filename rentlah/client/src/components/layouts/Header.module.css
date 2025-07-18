@@ -10,10 +10,11 @@
     z-index: 20; /* Add z-index for proper stacking */
 }
 
-.dark .header {
-    background-color: #18181b;
-}
-
+:global(html.dark) .header {
+    background-color: black;
+    color: white;
+  }
+  
 .logoContainer {
     flex-shrink: 0;
 }
@@ -128,11 +129,10 @@
     cursor: pointer;
 }
 
-.dark .login {
-    background-color: #18181b;
+:global(html.dark) .login {
+    background-color: black;
     color: white;
-    border-color: #3f3f46;
-}
+  }
 
 .login:hover {
     background-color: #f0f4ff;
@@ -173,6 +173,26 @@
     transition: all 0.2s ease;
 }
 
+
+:global(.dark) .profileButton {
+    color: white;
+  }
+
+:global(.dark) .profileMenu {
+    background-color: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+  }
+
+  :global(.dark) .logoutButton {
+    color: #ff6b6b;
+  }
+
+
+:global(.dark) .profileDivider {
+    border-color: #444;
+  }
+
 .profileIcon:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transform: scale(1.05);
@@ -184,18 +204,23 @@
 }
 
 .profileMenu {
-    display: none;
     position: absolute;
+    top: 120%;
     right: 0;
-    top: 110%;
-    min-width: 220px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    padding: 0.75rem 0;
-    z-index: 100;
-    animation: fadeIn 0.2s ease-in-out;
-}
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+    width: 260px;
+    z-index: 1000;
+  }
+  
+
+.dark .profileMenu {
+    background-color: #000;       
+    color: white;                 
+    border: 1px solid #333;
+  }
 
 .profileDropdown:hover .profileMenu {
     display: block;
@@ -217,6 +242,10 @@
     border-top: 1px solid #eee;
     margin: 0.5rem 0;
 }
+
+.dark .profileDivider {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
 
 .profileButton {
     display: block;

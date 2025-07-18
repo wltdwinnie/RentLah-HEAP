@@ -104,6 +104,7 @@ export type LocationInfo = {
 };
 
 export interface AddPropertyFormState {
+  id?: string;
   addressBlk: string;
   addressStreet: string;
   addressPostalCode: string;

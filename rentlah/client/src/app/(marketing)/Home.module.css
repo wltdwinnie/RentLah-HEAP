@@ -57,14 +57,18 @@
 
 .videoBg {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    pointer-events: none; /* makes sure clicks go to content, not video */
-}
-
+    pointer-events: none;
+    margin-top: 0px; /* adjust value as needed */
+  }
+  
 .boxOverlay {
     position: absolute;
     left: 50%;
@@ -83,6 +87,11 @@
     align-items: center;
     text-align: center;
 }
+
+:global(.dark) .boxOverlay {
+    background: rgba(0, 0, 0, 0.377);
+    color: white;
+  }
 @media (max-width: 600px) {
   .boxOverlay {
     max-width: 95vw;
@@ -97,6 +106,7 @@
 
 }
 
+
 .title {
     font-size: 4rem;
     font-weight: bold;
@@ -105,6 +115,7 @@
 
 }
 
+  
 .welcdescription {
     font-size: 1.2rem;
     color: #000;
@@ -114,11 +125,18 @@
     ;
 }
 
+:global(.dark) .welcdescription {
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+}
 .description {
     font-size: 1.2rem;
     color: #333;
     max-width: 600px;
     margin: 0 0 2rem 0;
+}
+:global(.dark) .description {
+    color: white;
 }
 
 .imageContainer {
@@ -137,6 +155,10 @@
     border-radius: 1rem;
 }
 
+.dark .uniDropdownHome {
+    color: white;
+}
+
 .uniSelectBlock {
     display: flex;
     align-items: center;
@@ -152,6 +174,9 @@
     font-size: 1.25rem;
     border-radius: 1rem;
     padding-left: 3rem; /* leaves space for the icon */
+}
+.dark .uniDropdownHomeBig {
+    color: white;
 }
 
 .gradHatAbsolute {
@@ -203,12 +228,25 @@
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
+    will-change: transform;
 }
 
+/* Dark mode styling */
+:global(.dark) .benefitCard {
+    background: black;
+    color: white;
+  }
+  
 .benefitCard svg {
     margin-bottom: 0.75rem;       /* Space below icon */
 }
 
+.benefitCard:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+  z-index: 2;
+}
 
 /* Testimonials */
 .testimonialCard {
@@ -219,6 +257,8 @@
     border-radius: 6px;
     font-style: italic;
     color: #333;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
+    will-change: transform;
 }
 
 .testimonials {
@@ -229,8 +269,18 @@
     margin-top: 1.5rem;
 }
 
+.testimonialCard:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+  z-index: 2;
+}
+
 .blacktext {
     color: #000;
+}
+
+:global(.dark) .blacktext {
+    color: white;
 }
 
 .lightbluetext {

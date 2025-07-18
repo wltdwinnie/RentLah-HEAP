@@ -1,40 +1,72 @@
 .footer {
-    background-color: hsl(var(--primary-light));
-    padding: 1.5rem 1rem;
+  /* Two-column row for footer */
+  .footerRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0.5rem 0;
+  }
+
+  .ctaColumn {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    text-align: center;
+    min-width: 220px;
+    gap: 0.5rem;
+  }
+
+  .ctaText {
+    font-size: 1rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+    margin-bottom: 0.25rem;
+    text-align: right;
+  }
+  background-color: hsl(var(--primary-light));
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .text {
-    color: hsl(var(--primary));
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
+  color: hsl(var(--primary));
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .contacts {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .contactItem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    color: hsl(var(--primary));
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 9999px;
-    font-size: 1.25rem;
-    text-decoration: none;
-    transition: background-color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: hsl(var(--primary));
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
+:global(html.dark) .contactItem {
+    background-color: black;
+    color: white;
+  }
 .contactItem:hover {
-    background-color: #e6f2ff;
-    transform: scale(1.05);
+  background-color: #e6f2ff;
+  transform: scale(1.05);
 }
