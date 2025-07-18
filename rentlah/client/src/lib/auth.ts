@@ -19,16 +19,16 @@ export const auth = betterAuth({
         to: user.email,
         subject: "Reset your password",
         text: `
-                Dear ${user.name},
-                We received a request to reset your password. You can reset it by clicking the link below:
+Dear ${user.name},
+We received a request to reset your password. You can reset it by clicking the link below:
                 
-                🔐 ${url}
+🔐 ${url}
                 
-                If you did not request a password reset, please ignore this message. This link will expire in 24 hours for your security.
+If you did not request a password reset, please ignore this message. This link will expire in 24 hours for your security.
 
-                Thank you,
-                RentLah Team
-                `,
+Thank you,
+RentLah Team
+`,
       });
     },
   },
@@ -38,16 +38,16 @@ export const auth = betterAuth({
         to: user.email,
         subject: "Verify your email address",
         text: `
-                Dear ${user.name},
-                We received a request to create an account with this email. You can verify it by clicking the link below:
+Dear ${user.name},
+We received a request to create an account with this email. You can verify it by clicking the link below:
 
-                🔐 ${url}
+🔐 ${url}
 
-                If you did not request this, please ignore this message. This link will expire in 24 hours for your security.
+If you did not request this, please ignore this message. This link will expire in 24 hours for your security.
 
-                Thank you,
-                RentLah Team
-                `,
+Thank you,
+RentLah Team
+`,
       });
     },
   },
