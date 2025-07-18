@@ -33,6 +33,11 @@ export function UniversityDropdown({
     React.useState<string>(value);
   const isMobile = useIsMobile();
 
+  let responsiveStyling = cn("w-[399px]");
+  if (isMobile) {
+    responsiveStyling = cn("w-[70px]");
+  }
+
   React.useEffect(() => {
     setMounted(true);
   }, []);
@@ -54,7 +59,8 @@ export function UniversityDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-auto gap-4",
+          "inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 gap-4",
+          responsiveStyling,
           className
         )}
       >
