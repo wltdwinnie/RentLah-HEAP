@@ -34,16 +34,14 @@ export function PriceRangeFilter({
   };
 
   // Find the current selected range
-  const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find(
-    (range) => {
-      // For "All Prices", both min and max should be 0
-      if (range.label === "All Prices") {
-        return minPrice === 0 && maxPrice === 0;
-      }
-      // For other ranges, match normally
-      return range.min === minPrice && range.max === maxPrice;
+  const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find((range) => {
+    // For "All Prices", both min and max should be 0
+    if (range.label === "All Prices") {
+      return minPrice === 0 && maxPrice === 0;
     }
-  );
+    // For other ranges, match normally
+    return range.min === minPrice && range.max === maxPrice;
+  });
 
   const displayValue =
     currentRange?.label ||
@@ -64,7 +62,6 @@ export function PriceRangeFilter({
         {mounted ? displayValue : "All Prices"}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
-
         {QUICK_FILTER_CONFIGS.PRICE_RANGES.map((range, index) => (
           <DropdownMenuItem
             key={index}

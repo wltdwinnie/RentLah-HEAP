@@ -5,6 +5,7 @@ export interface ChatUser {
   name?: string;
   image?: string; // Added this since your code uses user.image
   email?: string; // Added since you're using email in fallback
+  onClick?: () => void; // Add onClick handler for mobile responsiveness
 }
 
 export interface ChatFormProps {

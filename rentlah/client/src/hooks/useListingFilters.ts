@@ -225,4 +225,4 @@ export function useListingFilters() {
       handleFurnishingChange(furnishing ? [furnishing] : []);
     },
   };
-}
+} 
