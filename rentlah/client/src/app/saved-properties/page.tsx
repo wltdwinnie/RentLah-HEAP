@@ -55,7 +55,7 @@ export default function SavedPropertiesPage() {
   if (error) {
     return (
       <div className="container mx-auto p-8">
-        <h1 className="text-3xl font-bold mb-8">Saved Properties</h1>
+        <h1 className="text-3xl font-bold mb-8 ">Saved Properties</h1>
         <div className="flex items-center justify-center h-64 bg-red-50 rounded-lg">
           <p className="text-lg text-red-600">{error}</p>
         </div>
