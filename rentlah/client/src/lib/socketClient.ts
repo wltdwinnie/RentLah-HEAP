@@ -6,7 +6,7 @@ let socketInstance: Socket | null = null;
 const SOCKET_SERVER_URL =
   typeof window !== "undefined" && process.env.NEXT_PUBLIC_SOCKET_URL
     ? process.env.NEXT_PUBLIC_SOCKET_URL
-    : "http://localhost:3000"; // fallback for local dev
+    : "http://localhost:3000";
 
 export function getSocket(): Socket {
   if (!socketInstance) {

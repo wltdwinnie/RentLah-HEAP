@@ -16,8 +16,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [hasMore, setHasMore] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
   const [firstRenderDone, setFirstRenderDone] = useState(false);
-  const [socketConnected, setSocketConnected] = useState(false);
-  const [roomJoined, setRoomJoined] = useState(false);
+  const [joined, setJoined] = useState(false); 
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -127,74 +126,46 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     }
   }, [room, currentUser, user, firstRenderDone, fetchMessages]);
 
+  // Simplified socket connection logic - matching community chat
   useEffect(() => {
-    const onConnect = () => {
-      setSocketConnected(true);
-    };
-    
-    const onDisconnect = () => {
-      setSocketConnected(false);
-      setRoomJoined(false);
-    };
+    if (!room || !currentUser || joined) return;
 
-    const onMessage = (data: unknown) => {
-      const messageData = data as { sender: string; message: string; created_at?: string };
-
-      if (typeof messageData?.sender === 'string' && 
-          typeof messageData?.message === 'string') {
-        
-        const newMessage: MessageType = {
-          sender: messageData.sender,
-          message: messageData.message,
-          created_at: messageData.created_at || new Date().toISOString(),
-        };
-        
-        setMessages((prev) => {
-          const messageExists = prev.some(msg => 
-            msg.sender === newMessage.sender && 
-            msg.message === newMessage.message && 
-            Math.abs(new Date(msg.created_at).getTime() - new Date(newMessage.created_at).getTime()) < 2000
-          );
-          
-          if (!messageExists) {
-            return [...prev, newMessage];
-          } else {
-            return prev;
-          }
-        });
-        
-        requestAnimationFrame(() => scrollToBottom(true));
-      }
-    };
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    socket.on("message", onMessage);
-    
-    if (socket.connected) {
-      setSocketConnected(true);
-    } else {
-      socket.connect();
-    }
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-      socket.off("message", onMessage);
-    };
-  }, [currentUser?.name]);
-
-  useEffect(() => {
-    if (room && currentUser && socketConnected && !roomJoined) {
+    try {
       socket.emit("join-room", { room, username: currentUser.name });
-      setRoomJoined(true);
+      setJoined(true);
+
+      const onMessage = (data: unknown) => {
+        const messageData = data as { sender: string; message: string; created_at?: string };
+
+        if (typeof messageData?.sender === 'string' && 
+            typeof messageData?.message === 'string') {
+          
+          // Only add message if it's not from current user (to avoid duplicates)
+          if (messageData.sender !== currentUser.name) {
+            const newMessage: MessageType = {
+              sender: messageData.sender,
+              message: messageData.message,
+              created_at: messageData.created_at || new Date().toISOString(),
+            };
+            
+            setMessages((prev) => [...prev, newMessage]);
+            requestAnimationFrame(() => scrollToBottom(true));
+          }
+        }
+      };
+
+      socket.on("message", onMessage);
+
+      return () => {
+        socket.off("message", onMessage);
+      };
+    } catch (err) {
+      console.warn("Chat socket connection unavailable:", err);
     }
-  }, [room, currentUser, socketConnected, roomJoined]);
+  }, [room, currentUser, joined]);
 
   const handleSendMessage = async (message: string) => {
-    if (!currentUser || !user || !socketConnected) {
-      return;
-    }
+    if (!currentUser || !user) return;
 
     const timestamp = new Date().toISOString();
     const msgData = {
@@ -204,10 +175,14 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       room
     };
     
-    // Emit to socket
-    socket.emit("message", msgData);
+
+    setMessages((prev) => [...prev, msgData]);
     
-    // Save to database
+
+    socket.emit("message", { ...msgData });
+    
+    requestAnimationFrame(() => scrollToBottom(true));
+
     try {
       const response = await fetch("/api/messages", {
         method: "POST",
@@ -269,7 +244,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
         <ChatForm onSendMessage={handleSendMessage} />
       </div>
     </div>
-
   );
 };
 
