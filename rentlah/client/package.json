@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "dev:socket": "set NODE_OPTIONS=--loader ts-node/esm --trace-warnings --no-warnings && ts-node server.mts",
+    "dev:socket": "tsx server.mts",
     "build": "next build",
-    "start": "next start",
+    "start": "tsx server.mts",
     "lint": "next lint",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
@@ -37,7 +37,6 @@
     "drizzle-orm": "^0.44.2",
     "express": "^5.1.0",
     "framer-motion": "^12.23.6",
-    "fs": "^0.0.1-security",
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "lucide-react": "^0.511.0",
@@ -79,7 +78,7 @@
     "tsx": "^4.20.3",
     "typescript": "^5"
   },
-  "main": "index.js",
+  "main": "server.mts",
   "keywords": [],
   "author": "",
   "license": "ISC",
