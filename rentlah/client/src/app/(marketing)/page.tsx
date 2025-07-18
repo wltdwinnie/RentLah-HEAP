@@ -1,13 +1,18 @@
 "use client";
-import styles from './Home.module.css';
-import { UniversityDropdown } from '@/components/quickfilters/university-filter';
-import { useRouter } from 'next/navigation';
+import styles from "./Home.module.css";
+import { UniversityDropdown } from "@/components/quickfilters/university-filter";
+import { useRouter } from "next/navigation";
 import { PropertyCardGroup } from "@/components/propertycard-group";
 import { fetchListings } from "@/lib/fetchListings";
-import { useEffect, useState } from 'react';
-import { ShieldCheck, Wallet, MapPin, Users, GraduationCap } from "lucide-react";
-import { Listing } from '@/lib/definition';
-import { useTheme } from 'next-themes';
+import { useEffect, useState } from "react";
+import {
+  ShieldCheck,
+  Wallet,
+  MapPin,
+  Users,
+} from "lucide-react";
+import { Listing } from "@/lib/definition";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   const router = useRouter();
@@ -19,7 +24,7 @@ export default function Home() {
     setMounted(true);
     fetchListings({ isFeatured: true })
       .then((data) => setFeaturedListings(data))
-      .catch(err => console.error("Error fetching featured listings:", err));
+      .catch((err) => console.error("Error fetching featured listings:", err));
   }, []);
 
   const handleUniversitySelect = (uni: string) => {
@@ -69,9 +74,15 @@ export default function Home() {
                 Select your university below to get started!
               </p>
 
-              <div style={{ position: "relative", display: "inline-block", width: "100%" }}>
-                <GraduationCap className={styles.gradHatAbsolute} />
+              <div
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  width: "100%",
+                }}
+              >
                 <UniversityDropdown
+                  hasHat={true}
                   className={styles.uniDropdownHome}
                   onSelect={handleUniversitySelect}
                 />
@@ -102,22 +113,39 @@ export default function Home() {
           <div className={styles.benefitsGrid}>
             <div className={styles.benefitCard}>
               <ShieldCheck className="h-10 w-10 text-primary" />
-              <h3><b>Verified Listings</b></h3>
-              <p>All properties are verified by our team to ensure safety and accuracy.</p>
+              <h3>
+                <b>Verified Listings</b>
+              </h3>
+              <p>
+                All properties are verified by our team to ensure safety and
+                accuracy.
+              </p>
             </div>
             <div className={styles.benefitCard}>
               <Wallet className="h-10 w-10 text-primary" />
-              <h3><b>Student Budget Friendly</b></h3>
-              <p>Find accommodations that fit your student budget with no hidden fees.</p>
+              <h3>
+                <b>Student Budget Friendly</b>
+              </h3>
+              <p>
+                Find accommodations that fit your student budget with no hidden
+                fees.
+              </p>
             </div>
             <div className={styles.benefitCard}>
               <MapPin className="h-10 w-10 text-primary" />
-              <h3><b>Campus Proximity</b></h3>
-              <p>Properties near major universities, polytechnics and junior colleges.</p>
+              <h3>
+                <b>Campus Proximity</b>
+              </h3>
+              <p>
+                Properties near major universities, polytechnics and junior
+                colleges.
+              </p>
             </div>
             <div className={styles.benefitCard}>
               <Users className="h-10 w-10 text-primary" />
-              <h3><b>Student Community</b></h3>
+              <h3>
+                <b>Student Community</b>
+              </h3>
               <p>Connect with other students and find compatible roommates.</p>
             </div>
           </div>
@@ -130,7 +158,10 @@ export default function Home() {
           <h2 className={styles.subTitle}>Students&apos; Testimonials</h2>
           <div className={styles.testimonials}>
             <div className={styles.testimonialCard}>
-              <p>&quot;Super convenient! I found a room near NUS in just 3 days.&quot;</p>
+              <p>
+                &quot;Super convenient! I found a room near NUS in just 3
+                days.&quot;
+              </p>
               <br />
               <span>- Student from NUS</span>
             </div>
@@ -145,7 +176,10 @@ export default function Home() {
               <span>- Student from NTU</span>
             </div>
             <div className={styles.testimonialCard}>
-              <p>&quot;I love that the listings were verified, and I could chat with landlords directly on the platform.&quot;</p>
+              <p>
+                &quot;I love that the listings were verified, and I could chat
+                with landlords directly on the platform.&quot;
+              </p>
               <br />
               <span>- Student from SMU</span>
             </div>
