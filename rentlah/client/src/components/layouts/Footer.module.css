@@ -61,7 +61,7 @@
 }
 
 :global(.dark) .footer {
-    background-color: #0a2968b5; /* navy blue (very dark) */
+    background-color: #091b3fb5; 
   }
 .text {
   color: hsl(var(--primary));

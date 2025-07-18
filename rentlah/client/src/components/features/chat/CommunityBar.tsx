@@ -52,11 +52,11 @@ const CommunityBar = ({ onSelectCommunity, communities = defaultCommunities }: C
 
   return (
     <Card className="p-4 w-full max-w-full hover:bg-gray-50 hover:bg-opacity-5 transition-colors duration-200">
-      {/* Back Home Button */}
+
       <div className="mb-6">
         <a 
           href="/" 
-          className="flex items-center gap-2 py-2 px-3 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition-colors duration-200 text-sm"
+          className="flex items-center gap-2 py-2 px-3 dark:text-white rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 font-medium transition-colors duration-200 text-sm"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
