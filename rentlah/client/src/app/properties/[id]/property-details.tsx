@@ -377,7 +377,7 @@ export default function PropertyDetails({ listing }: { listing: Listing }) {
                 </div>
                 {currentUserId === listing.userId ? (
                   <Button
-                    className="w-full"
+                    className="w-full text-white dark:text-black"
                     onClick={() =>
                       (window.location.href = `/properties/${listing.id}/edit`)
                     }

@@ -17,6 +17,7 @@ import { AptType, FurnishingType, GenderType, LeasePeriodType, NationalityType, 
 
 export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
   const [form, setForm] = useState<AddPropertyFormState>({
+    id: undefined,
     addressBlk: "",
     addressStreet: "",
     addressPostalCode: "",
@@ -123,6 +124,48 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
     setSubmitting(true);
     setError("");
     setSuccess(false);
+
+    // Validation checks
+    const validationErrors: string[] = [];
+
+    // Required field validations
+    if (!form.addressBlk.trim()) validationErrors.push("Block number is required");
+    if (!form.addressStreet.trim()) validationErrors.push("Street name is required");
+    if (!form.addressPostalCode.trim()) validationErrors.push("Postal code is required");
+    if (!form.description.trim()) validationErrors.push("Property description is required");
+    if (!form.availableFrom) validationErrors.push("Available from date is required");
+
+    // Numeric field validations
+    if (isNaN(Number(form.perMonth)) || form.perMonth <= 0) validationErrors.push("Monthly rent must be a valid number greater than 0");
+    if (isNaN(Number(form.bedrooms)) || form.bedrooms <= 0) validationErrors.push("Number of bedrooms must be a valid number greater than 0");
+    if (isNaN(Number(form.bathrooms)) || form.bathrooms <= 0) validationErrors.push("Number of bathrooms must be a valid number greater than 0");
+    if (isNaN(Number(form.sqft)) || form.sqft <= 0) validationErrors.push("Square footage must be a valid number greater than 0");
+    if (isNaN(Number(form.securityDeposit)) || form.securityDeposit < 0) validationErrors.push("Security deposit must be a valid number and cannot be negative");
+    if (isNaN(Number(form.agentFee)) || form.agentFee < 0) validationErrors.push("Agent fee must be a valid number and cannot be negative");
+
+    // Max occupants validation
+    if (form.maxOccupants && isNaN(Number(form.maxOccupants))) {
+      validationErrors.push("Maximum occupants must be a valid number");
+    }
+
+    // Parking validation
+    if (form.parkingAvailable && form.parkingSpaces && Number(form.parkingSpaces) <= 0) {
+      validationErrors.push("Parking spaces must be greater than 0 when parking is available");
+    }
+
+    // Images validation
+    if (images.length === 0) {
+      validationErrors.push("At least one property image is required");
+    }
+
+    // If there are validation errors, show them and stop submission
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(". "));
+      setSubmitting(false);
+      return; // Exit early - do not proceed with data submission
+    }
+
+    // Only proceed with submission if all validations pass
     try {
       const updatedForm = { ...form };
       if (!form.coordinatesLat || !form.coordinatesLng) {

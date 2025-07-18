@@ -5,7 +5,7 @@ import { FurnishingType, PropertyType } from "./constants";
 function getApiUrl(path: string) {
   if (typeof window === "undefined") {
     const base =
-      process.env.NEXT_PUBLIC_BASE_URL ||
+      process.env.BASE_URL ||
       process.env.VERCEL_URL ||
       "http://localhost:3000";
     const url = base.startsWith("http") ? base : `https://${base}`;
