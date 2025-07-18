@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import styles from "./Header.module.css";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
@@ -105,54 +104,65 @@ export default function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 shadow-md">
+    <header className="flex flex-wrap items-center justify-between p-2 sm:p-4 bg-white dark:bg-gray-900 shadow-md">
 
       {mounted &&
-        <div className={styles.logoContainer}>
+        <div className="flex-shrink-0 flex items-center">
           <Link href="/">
             <Image
               src={resolvedTheme === "dark" ? "/assets/darklogo.png" : "/assets/logo.png"}
               alt="RentLah Logo"
-              width={200}
-              height={50}
+              width={150}
+              height={40}
+              className="max-w-[100px] sm:max-w-[150px]"
             />
           </Link>
         </div>
       }
-      <div className="flex items-center gap-4">
-        <button className={styles.bell} onClick={() => setIsNotificationOpen(!isNotificationOpen)}>
-          <Bell className="h-6 w-6" />
+      <div className="flex items-center gap-2 sm:gap-4">
+        <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800" onClick={() => setIsNotificationOpen(!isNotificationOpen)}>
+          <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
         </button>
 
-        <Link href="/chat" className={styles.chat}>
-          <MessageSquare className="h-6 w-6" />
+        <Link href="/chat" className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+          <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6" />
         </Link>
 
         {!authLoading && (user ? (
-          <div className={styles.profileSection} ref={dropdownRef}>
-            <div className={styles.profileDropdown} onClick={() => setShowDropdown(!showDropdown)}>
+          <div className="relative" ref={dropdownRef}>
+            <div className="flex items-center cursor-pointer" onClick={() => setShowDropdown(!showDropdown)}>
               <Image
                 src={user.image ? user.image : "/assets/profile_pic.webp"}
                 alt="Profile"
                 width={32}
                 height={32}
-                className={styles.profileIcon}
+                className="rounded-full w-7 h-7 sm:w-8 sm:h-8"
               />
               {showDropdown && (
-                <div className={styles.profileMenu}>
-                  <div className={styles.profileEmail}>{user.email}</div>
-                  <hr className={styles.profileDivider} />
-                  <button className={styles.profileButton} onClick={() => { router.push("/settings"); setShowDropdown(false); }}>Settings</button>
-                  <button className={styles.logoutButton} onClick={() => { handleLogout(); setShowDropdown(false); }}>Logout</button>
+                <div className="absolute right-0 top-10 mt-1 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-700 truncate text-sm">{user.email}</div>
+                  <button className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm" onClick={() => { router.push("/saved-properties"); setShowDropdown(false); }}>Saved Properties</button>
+                  <button className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm" onClick={() => { router.push("/settings"); setShowDropdown(false); }}>Settings</button>
+                  <button className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm" onClick={() => { handleLogout(); setShowDropdown(false); }}>Logout</button>
                 </div>
               )}
             </div>
           </div>
         ) : (
-          <>
-            <button className={styles.login} onClick={() => openModal("login")}>Login</button>
-            <button className={styles.signup} onClick={() => openModal("signup")}>Sign Up</button>
-          </>
+          <div className="flex gap-2">
+            <button 
+              className="text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3 border border-gray-300 rounded-full hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800" 
+              onClick={() => openModal("login")}
+            >
+              Login
+            </button>
+            <button 
+              className="text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3 bg-blue-600 text-white rounded-full hover:bg-blue-700" 
+              onClick={() => openModal("signup")}
+            >
+              Sign Up
+            </button>
+          </div>
         ))}
       </div>
 

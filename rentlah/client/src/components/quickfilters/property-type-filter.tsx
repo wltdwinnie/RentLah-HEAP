@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FILTER_OPTIONS, filterUtils } from "@/lib/filter-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PropertyTypeFilterProps {
   value?: string;
@@ -30,6 +31,12 @@ export function PropertyTypeFilter({
   className,
 }: PropertyTypeFilterProps) {
   const [mounted, setMounted] = React.useState(false);
+  const isMobile = useIsMobile();
+
+  let responsiveStyling = cn("w-[156]");
+    if (isMobile) {
+      responsiveStyling = cn("w-[80px]");
+    }
 
   React.useEffect(() => {
     setMounted(true);
@@ -41,22 +48,22 @@ export function PropertyTypeFilter({
 
   const displayValue =
     value === ""
-      ? "All Property Types"
+      ? (isMobile ? "All" : "All Property Types")
       : filterUtils.getDisplayLabel(value, FILTER_OPTIONS.PROPERTY_TYPES) ||
-        "All Property Types";
+        (isMobile ? "All" : "All Property Types");
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-auto",
+          "justify-center inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+          responsiveStyling,
           className
         )}
       >
-        {mounted ? displayValue : "All Property Types"}
+        {mounted ? displayValue : (isMobile ? "All" : "All Property Types")}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
-
         {PROPERTY_TYPES.map((type) => (
           <DropdownMenuItem
             key={type.value}

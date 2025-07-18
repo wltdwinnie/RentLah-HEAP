@@ -1,13 +1,14 @@
 "use client";
-import styles from './Home.module.css';
-import { UniversityDropdown } from '@/components/quickfilters/university-filter';
-import { useRouter } from 'next/navigation';
+import styles from "./Home.module.css";
+import { UniversityDropdown } from "@/components/quickfilters/university-filter";
+import { useRouter } from "next/navigation";
 import { PropertyCardGroup } from "@/components/propertycard-group";
 import { fetchListings } from "@/lib/fetchListings";
 import { useEffect, useState } from 'react';
-import { ShieldCheck, Wallet, MapPin, Users, GraduationCap } from "lucide-react";
+import { ShieldCheck, Wallet, MapPin, Users, ChevronDown } from "lucide-react";
 import { Listing } from '@/lib/definition';
 import { useTheme } from 'next-themes';
+import * as Accordion from '@radix-ui/react-accordion';
 
 export default function Home() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function Home() {
     setMounted(true);
     fetchListings({ isFeatured: true })
       .then((data) => setFeaturedListings(data))
-      .catch(err => console.error("Error fetching featured listings:", err));
+      .catch((err) => console.error("Error fetching featured listings:", err));
   }, []);
 
   const handleUniversitySelect = (uni: string) => {
@@ -69,9 +70,15 @@ export default function Home() {
                 Select your university below to get started!
               </p>
 
-              <div style={{ position: "relative", display: "inline-block", width: "100%" }}>
-                <GraduationCap className={styles.gradHatAbsolute} />
+              <div
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  width: "100%",
+                }}
+              >
                 <UniversityDropdown
+                  hasHat={true}
                   className={styles.uniDropdownHome}
                   onSelect={handleUniversitySelect}
                 />
@@ -102,22 +109,39 @@ export default function Home() {
           <div className={styles.benefitsGrid}>
             <div className={styles.benefitCard}>
               <ShieldCheck className="h-10 w-10 text-primary" />
-              <h3><b>Verified Listings</b></h3>
-              <p>All properties are verified by our team to ensure safety and accuracy.</p>
+              <h3>
+                <b>Verified Listings</b>
+              </h3>
+              <p>
+                All properties are verified by our team to ensure safety and
+                accuracy.
+              </p>
             </div>
             <div className={styles.benefitCard}>
               <Wallet className="h-10 w-10 text-primary" />
-              <h3><b>Student Budget Friendly</b></h3>
-              <p>Find accommodations that fit your student budget with no hidden fees.</p>
+              <h3>
+                <b>Student Budget Friendly</b>
+              </h3>
+              <p>
+                Find accommodations that fit your student budget with no hidden
+                fees.
+              </p>
             </div>
             <div className={styles.benefitCard}>
               <MapPin className="h-10 w-10 text-primary" />
-              <h3><b>Campus Proximity</b></h3>
-              <p>Properties near major universities, polytechnics and junior colleges.</p>
+              <h3>
+                <b>Campus Proximity</b>
+              </h3>
+              <p>
+                Properties near major universities, polytechnics and junior
+                colleges.
+              </p>
             </div>
             <div className={styles.benefitCard}>
               <Users className="h-10 w-10 text-primary" />
-              <h3><b>Student Community</b></h3>
+              <h3>
+                <b>Student Community</b>
+              </h3>
               <p>Connect with other students and find compatible roommates.</p>
             </div>
           </div>
@@ -127,10 +151,13 @@ export default function Home() {
       {/* 4. Testimonials */}
       <section className={`${styles.sectionWhite} ${styles.section}`}>
         <div className={styles.sectionInner}>
-          <h2 className={styles.subTitle}>Students&apos; Testimonials</h2>
+          <h2 className={styles.subTitle}>Our Students&apos; Testimonials</h2>
           <div className={styles.testimonials}>
             <div className={styles.testimonialCard}>
-              <p>&quot;Super convenient! I found a room near NUS in just 3 days.&quot;</p>
+              <p>
+                &quot;Super convenient! I found a room near NUS in just 3
+                days.&quot;
+              </p>
               <br />
               <span>- Student from NUS</span>
             </div>
@@ -145,13 +172,156 @@ export default function Home() {
               <span>- Student from NTU</span>
             </div>
             <div className={styles.testimonialCard}>
-              <p>&quot;I love that the listings were verified, and I could chat with landlords directly on the platform.&quot;</p>
+              <p>
+                &quot;I love that the listings were verified, and I could chat
+                with landlords directly on the platform.&quot;
+              </p>
               <br />
               <span>- Student from SMU</span>
             </div>
           </div>
         </div>
       </section>
+
+      {/* 5. How to Get Started */}
+      <section className={`${styles.sectionLightBlue} ${styles.section}`}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.subTitle}>How to Get Started</h2>
+          <div className={styles.getStartedGrid}>
+            <div className={styles.startStep}>
+              <div className={styles.stepNumber}>1</div>
+              <h3><b>Select your university</b></h3>
+              <p>Use the dropdown at the top to pick your campus and see nearby listings.</p>
+            </div>
+            <div className={styles.startStep}>
+              <div className={styles.stepNumber}>2</div>
+              <h3><b>Filter and compare</b></h3>
+              <p>Set your price, housing type, and amenities to find the best fit for you.</p>
+            </div>
+            <div className={styles.startStep}>
+              <div className={styles.stepNumber}>3</div>
+              <h3><b>Check locations</b></h3>
+              <p>View listings on the map and explore transport routes, reviews, and safety tips.</p>
+            </div>
+            <div className={styles.startStep}>
+              <div className={styles.stepNumber}>4</div>
+              <h3><b>Chat or bookmark</b></h3>
+              <p>Message agents or other students, save your favorites, and book your new home!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* 6. Frequently Asked Questions */}
+      <section className={`${styles.sectionWhite} ${styles.section}`}>
+        <div className={styles.sectionInner}>
+          <h2 className={styles.subTitle}>Frequently Asked Questions</h2>
+
+          <Accordion.Root
+            className={styles.faqAccordion}
+            type="multiple"
+          >
+            <Accordion.Item className={styles.faqItem} value="item-1">
+              <Accordion.Header className={styles.faqHeader}>
+                <Accordion.Trigger className={styles.faqTrigger}>
+                  Is RentLah only for international students?
+                  <ChevronDown className={styles.chevron} />
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className={styles.faqContent}>
+                No, RentLah is for <b>all students in Singapore</b>, both international and local.  
+                <br /><br />
+                We understand that international students often face more challenges finding housing, so the platform is designed to help with that. However, <b>local students looking for off-campus options</b>—whether for convenience, privacy, or flexibility—are just as welcome to use RentLah.
+                <br /><br />
+                Whether you&apos;re looking for a room near your university, short-term stays, or longer rental options, RentLah aims to make the housing search <b>simpler, safer, and student-friendly</b>.
+              </Accordion.Content>
+            </Accordion.Item>
+
+            <Accordion.Item className={styles.faqItem} value="item-2">
+              <Accordion.Header className={styles.faqHeader}>
+                <Accordion.Trigger className={styles.faqTrigger}>
+                  Are all listings verified?
+                  <ChevronDown className={styles.chevron} />
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className={styles.faqContent}>
+                <b>Yes.</b> At RentLah, we manually verify listings whenever possible to reduce scams and ensure the safety of our users.
+                <br /><br />
+                We also rely on the <b>student community</b> to keep listings up-to-date. If you encounter any suspicious listings, you can easily report them through the app. Our team will review reported listings promptly and take action if needed.
+                <br /><br />
+                <b>Reviews from other students</b> also help keep landlords accountable and provide real-world feedback on the properties.
+              </Accordion.Content>
+            </Accordion.Item>
+
+            <Accordion.Item className={styles.faqItem} value="item-3">
+              <Accordion.Header className={styles.faqHeader}>
+                <Accordion.Trigger className={styles.faqTrigger}>
+                  How can I chat with a landlord or agent?
+                  <ChevronDown className={styles.chevron} />
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className={styles.faqContent}>
+                You can <b>contact landlords or agents directly</b> using RentLah&apos;s <b>built-in chat system</b>.  
+                <br /><br />
+                Simply click on the listing you&apos;re interested in, then tap the <b>&quot;Message Landlord&quot;</b> button. You can ask about viewing dates, rental terms, or clarify any details before deciding.  
+                <br /><br />
+                All conversations are kept <b>inside the app</b> for safety and convenience, so you don&apos;t need to share your personal phone number until you&apos;re comfortable.
+              </Accordion.Content>
+            </Accordion.Item>
+
+            <Accordion.Item className={styles.faqItem} value="item-4">
+              <Accordion.Header className={styles.faqHeader}>
+                <Accordion.Trigger className={styles.faqTrigger}>
+                  Can I see listings on a map?
+                  <ChevronDown className={styles.chevron} />
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className={styles.faqContent}>
+                Yes! RentLah provides an <b>interactive map view</b> for all listings.  
+                <br /><br />
+                You can easily filter by location, browse housing options near your campus, and view the surrounding area, including <b>MRT stations, bus stops, and amenities like supermarkets or cafes</b>.
+                <br /><br />
+                The map view helps you get a real sense of the neighbourhood before scheduling a visit.
+              </Accordion.Content>
+            </Accordion.Item>
+
+            <Accordion.Item className={styles.faqItem} value="item-5">
+              <Accordion.Header className={styles.faqHeader}>
+                <Accordion.Trigger className={styles.faqTrigger}>
+                  Is it free to use RentLah?
+                  <ChevronDown className={styles.chevron} />
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className={styles.faqContent}>
+                <b>Yes, RentLah is completely free for students.</b>  
+                <br /><br />
+                You can search listings, chat with landlords, view maps, and read reviews without paying any fees. Our goal is to make housing more accessible and transparent for students without adding extra costs.
+                <br /><br />
+                Landlords and agents may sometimes include service fees or deposits as part of the rental process, but RentLah does not charge students for using the platform.
+              </Accordion.Content>
+            </Accordion.Item>
+
+            <Accordion.Item className={styles.faqItem} value="item-6">
+              <Accordion.Header className={styles.faqHeader}>
+                <Accordion.Trigger className={styles.faqTrigger}>
+                  What should I do if I face a problem with a landlord?
+                  <ChevronDown className={styles.chevron} />
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className={styles.faqContent}>
+                If you experience any issues such as unexpected fees, unfulfilled promises, or uncomfortable interactions, you can <b>report the landlord or listing directly within RentLah</b>.  
+                <br /><br />
+                Our team will review the case and may contact you for more details. If necessary, we&apos;ll remove the listing or take additional action to protect students.  
+                <br /><br />
+                We also encourage you to leave a <b>detailed review</b> to help other students make informed decisions.
+              </Accordion.Content>
+            </Accordion.Item>
+
+          </Accordion.Root>
+        </div>
+      </section>
+
     </main>
   );
 }

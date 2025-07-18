@@ -27,7 +27,7 @@ export function DistanceFilter({
         onClick={() => setIsExpanded((v) => !v)}
         disabled={disabled}
       >
-        <span className="text-sm font-medium">{title}</span>
+        <span className="text-sm font-medium dark:text-white dark:hover:bg-gray-100">{title}</span>
         {isExpanded ? (
           <ChevronDown className="text-gray-500" size={16} />
         ) : (
@@ -39,7 +39,7 @@ export function DistanceFilter({
           {DISTANCE_OPTIONS.map((option) => (
             <label
               key={option.value}
-              className={`flex items-center space-x-2 py-1 px-1 cursor-pointer hover:bg-gray-50 rounded-sm text-sm text-gray-700 ${
+              className={`flex items-center space-x-2 py-1 px-1 cursor-pointer hover:bg-gray-500 dark:text-white rounded-sm text-sm text-gray-700 ${
                 disabled ? "opacity-50 pointer-events-none" : ""
               }`}
             >

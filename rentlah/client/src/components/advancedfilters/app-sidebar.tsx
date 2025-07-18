@@ -30,14 +30,14 @@ export function AppSidebar() {
       collapsible="offcanvas"
       className="bg-gray-100 h-full min-h-screen [&>div:last-child]:top-[80px] [&>div:last-child]:h-[calc(100vh-80px)] z-50"
     >
-      <div className="flex flex-col h-full min-h-screen bg-gray-100">
+      <div className="flex flex-col h-full min-h-screen bg-gray-100 dark:bg-gray-900">
         <SidebarHeader className="pl-4 py-3 border-b">
           <div className="flex items-center justify-between">
-            <span className="font-medium">Advanced Filters</span>
+            <span className="dark:text-white font-medium">Advanced Filters</span>
             <Button
               variant="ghost"
               size="sm"
-              className="text-gray-500 hover:text-gray-700 text-sm h-7"
+              className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-100 text-sm h-7 dark:text-gray-100"
               onClick={clearAllFilters}
             >
               Clear All
@@ -45,7 +45,8 @@ export function AppSidebar() {
           </div>
         </SidebarHeader>
 
-        <SidebarContent className="overflow-y-auto flex-1">
+        <SidebarContent className="overflow-y-auto flex-1 ">
+          
           {/* Price Range Filter */}
           <SidebarGroup>
             <SidebarGroupContent>

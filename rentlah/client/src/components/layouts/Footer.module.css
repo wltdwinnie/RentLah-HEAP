@@ -11,6 +11,30 @@
     padding: 0.5rem 0;
   }
 
+  .contactColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 220px;
+    gap: 0.5rem;
+  }
+
+  .contactRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .contactText {
+    font-size: 1rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+    margin-bottom: 0.25rem;
+    text-align: left;
+  }
+
   .ctaColumn {
     display: flex;
     flex-direction: column;
@@ -36,16 +60,14 @@
   text-align: center;
 }
 
+:global(.dark) .footer {
+    background-color: #091b3fb5; 
+  }
 .text {
   color: hsl(var(--primary));
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
   font-weight: 500;
-}
-
-.contacts {
-  display: flex;
-  gap: 1rem;
 }
 
 .contactItem {

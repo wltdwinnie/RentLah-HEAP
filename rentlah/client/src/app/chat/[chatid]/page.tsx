@@ -182,9 +182,8 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       socket.off("disconnect", onDisconnect);
       socket.off("message", onMessage);
     };
-  }, [currentUser?.name]); // Include currentUser.name in dependency
+  }, [currentUser?.name]);
 
-  // Join room when ready
   useEffect(() => {
     if (room && currentUser && socketConnected && !roomJoined) {
       socket.emit("join-room", { room, username: currentUser.name });

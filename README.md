@@ -1,4 +1,4 @@
-# RentLah!
+# RentLah! 🏠
 
 RentLah! helps university students in Singapore discover, compare, and safely book accommodations near campuses. It features verified listings, map search, chat, and an interactive, student-friendly interface.
 

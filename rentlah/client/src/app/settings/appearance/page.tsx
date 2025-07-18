@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export default function AppearancePage() {
-  const { theme, setTheme, systemTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -65,7 +65,7 @@ export default function AppearancePage() {
             />
           </div>
           <span className="text-xs text-gray-500 dark:text-gray-400">
-            We'll adjust your appearance based on your system settings.
+            We&apos;ll adjust your appearance based on your system settings.
           </span>
         </label>
       </div>

@@ -34,16 +34,14 @@ export function PriceRangeFilter({
   };
 
   // Find the current selected range
-  const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find(
-    (range) => {
-      // For "All Prices", both min and max should be 0
-      if (range.label === "All Prices") {
-        return minPrice === 0 && maxPrice === 0;
-      }
-      // For other ranges, match normally
-      return range.min === minPrice && range.max === maxPrice;
+  const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find((range) => {
+    // For "All Prices", both min and max should be 0
+    if (range.label === "All Prices") {
+      return minPrice === 0 && maxPrice === 0;
     }
-  );
+    // For other ranges, match normally
+    return range.min === minPrice && range.max === maxPrice;
+  });
 
   const displayValue =
     currentRange?.label ||
@@ -57,14 +55,13 @@ export function PriceRangeFilter({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-auto",
+          "w-[144px] justify-center inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
           className
         )}
       >
         {mounted ? displayValue : "All Prices"}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
-
         {QUICK_FILTER_CONFIGS.PRICE_RANGES.map((range, index) => (
           <DropdownMenuItem
             key={index}

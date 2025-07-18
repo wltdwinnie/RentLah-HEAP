@@ -11,6 +11,7 @@
     /* Brand Colors */
     --primary: 230, 72%, 35%; /* #192f9b - deep blue */
     --primary-light: 208, 97%, 88%; /* #c4e3fe - light blue */
+    --primary-dark: 230, 72%, 85%
     --primary-foreground: 230, 72%, 90%; /* high-contrast light for deep blue */
 
     /* UI Elements */
