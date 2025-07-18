@@ -54,7 +54,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 60vh;
+  height: 90vh;
   box-sizing: border-box;
   overflow: hidden;
   animation: fadeIn 1.2s ease-out;
@@ -91,7 +91,7 @@
   padding: 2.5rem 3rem;
   border-radius: 1.5rem;
   max-width: 600px;
-  width: 90vw;
+  width: 70vw;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
   display: flex;
   flex-direction: column;
