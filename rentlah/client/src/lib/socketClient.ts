@@ -5,7 +5,7 @@ let socketInstance: Socket | null = null;
 
 export function getSocket(): Socket {
   if (!socketInstance) {
-    socketInstance = io("http://localhost:3000", {
+    socketInstance = io(process.env.BASE_URL || "https://rent-lah-heap.vercel.app", {
       reconnectionAttempts: 3,
       reconnectionDelay: 5000,
       autoConnect: false,
