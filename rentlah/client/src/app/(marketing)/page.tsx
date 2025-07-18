@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { PropertyCardGroup } from "@/components/propertycard-group";
 import { fetchListings } from "@/lib/fetchListings";
 import { useEffect, useState } from 'react';
-import { ShieldCheck, Wallet, MapPin, Users } from "lucide-react";
+import { ShieldCheck, Wallet, MapPin, Users, ChevronDown } from "lucide-react";
 import { Listing } from '@/lib/definition';
 import { useTheme } from 'next-themes';
+import * as Accordion from '@radix-ui/react-accordion';
 
 export default function Home() {
   const router = useRouter();
@@ -233,7 +234,7 @@ export default function Home() {
                 <br /><br />
                 We understand that international students often face more challenges finding housing, so the platform is designed to help with that. However, <b>local students looking for off-campus options</b>—whether for convenience, privacy, or flexibility—are just as welcome to use RentLah.
                 <br /><br />
-                Whether you're looking for a room near your university, short-term stays, or longer rental options, RentLah aims to make the housing search <b>simpler, safer, and student-friendly</b>.
+                Whether you&apos;re looking for a room near your university, short-term stays, or longer rental options, RentLah aims to make the housing search <b>simpler, safer, and student-friendly</b>.
               </Accordion.Content>
             </Accordion.Item>
 
@@ -261,11 +262,11 @@ export default function Home() {
                 </Accordion.Trigger>
               </Accordion.Header>
               <Accordion.Content className={styles.faqContent}>
-                You can <b>contact landlords or agents directly</b> using RentLah's <b>built-in chat system</b>.  
+                You can <b>contact landlords or agents directly</b> using RentLah&apos;s <b>built-in chat system</b>.  
                 <br /><br />
-                Simply click on the listing you’re interested in, then tap the <b>"Message Landlord"</b> button. You can ask about viewing dates, rental terms, or clarify any details before deciding.  
+                Simply click on the listing you&apos;re interested in, then tap the <b>&quot;Message Landlord&quot;</b> button. You can ask about viewing dates, rental terms, or clarify any details before deciding.  
                 <br /><br />
-                All conversations are kept <b>inside the app</b> for safety and convenience, so you don't need to share your personal phone number until you're comfortable.
+                All conversations are kept <b>inside the app</b> for safety and convenience, so you don&apos;t need to share your personal phone number until you&apos;re comfortable.
               </Accordion.Content>
             </Accordion.Item>
 
@@ -311,7 +312,7 @@ export default function Home() {
               <Accordion.Content className={styles.faqContent}>
                 If you experience any issues such as unexpected fees, unfulfilled promises, or uncomfortable interactions, you can <b>report the landlord or listing directly within RentLah</b>.  
                 <br /><br />
-                Our team will review the case and may contact you for more details. If necessary, we'll remove the listing or take additional action to protect students.  
+                Our team will review the case and may contact you for more details. If necessary, we&apos;ll remove the listing or take additional action to protect students.  
                 <br /><br />
                 We also encourage you to leave a <b>detailed review</b> to help other students make informed decisions.
               </Accordion.Content>
