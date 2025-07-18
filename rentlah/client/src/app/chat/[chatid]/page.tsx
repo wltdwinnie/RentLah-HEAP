@@ -15,8 +15,9 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
-  const [joined, setJoined] = useState(false);
   const [firstRenderDone, setFirstRenderDone] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [roomJoined, setRoomJoined] = useState(false);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     fetchCurrentUser();
   }, []);
 
-  // Fetch other user
   useEffect(() => {
     if (!chatid) return;
     const fetchUser = async () => {
@@ -68,6 +68,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     };
     fetchUser();
   }, [chatid]);
+
 
   // Fetch messages
   const fetchMessages = useCallback(async (before?: string) => {
@@ -140,7 +141,14 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
   // Socket connection and message handling
   useEffect(() => {
-    if (!room || !currentUser || !user || joined) return;
+    const onConnect = () => {
+      setSocketConnected(true);
+    };
+    
+    const onDisconnect = () => {
+      setSocketConnected(false);
+      setRoomJoined(false);
+    };
 
     try {
       console.log("🔌 Attempting to join room:", room, "as:", currentUser.name);
@@ -207,13 +215,17 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   }, [room, currentUser, user, joined]);
 
   const handleSendMessage = async (message: string) => {
-    if (!currentUser || !user) return;
+    if (!currentUser || !user || !socketConnected) {
+      return;
+    }
 
     const timestamp = new Date().toISOString();
+
     const msgData: MessageType = {
       sender: currentUser.name || currentUser.id,
       message,
       created_at: timestamp,
+      room
     };
 
     console.log("📤 Sending message:", msgData, "to room:", room);
@@ -293,5 +305,3 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 };
 
 export default Page;
-
-
