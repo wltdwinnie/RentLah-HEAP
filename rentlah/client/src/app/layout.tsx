@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "../components/theme-provider";
 import "@/styles/globals.css";
-import Header from "@/components/layouts/Header";
 
 
 export const metadata: Metadata = {
@@ -26,7 +25,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >

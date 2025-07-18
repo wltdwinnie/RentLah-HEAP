@@ -8,36 +8,41 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerRow}>
-        <div className={styles.contacts}>
-          <a
-            href="mailto:rentlahsg@gmail.com"
-            className={styles.contactItem}
-            title="Email"
-          >
-            <Mail className="h-6 w-6" />
-          </a>
-          <a
-            href="https://instagram.com/rentlahsg"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.contactItem}
-            title="Instagram"
-          >
-            <Instagram className="h-6 w-6" />
-          </a>
-          <a
-            href="https://facebook.com/rentlahsg"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.contactItem}
-            title="Facebook"
-          >
-            <Facebook className="h-6 w-6" />
-          </a>
+        <div className={styles.contactColumn}>
+          <div className={styles.contactText}>
+            Connect with us!
+          </div>
+          <div className={styles.contactRow}>
+            <a
+              href="mailto:rentlahsg@gmail.com"
+              className={styles.contactItem}
+              title="Email"
+            >
+              <Mail className="h-6 w-6" />
+            </a>
+            <a
+              href="https://instagram.com/rentlahsg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.contactItem}
+              title="Instagram"
+            >
+              <Instagram className="h-6 w-6" />
+            </a>
+            <a
+              href="https://facebook.com/rentlahsg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.contactItem}
+              title="Facebook"
+            >
+              <Facebook className="h-6 w-6" />
+            </a>
+          </div>
         </div>
         <div className={styles.ctaColumn}>
           <div className={styles.ctaText}>
-            List your housing here for students
+            List your housing here for students!
           </div>
           <AddPropertyButton />
         </div>
