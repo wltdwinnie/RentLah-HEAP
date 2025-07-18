@@ -163,8 +163,13 @@ export function PropertyFormPage({
           className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-2xl transition-colors"
           disabled={submitting}
         >
-          {(!submitting && mode === "edit") ? "Save changes" : "Add property"}
-          {(submitting && mode === "edit") ? "Saving..." : "Adding..."}
+          {submitting
+            ? mode === "edit"
+              ? "Saving..."
+              : "Adding..."
+            : mode === "edit"
+            ? "Save changes"
+            : "Add property"}
         </button>
         {/* Cancel button */}
         <button
