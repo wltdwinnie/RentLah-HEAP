@@ -20,11 +20,11 @@ const ChannelBar = ({ communityName, onBack, channels = defaultChannels }: Chann
   }, [pathname, channels]);
 
   return (
-    <div className="flex flex-col gap-2 p-4 border-r bg-white h-full dark:bg-zinc-900">
-      {/* Back button */}
+    <div className="flex flex-col gap-2 p-4 pt-14 md:pt-4 border-r bg-white h-full dark:bg-zinc-900">
+      {/* Back button - visible on all devices */}
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 mb-4 dark:text-gray-400"
+        className="flex items-center gap-2 text-sm font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 mb-4 dark:bg-blue-900 dark:text-blue-200 py-2 px-3 rounded-lg transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Communities

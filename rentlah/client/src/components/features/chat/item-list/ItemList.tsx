@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from "@/components/ui/card"
+import { Card } from "@/components/ui/card";
 
 type Props = React.PropsWithChildren<{
     title: string;
@@ -8,11 +8,20 @@ type Props = React.PropsWithChildren<{
     titleClassName?: string;
 }>
 
-const ItemList = ({ children, title, action: Action, className = "", titleClassName = "" }: Props) => {
+const ItemList = ({ 
+  children, 
+  title, 
+  action: Action, 
+  className = "", 
+  titleClassName = "" 
+}: Props) => {
   return (
     <Card className={`w-full max-w-full p-2 overflow-hidden ${className}`}>
+        {/* Header with title and actions */}
         <div className="mb-4 flex items-center justify-between overflow-hidden">
-            <h2 className={`text-2xl font-bold tracking-tight truncate ${titleClassName}`}>{title}</h2>
+            <div className="flex items-center gap-2">
+              <h2 className={`text-2xl font-bold tracking-tight truncate ${titleClassName}`}>{title}</h2>
+            </div>
             {Action ? <div className="flex-shrink-0">{Action}</div> : null}
         </div>
         <div className="w-full h-full flex flex-col items-center justify-start gap-2 overflow-x-hidden overflow-y-auto">

@@ -109,7 +109,7 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
   };
 
   return (
-    <div onClick={handleClick} className="h-[480px]">
+    <div onClick={handleClick} className="h-[480px] hover:cursor-pointer">
       <Card className="h-full overflow-hidden">
         <div className="relative w-full h-[200px] group">
           <Image
@@ -220,6 +220,40 @@ const PropertyCard = ({ listing }: PropertyCardProps) => {
               Facilities: {listing.facilities.join(", ")}
             </div>
           )}
+          
+          {/* University Selection - Fully responsive implementation */}
+          <div className="mt-2 w-full">
+            <div className="text-sm font-medium mb-1">Nearby Universities</div>
+            <div className="relative w-full">
+              <button
+                className="w-full flex items-center justify-between px-3 py-2 text-sm border rounded-lg bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <span className="truncate text-left">Select University</span>
+                <svg className="ml-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+              
+              {/* The native select element for actual functionality */}
+              <select 
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                aria-label="Select University"
+              >
+                <option>Select University</option>
+                {listing.universityTravelTimes && Object.entries(listing.universityTravelTimes || {}).map(([uniCode, travelInfo]) => (
+                  <option key={uniCode}>
+                    {uniCode}: {travelInfo.durationMin} min ({travelInfo.distanceKm.toFixed(1)} km)
+                  </option>
+                ))}
+                {(!listing.universityTravelTimes || Object.keys(listing.universityTravelTimes).length === 0) && (
+                  <option disabled>No university data available</option>
+                )}
+              </select>
+            </div>
+          </div>
         </CardFooter>
       </Card>
     </div>

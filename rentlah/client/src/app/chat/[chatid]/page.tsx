@@ -157,7 +157,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       getSocket();
 
       socket.emit("join-room", { room, username: currentUser.name });
-      setJoined(true);
+      setRoomJoined(true);
 
       const onMessage = (data: unknown) => {
         console.log("📨 Received socket message:", data);
@@ -212,7 +212,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     } catch (err) {
       console.warn("❌ Chat socket connection unavailable:", err);
     }
-  }, [room, currentUser, user, joined]);
+  }, [room, currentUser, user, roomJoined]);
 
   const handleSendMessage = async (message: string) => {
     if (!currentUser || !user || !socketConnected) {

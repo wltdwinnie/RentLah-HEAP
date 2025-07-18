@@ -7,11 +7,13 @@ import { User } from "lucide-react";
 import Link from "next/link";
 import { ChatUser } from "@/app/chat/types/chat";
 
-type Props = ChatUser;
+type Props = ChatUser & {
+  onClick?: () => void;
+};
 
-const DMConversationItem = ({ id, image, name }: Props) => {
+const DMConversationItem = ({ id, image, name, onClick }: Props) => {
   return (
-    <Link href={`/chat/${id}`} className="w-full">
+    <Link href={`/chat/${id}`} className="w-full" onClick={onClick}>
      <Card className="p-2 flex flex-row items-center gap-4 truncate bg-white text-black dark:bg-black dark:text-white">
 
         <div className="flex flex-row items-center gap-4 truncate">
