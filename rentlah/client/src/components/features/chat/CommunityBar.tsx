@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { CommunityInfo, CommunityBarProps, ImageErrorState } from "@/app/chat/types/chat";
+import Link from "next/link";
 
 const defaultCommunities: CommunityInfo[] = [
   {
@@ -54,7 +55,7 @@ const CommunityBar = ({ onSelectCommunity, communities = defaultCommunities }: C
     <Card className="p-4 w-full max-w-full hover:bg-gray-50 hover:bg-opacity-5 transition-colors duration-200">
       {/* Back Home Button */}
       <div className="mb-6">
-        <a 
+        <Link 
           href="/" 
           className="flex items-center gap-2 py-2 px-3 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition-colors duration-200 text-sm"
         >
@@ -63,7 +64,7 @@ const CommunityBar = ({ onSelectCommunity, communities = defaultCommunities }: C
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
          Home
-        </a>
+        </Link>
       </div>
       
       <div

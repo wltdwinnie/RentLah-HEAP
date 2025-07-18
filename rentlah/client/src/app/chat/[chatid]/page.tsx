@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
-import { getSocket, socket } from "@/lib/socketClient";
+import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
 import { ChatUser, MessageType, ApiMessageResponse } from "@/app/chat/types/chat";
 
@@ -141,22 +141,24 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 
   // Socket connection and message handling
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onConnect = () => {
       setSocketConnected(true);
     };
     
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onDisconnect = () => {
       setSocketConnected(false);
       setRoomJoined(false);
     };
 
     try {
-      console.log("🔌 Attempting to join room:", room, "as:", currentUser.name);
+      console.log("🔌 Attempting to join room:", room, "as:", currentUser?.name);
       
       // Make sure socket is connected first
       getSocket();
 
-      socket.emit("join-room", { room, username: currentUser.name });
+      socket.emit("join-room", { room, username: currentUser?.name });
       setRoomJoined(true);
 
       const onMessage = (data: unknown) => {
@@ -169,10 +171,10 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
         if (typeof messageData?.sender === 'string' && 
             typeof messageData?.message === 'string') {
           
-          console.log("✅ Valid message from:", messageData.sender, "current user:", currentUser.name);
+          console.log("✅ Valid message from:", messageData.sender, "current user:", currentUser?.name);
           
           // Only add to state if it's NOT from current user (to avoid duplicates)
-          if (messageData.sender !== currentUser.name) {
+          if (messageData.sender !== currentUser?.name) {
             const newMessage: MessageType = {
               sender: messageData.sender,
               message: messageData.message,
@@ -225,7 +227,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       sender: currentUser.name || currentUser.id,
       message,
       created_at: timestamp,
-      room
     };
 
     console.log("📤 Sending message:", msgData, "to room:", room);

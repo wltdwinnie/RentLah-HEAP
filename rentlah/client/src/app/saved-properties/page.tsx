@@ -68,7 +68,7 @@ export default function SavedPropertiesPage() {
       <div className="container mx-auto p-8">
         <h1 className="text-3xl font-bold mb-8">Saved Properties</h1>
         <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
-          <p className="text-lg text-gray-500">You haven't saved any properties yet.</p>
+          <p className="text-lg text-gray-500">You haven&apos;t saved any properties yet.</p>
         </div>
       </div>
     );

@@ -3,6 +3,7 @@ import { authClient } from "@/lib/authClient";
 import { dbPool } from "@/lib/auth";
 
 // Get all favorites for the current user
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
   try {
     // Get the current user session
