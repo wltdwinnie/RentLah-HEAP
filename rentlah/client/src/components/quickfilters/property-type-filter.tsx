@@ -33,7 +33,7 @@ export function PropertyTypeFilter({
   const [mounted, setMounted] = React.useState(false);
   const isMobile = useIsMobile();
 
-  let responsiveStyling = cn("w-[156]");
+  let responsiveStyling = cn("w-[156px]");
     if (isMobile) {
       responsiveStyling = cn("w-[80px]");
     }
