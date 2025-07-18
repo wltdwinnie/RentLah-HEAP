@@ -77,6 +77,7 @@ export function UniversityDropdown({
           <DropdownMenuItem
             key={uni.postalCode}
             onClick={() => handleSelect(uni.name + " (" + uni.shortname + ")")}
+            className="hover:text-blue-500 hover:shadow-md transition duration-200"
           >
             {uni.name} ({uni.shortname})
           </DropdownMenuItem>
