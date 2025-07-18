@@ -25,7 +25,7 @@ export function PriceRangeGroup({
         onClick={() => setIsExpanded(!isExpanded)}
         className="flex items-center justify-between w-full py-1.5 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
       >
-        <span className="text-sm font-medium">{title}</span>
+        <span className="text-sm font-medium dark:text-white">{title}</span>
         {isExpanded ? (
           <ChevronDown className="text-gray-500" size={16} />
         ) : (

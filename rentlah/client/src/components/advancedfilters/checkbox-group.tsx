@@ -36,7 +36,7 @@ export function CheckboxGroup({
         className="flex items-center justify-between w-full py-1.5 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <span className="text-sm font-medium">{title}</span>
+        <span className="text-sm font-medium dark:text-white">{title}</span>
         {isExpanded ? (
           <ChevronDown className="text-gray-500" size={16} />
         ) : (
@@ -49,7 +49,7 @@ export function CheckboxGroup({
           {options.map((option) => (
             <label
               key={option.id}
-              className="flex items-center space-x-2 py-1 px-1 cursor-pointer hover:bg-gray-50 rounded-sm text-sm text-gray-700"
+              className="flex items-center space-x-2 py-1 px-1 cursor-pointer hover:bg-gray-50 dark:text-white dark:hover:bg-gray-600 rounded-sm text-sm text-gray-700"
             >
               <input
                 type="checkbox"

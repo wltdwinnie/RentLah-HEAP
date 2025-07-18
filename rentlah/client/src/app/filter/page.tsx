@@ -74,7 +74,7 @@ function FilterPageClient() {
           {/* Filter UI - Responsive Layout */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full min-h-[40px] gap-3 pb-3">
             <div className="flex items-center gap-4">
-              <SidebarTrigger className="h-8 w-8 md:h-9 md:w-9 border border-gray-400 bg-white hover:bg-gray-50 rounded-md flex items-center justify-center" />
+              <SidebarTrigger className="h-8 w-8 md:h-9 md:w-9 border border-gray-400 bg-white dark:bg-zinc-900 hover:bg-gray-50 rounded-md flex items-center justify-center" />
 
               {/* Filter status and clear button */}
               {hasActiveFilters && (

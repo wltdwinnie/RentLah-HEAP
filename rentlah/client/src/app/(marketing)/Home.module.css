@@ -319,6 +319,17 @@
   transition: transform 0.18s, box-shadow 0.18s;
 }
 
+:global(.dark) .startStep {
+    background-color: #1a1a1a; /* Dark mode background */
+    color: #f5f5f5; /* Light text for dark mode */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Dark mode shadow */
+  }
+  
+  :global(.dark) .startStep:hover {
+    transform: scale(1.035);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); /* Dark mode hover shadow */
+  }
+
 .startStep:hover {
   transform: scale(1.035);
   box-shadow: 0 8px 32px rgba(31,38,135,0.09);
@@ -336,6 +347,11 @@
   line-height: 2.8rem;
   margin-bottom: 1rem;
 }
+
+:global(.dark) .stepNumber {
+    background: #aeabab20; /* semi-transparent light circle in dark mode */
+    color: #7070ec; /* white text */
+  }
 
 /* FAQ */
 .faqAccordion {
