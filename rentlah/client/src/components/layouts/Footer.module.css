@@ -8,6 +8,9 @@
     text-align: center;
 }
 
+:global(.dark) .footer {
+    background-color: #0a2968b5; /* navy blue (very dark) */
+  }
 .text {
     color: hsl(var(--primary));
     font-size: 0.875rem;
