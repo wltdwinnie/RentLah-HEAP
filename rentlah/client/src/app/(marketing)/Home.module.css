@@ -12,6 +12,8 @@
     padding: 0 1rem;
 }
 
+
+
 .sectionWhite {
     background-color: hsl(var(--background));
 }
@@ -20,12 +22,21 @@
     background-color: hsl(var(--primary-light));
 }
 
+:global(.dark) .sectionLightBlue {
+    background-color: #0a2968b5; /* navy blue (very dark) */
+  }
+
+
 .subTitle {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 2rem;
     font-weight: 700;
     color: hsl(var(--primary));
+}
+
+:global(.dark) .subTitle {
+    color: rgb(178, 190, 209);
 }
 
 /* Welcome Section */
@@ -234,7 +245,7 @@
 
 /* Dark mode styling */
 :global(.dark) .benefitCard {
-    background: black;
+    background: rgb(17, 17, 17);
     color: white;
   }
   
@@ -260,6 +271,15 @@
     transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s;
     will-change: transform;
 }
+
+:global(.dark) .testimonialCard {
+    background-color: #1f2937; 
+    border-left: 4px solid #93c5fd; 
+    color: #ccc; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
+    transform: scale(1.02); 
+}
+
 
 .testimonials {
     display: flex;
