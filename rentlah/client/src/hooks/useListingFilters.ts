@@ -1,11 +1,10 @@
 "use client";
 
 import {
-  useQueryState,
+  useQueryStates,
   parseAsString,
   parseAsInteger,
   parseAsArrayOf,
-  createParser
 } from "nuqs";
 import { AmenityType, UNIVERSITIES } from "@/lib/constants";
 import { Listing } from "@/lib/definition";
@@ -18,26 +17,16 @@ import { parseDistanceFilter } from "@/lib/distance-utils";
  */
 export function useListingFilters() {
   // Define all possible filters with nuqs
-  const [university, setUniversity] = useQueryState('university', parseAsString.withDefault(""));
-  const [propertyType, setPropertyType] = useQueryState('propertyType', parseAsString.withDefault(""));
-  const [minPrice, setMinPrice] = useQueryState('minPrice', parseAsInteger.withDefault(0));
-  const [maxPrice, setMaxPrice] = useQueryState('maxPrice', parseAsInteger.withDefault(0));
-  const [bedrooms, setBedrooms] = useQueryState('bedrooms', parseAsArrayOf(parseAsString).withDefault([]));
-  const [furnishing, setFurnishing] = useQueryState('furnishing', parseAsArrayOf(parseAsString).withDefault([]));
-  const [amenities, setAmenities] = useQueryState('amenities', parseAsArrayOf(parseAsString).withDefault([]));
-  const [distanceFromUniversity, setDistanceFromUniversity] = useQueryState('distanceFromUniversity', parseAsString.withDefault(""));
-  
-  // Combine all filters into a single object for easier access
-  const filters = {
-    university,
-    propertyType,
-    minPrice,
-    maxPrice,
-    bedrooms,
-    furnishing,
-    amenities,
-    distanceFromUniversity,
-  };
+  const [filters, setFilters] = useQueryStates({
+    university: parseAsString.withDefault(""),
+    propertyType: parseAsString.withDefault(""),
+    minPrice: parseAsInteger.withDefault(0),
+    maxPrice: parseAsInteger.withDefault(0),
+    bedrooms: parseAsArrayOf(parseAsString).withDefault([]),
+    furnishing: parseAsArrayOf(parseAsString).withDefault([]),
+    amenities: parseAsArrayOf(parseAsString).withDefault([]),
+    distanceFromUniversity: parseAsString.withDefault(""),
+  });
 
   // Utility function to convert short name to full format
   const getFullUniversityName = (shortname: string) => {
@@ -49,80 +38,77 @@ export function useListingFilters() {
   };
 
   // University-specific handlers
-  const selectedUniversity = getFullUniversityName(university);
+  const selectedUniversity = getFullUniversityName(filters.university);
 
   const handleUniversityChange = (uni: string) => {
     if (uni === "Select University") {
-      setUniversity("");
+      setFilters({ university: "" });
     } else {
       // Extract short name for clean URLs
       const match = uni.match(/\(([^)]+)\)/);
       const shortname = match ? match[1] : uni;
-      setUniversity(shortname);
+      setFilters({ university: shortname });
     }
   };
 
   // Property type handler
   const handlePropertyTypeChange = (type: string) => {
-    setPropertyType(type === "All" ? "" : type);
+    setFilters({ propertyType: type === "All" ? "" : type });
   };
 
   // Price range handlers
   const handlePriceRangeChange = (min: number, max: number) => {
-    setMinPrice(min || 0);
-    setMaxPrice(max || 0);
+    setFilters({
+      minPrice: min || 0,
+      maxPrice: max || 0,
+    });
   };
 
   // Bedroom count handler (now supports multiple selections)
-  const handleBedroomChange = (bedroomValues: string[]) => {
-    setBedrooms(bedroomValues);
+  const handleBedroomChange = (bedrooms: string[]) => {
+    setFilters({ bedrooms });
   };
 
   // Furnishing handler (now supports multiple selections)
-  const handleFurnishingChange = (furnishingValues: string[]) => {
-    setFurnishing(furnishingValues);
+  const handleFurnishingChange = (furnishing: string[]) => {
+    setFilters({ furnishing });
   };
 
   // Amenities handler
-  const handleAmenitiesChange = (amenityValues: string[]) => {
-    setAmenities(amenityValues);
+  const handleAmenitiesChange = (amenities: string[]) => {
+    setFilters({ amenities });
   };
 
   // Distance from university handler
   const handleDistanceFromUniversityChange = (distance: string) => {
-    setDistanceFromUniversity(distance);
+    setFilters({ distanceFromUniversity: distance });
   };
 
   // Clear all filters
   const clearAllFilters = () => {
-    setUniversity("");
-    setPropertyType("");
-    setMinPrice(0);
-    setMaxPrice(0);
-    setBedrooms([]);
-    setFurnishing([]);
-    setAmenities([]);
-    setDistanceFromUniversity("");
+    setFilters({
+      university: "",
+      propertyType: "",
+      minPrice: 0,
+      maxPrice: 0,
+      bedrooms: [],
+      furnishing: [],
+      amenities: [],
+      distanceFromUniversity: "",
+    });
   };
 
   // Clear specific filter
   const clearFilter = (filterKey: keyof typeof filters) => {
-    if (filterKey === "amenities") {
-      setAmenities([]);
-    } else if (filterKey === "bedrooms") {
-      setBedrooms([]);
-    } else if (filterKey === "furnishing") {
-      setFurnishing([]);
-    } else if (filterKey === "minPrice") {
-      setMinPrice(0);
-    } else if (filterKey === "maxPrice") {
-      setMaxPrice(0);
-    } else if (filterKey === "university") {
-      setUniversity("");
-    } else if (filterKey === "propertyType") {
-      setPropertyType("");
-    } else if (filterKey === "distanceFromUniversity") {
-      setDistanceFromUniversity("");
+    if (filterKey === "amenities" || filterKey === "bedrooms" || filterKey === "furnishing") {
+      setFilters({ [filterKey]: [] });
+    } else if (
+      filterKey === "minPrice" ||
+      filterKey === "maxPrice"
+    ) {
+      setFilters({ [filterKey]: 0 });
+    } else {
+      setFilters({ [filterKey]: "" });
     }
   };
 
@@ -152,10 +138,12 @@ export function useListingFilters() {
       }
       if (filters.maxPrice > 0 && listing.perMonth > filters.maxPrice) {
         return false;
-      }        // Bedroom count filter (supports multiple bedroom counts)
+      }
+
+      // Bedroom count filter (supports multiple bedroom counts)
       if (filters.bedrooms.length > 0) {
         const hasMatchingBedrooms = filters.bedrooms.some(
-          (bedroomCount: string) => listing.roomConfig.bedrooms === parseInt(bedroomCount)
+          (bedroomCount) => listing.roomConfig.bedrooms === parseInt(bedroomCount)
         );
         if (!hasMatchingBedrooms) return false;
       }
@@ -169,7 +157,7 @@ export function useListingFilters() {
       // Amenities filter
       if (filters.amenities.length > 0) {
         const listingFacilities = listing.facilities || [];
-        const hasAllAmenities = filters.amenities.every((amenity: string) =>
+        const hasAllAmenities = filters.amenities.every((amenity) =>
           listingFacilities.includes(amenity as AmenityType)
         );
         if (!hasAllAmenities) return false;
@@ -237,4 +225,4 @@ export function useListingFilters() {
       handleFurnishingChange(furnishing ? [furnishing] : []);
     },
   };
-}
+} 

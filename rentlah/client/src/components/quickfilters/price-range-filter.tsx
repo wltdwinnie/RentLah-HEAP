@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { QUICK_FILTER_CONFIGS } from "@/lib/filter-utils";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PriceRangeFilterProps {
   minPrice?: number;
@@ -25,7 +24,6 @@ export function PriceRangeFilter({
   className,
 }: PriceRangeFilterProps) {
   const [mounted, setMounted] = React.useState(false);
-  const isMobile = useIsMobile();
 
   React.useEffect(() => {
     setMounted(true);
@@ -36,16 +34,14 @@ export function PriceRangeFilter({
   };
 
   // Find the current selected range
-  const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find(
-    (range) => {
-      // For "All Prices", both min and max should be 0
-      if (range.label === "All Prices") {
-        return minPrice === 0 && maxPrice === 0;
-      }
-      // For other ranges, match normally
-      return range.min === minPrice && range.max === maxPrice;
+  const currentRange = QUICK_FILTER_CONFIGS.PRICE_RANGES.find((range) => {
+    // For "All Prices", both min and max should be 0
+    if (range.label === "All Prices") {
+      return minPrice === 0 && maxPrice === 0;
     }
-  );
+    // For other ranges, match normally
+    return range.min === minPrice && range.max === maxPrice;
+  });
 
   const displayValue =
     currentRange?.label ||
@@ -59,23 +55,13 @@ export function PriceRangeFilter({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "inline-flex items-center rounded-full border border-blue-600 bg-background px-2 py-1 font-medium ring-offset-background transition-colors hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap overflow-hidden",
-          isMobile ? "h-8 text-xs min-w-[70px] max-w-[70px]" : "h-9 text-sm min-w-[100px] max-w-[150px]",
+          "inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-auto",
           className
         )}
       >
-        <span className="truncate">
-          {mounted ? (isMobile ? 
-            (minPrice === 0 && maxPrice === 0 ? "Price" : `$${minPrice}${maxPrice > 0 ? '+' : ''}`) : 
-            displayValue) : 
-            "All Prices"}
-        </span>
+        {mounted ? displayValue : "All Prices"}
       </DropdownMenuTrigger>
-      <DropdownMenuContent 
-        className="rounded-xl bg-white text-black dark:bg-black dark:text-white max-h-[50vh] overflow-y-auto z-50"
-        align="center"
-      >
-
+      <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
         {QUICK_FILTER_CONFIGS.PRICE_RANGES.map((range, index) => (
           <DropdownMenuItem
             key={index}
