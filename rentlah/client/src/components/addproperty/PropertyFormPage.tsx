@@ -92,8 +92,7 @@ export function PropertyFormPage({
       </div>
       <form
         onSubmit={handleSubmit}
-        className="space-y-4 bg-white shadow-lg rounded-2xl p-8"
-      >
+        className="space-y-4 bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8"      >
         <AddressSection
           form={form}
           handleChange={handleChange}
@@ -104,9 +103,10 @@ export function PropertyFormPage({
           value={form.description}
           onChange={handleChange}
           placeholder="Description"
-          className="border p-3 rounded-2xl w-full"
+          className="border p-3 rounded-2xl w-full bg-white text-black dark:bg-gray-100 dark:text-black"
           required
         />
+
         <PropertyDetailsSection
           form={{
             ...form,
@@ -133,9 +133,9 @@ export function PropertyFormPage({
           form={
             form
               ? {
-                  coordinatesLat: form.coordinatesLat ?? "",
-                  coordinatesLng: form.coordinatesLng ?? "",
-                }
+                coordinatesLat: form.coordinatesLat ?? "",
+                coordinatesLng: form.coordinatesLng ?? "",
+              }
               : { coordinatesLat: "", coordinatesLng: "" }
           }
           nearbyMRT={nearbyMRT}
@@ -160,7 +160,7 @@ export function PropertyFormPage({
         />
         <button
           type="submit"
-          className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-2xl transition-colors"
+          className="bg-blue-700 hover:bg-blue-800  dark:bg-gray-800 text-white px-4 py-2 rounded-2xl transition-colors"
           disabled={submitting}
         >
           {submitting ? "Saving..." : "Save Changes"}

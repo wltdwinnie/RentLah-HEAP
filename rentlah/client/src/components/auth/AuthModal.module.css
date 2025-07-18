@@ -21,6 +21,9 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   position: relative; /* Ensures proper stacking */
 }
+:global(.dark) .modal {
+  background-color: #1a1a1a; /* or any dark color you want */
+}
 
 .close {
   position: absolute;
@@ -127,7 +130,11 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
+:global(.dark) .googleBtn {
+  background-color: #575454; 
+  text-decoration: none;
+  color: white;
+}
 .googleBtn:hover {
   background-color: #f1f1f1;
 }

@@ -30,7 +30,7 @@ export function PropertyDetailsSection({
           name="aptType"
           value={form.aptType}
           onChange={handleChange}
-          className="border p-3 rounded-2xl peer w-full pt-6 bg-white"
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white text-black dark:bg-gray-100 dark:text-black"
         >
           {APT_TYPES.map((type) => (
             <option key={type} value={type}>
@@ -45,7 +45,7 @@ export function PropertyDetailsSection({
           name="propertyType"
           value={form.propertyType}
           onChange={handleChange}
-          className="border p-3 rounded-2xl peer w-full pt-6 bg-white"
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white text-black dark:bg-gray-100 dark:text-black"
         >
           {PROPERTY_TYPES.map((type) => (
             <option key={type} value={type}>
@@ -61,8 +61,7 @@ export function PropertyDetailsSection({
           type="number"
           value={form.bedrooms}
           onChange={handleChange}
-          className="border p-3 rounded-2xl peer w-full pt-6"
-          required
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white text-black dark:bg-gray-100 dark:text-black"
           placeholder=" "
         />
         <label className={floatingLabel}>Bedrooms</label>
@@ -73,7 +72,7 @@ export function PropertyDetailsSection({
           type="number"
           value={form.bathrooms}
           onChange={handleChange}
-          className="border p-3 rounded-2xl peer w-full pt-6"
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white text-black dark:bg-gray-100 dark:text-black"
           required
           placeholder=" "
         />
@@ -113,7 +112,7 @@ export function PropertyDetailsSection({
           name="furnishing"
           value={form.furnishing}
           onChange={handleChange}
-          className="border p-3 rounded-2xl peer w-full pt-6 bg-white"
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white text-black dark:bg-gray-100 dark:text-black"
         >
             {FURNISHING_TYPES.map((type) => (
                           <option key={type} value={type}>{type}</option>
@@ -126,7 +125,7 @@ export function PropertyDetailsSection({
           name="sqft"
           value={form.sqft}
           onChange={handleChange}
-          className="border p-3 rounded-2xl peer w-full pt-6"
+          className="border p-3 rounded-2xl peer w-full pt-6 bg-white text-black dark:bg-gray-100 dark:text-black"
           required
           placeholder=" "
         />
