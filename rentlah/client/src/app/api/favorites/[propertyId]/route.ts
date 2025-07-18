@@ -3,9 +3,13 @@ import { authClient } from "@/lib/authClient";
 import { dbPool } from "@/lib/auth";
 
 // Check if a property is favorited
-export async function GET(request: NextRequest, param: unknown) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ propertyId: string }> }
+) {
   try {
-    const propertyId = (param as { propertyId?: string }).propertyId;
+    const { propertyId } = await params;
+    
     if (!propertyId) {
       return NextResponse.json(
         { error: "Missing property ID" },
@@ -36,9 +40,13 @@ export async function GET(request: NextRequest, param: unknown) {
 }
 
 // Remove a property from favorites
-export async function DELETE(request: NextRequest, params: unknown) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ propertyId: string }> }
+) {
   try {
-    const propertyId = (params as { propertyId?: string }).propertyId;
+    const { propertyId } = await params;
+    
     if (!propertyId) {
       return NextResponse.json(
         { error: "Missing property ID" },

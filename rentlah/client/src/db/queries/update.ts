@@ -20,6 +20,7 @@ export async function updateListing(data: InsertListing) {
   const { id, createdAt, ...updateFields } = data;
   updateFields.availableFrom = availableFrom;
   updateFields.updatedAt = new Date(); // Set updatedAt to current time
+  console.log("Update.ts -> id: ", id);
 
   // Update in DB
   const updated = await db
