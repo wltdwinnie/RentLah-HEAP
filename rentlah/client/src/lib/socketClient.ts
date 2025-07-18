@@ -10,7 +10,7 @@ const SOCKET_SERVER_URL =
 
 export function getSocket(): Socket {
   if (!socketInstance) {
-    socketInstance = io(SOCKET_SERVER_URL, {
+    socketInstance = io(process.env.BASE_URL || "https://rent-lah-heap.vercel.app", {
       reconnectionAttempts: 3,
       reconnectionDelay: 5000,
       autoConnect: false,

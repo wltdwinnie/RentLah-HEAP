@@ -56,7 +56,7 @@ export function PropertyTypeFilter({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "justify-center inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+          "hover:cursor-pointer justify-center inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
           responsiveStyling,
           className
         )}
@@ -68,7 +68,10 @@ export function PropertyTypeFilter({
           <DropdownMenuItem
             key={type.value}
             onClick={() => handleSelect(type.value)}
-            className={value === type.value ? "bg-accent" : ""}
+            className={cn(
+              "hover:cursor-pointer",
+              value === type.value ? "bg-accent" : ""
+            )}
           >
             {type.label}
           </DropdownMenuItem>
