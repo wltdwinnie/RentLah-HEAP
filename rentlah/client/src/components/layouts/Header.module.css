@@ -1,291 +1,307 @@
 .header {
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
-    position: sticky;
-    top: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    z-index: 20; /* Add z-index for proper stacking */
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  z-index: 20; /* Add z-index for proper stacking */
 }
 
 :global(html.dark) .header {
-    background-color: black;
-    color: white;
-  }
-  
+  background-color: black;
+  color: white;
+}
+
 .logoContainer {
-    flex-shrink: 0;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: clamp(150px, 15vw, 200px);
+  max-width: 200px;
+  max-height: 50px;
+  height: auto;
+  transition: all 0.2s ease;
 }
 
 .searchContainer {
-    flex: 1;
-    max-width: 400px;
-    margin: 0 1.5rem;
+  flex: 1;
+  max-width: 400px;
+  margin: 0 1.5rem;
 }
 
 .dropdownWrapper {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .searchInput {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    border: 2px solid hsl(var(--primary-light));
-    border-radius: 9999px;
-    outline: none;
-    background: white;
-    cursor: pointer;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 2px solid hsl(var(--primary-light));
+  border-radius: 9999px;
+  outline: none;
+  background: white;
+  cursor: pointer;
 }
 
 .dark .searchInput {
-    background: #18181b;
-    color: white;
-    border-color: #3f3f46;
+  background: #18181b;
+  color: white;
+  border-color: #3f3f46;
 }
 
-.searchInput:focus+.dropdown,
-.searchInput:hover+.dropdown {
-    display: block;
+.searchInput:focus + .dropdown,
+.searchInput:hover + .dropdown {
+  display: block;
 }
 
 .dropdown {
-    display: none;
-    position: absolute;
-    top: 105%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid hsl(var(--primary-light));
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    z-index: 1000; /* Increased z-index to be above content */
+  display: none;
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid hsl(var(--primary-light));
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  z-index: 1000; /* Increased z-index to be above content */
 }
 
 .dark .dropdown {
-    background: #18181b;
-    border-color: #3f3f46;
+  background: #18181b;
+  border-color: #3f3f46;
 }
 
 .dropdown li {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    color: black;
-    background-color: white;
-    font-weight: 500;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  color: black;
+  background-color: white;
+  font-weight: 500;
 }
 
 .dark .dropdown li {
-    color: white;
-    background-color: #18181b;
+  color: white;
+  background-color: #18181b;
 }
 
 .dropdown li:hover {
-    background-color: hsl(var(--primary-light));
-    color: #000;
+  background-color: hsl(var(--primary-light));
+  color: #000;
 }
 
 .dark .dropdown li:hover {
-    background-color: #3f3f46;
-    color: white;
+  background-color: #3f3f46;
+  color: white;
 }
 
 .actions {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
-.bell, .chat {
-    font-size: 1.2rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--primary);
-    display: inline-flex;
-    align-items: center;
-    padding: 0.2rem;
-    transition: background 0.1s, color 0.2s;
-    border-radius: 50%;
+.bell,
+.chat {
+  font-size: 1.2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem;
+  transition: background 0.1s, color 0.2s;
+  border-radius: 50%;
 }
-.bell:hover, .chat:hover {
-    color: var(--primary-dark);
-    background: rgba(0,0,0,0.04);
+.bell:hover,
+.chat:hover {
+  color: var(--primary-dark);
+  background: rgba(0, 0, 0, 0.04);
 }
 
-.dark .bell, .dark .chat {
-    color: white;
+.dark .bell,
+.dark .chat {
+  color: white;
 }
 
 .login {
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    border: 1px solid hsl(var(--primary));
-    background-color: white;
-    color: var(--primary);
-    font-weight: 600;
-    cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 99999px;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  border: 1px solid hsl(var(--primary));
+  background-color: white;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 :global(html.dark) .login {
-    background-color: black;
-    color: white;
-  }
+  background-color: black;
+  color: white;
+}
 
 .login:hover {
-    background-color: #f0f4ff;
+  background-color: #f0f4ff;
 }
 
 .dark .login:hover {
-    background-color: #3f3f46;
+  background-color: #3f3f46;
 }
 
 .signup {
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    border: none;
-    background-color: hsl(var(--primary));
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  border-radius: 9999px;
+  border: none;
+  background-color: hsl(var(--primary));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .signup:hover {
-    background-color: #143188;
-
+  background-color: #143188;
 }
 /* Profile section styles */
 .profileSection {
-    position: relative;
-    margin-left: 1rem;
+  position: relative;
+  margin-left: 1rem;
 }
 
 .profileIcon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    object-fit: cover;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border: 2px solid white;
-    transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 2px solid white;
+  transition: all 0.2s ease;
 }
 
-
 :global(.dark) .profileButton {
-    color: white;
-  }
+  color: white;
+}
 
 :global(.dark) .profileMenu {
-    background-color: #1a1a1a;
-    color: white;
-    border: 1px solid #333;
-  }
+  background-color: #1a1a1a;
+  color: white;
+  border: 1px solid #333;
+}
 
-  :global(.dark) .logoutButton {
-    color: #ff6b6b;
-  }
-
+:global(.dark) .logoutButton {
+  color: #ff6b6b;
+}
 
 :global(.dark) .profileDivider {
-    border-color: #444;
-  }
+  border-color: #444;
+}
 
 .profileIcon:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
 }
 
 .profileDropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .profileMenu {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    background-color: #fff;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
-    width: 260px;
-    z-index: 1000;
-  }
-  
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+  width: 260px;
+  z-index: 1000;
+}
 
 .dark .profileMenu {
-    background-color: #000;       
-    color: white;                 
-    border: 1px solid #333;
-  }
+  background-color: #000;
+  color: white;
+  border: 1px solid #333;
+}
 
 .profileDropdown:hover .profileMenu {
-    display: block;
+  display: block;
 }
 
 .profileEmail {
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #555;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profileDivider {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 0.5rem 0;
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 0.5rem 0;
 }
 
 .dark .profileDivider {
-    border-color: rgba(255, 255, 255, 0.2);
-  }
+  border-color: rgba(255, 255, 255, 0.2);
+}
 
 .profileButton {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 0.5rem 1rem;
-    background: none;
-    border: none;
-    font-size: 0.9rem;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.15s;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.15s;
 }
 
 .profileButton:hover {
-    background-color: #f6f6f6;
+  background-color: #f6f6f6;
 }
 
 .logoutButton {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 0.5rem 1rem;
-    background: none;
-    border: none;
-    font-size: 0.9rem;
-    color: #f44336;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.15s;
-    margin-top: 0.5rem;
-    border-top: 1px solid #eee;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: #f44336;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  margin-top: 0.5rem;
+  border-top: 1px solid #eee;
 }
 
 .logoutButton:hover {
-    background-color: #ffebee;
+  background-color: #ffebee;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-

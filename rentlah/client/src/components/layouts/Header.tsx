@@ -115,6 +115,7 @@ export default function Header() {
               alt="RentLah Logo"
               width={200}
               height={50}
+              className={styles.logo}
             />
           </Link>
         </div>
@@ -151,7 +152,7 @@ export default function Header() {
         ) : (
           <>
             <button className={styles.login} onClick={() => openModal("login")}>Login</button>
-            <button className={styles.signup} onClick={() => openModal("signup")}>Sign Up</button>
+            <button className={`${styles.signup}`} onClick={() => openModal("signup")}>Sign Up</button>
           </>
         ))}
       </div>
