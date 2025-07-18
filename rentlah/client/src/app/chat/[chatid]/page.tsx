@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Header from "@/app/chat/_components/Header";
 import ChatForm from "@/app/chat/_components/ChatForm";
 import ChatMessage from "@/app/chat/_components/ChatMessage";
-import { getSocket, socket } from "@/lib/socketClient";
+import { socket } from "@/lib/socketClient";
 import { shouldShowTimestampHeader, getTimestampHeader } from "@/utils/timeUtils";
 import { ChatUser, MessageType, ApiMessageResponse } from "@/app/chat/types/chat";
 
@@ -15,8 +15,9 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
-  const [joined, setJoined] = useState(false);
   const [firstRenderDone, setFirstRenderDone] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [roomJoined, setRoomJoined] = useState(false);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -29,14 +30,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     } else {
       messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
     }
-  };
-
-  // Helper function to ensure socket connection
-  const getSocket = () => {
-    if (!socket.connected) {
-      socket.connect();
-    }
-    return socket;
   };
 
   useEffect(() => {
@@ -57,7 +50,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     fetchCurrentUser();
   }, []);
 
-  // Fetch other user
   useEffect(() => {
     if (!chatid) return;
     const fetchUser = async () => {
@@ -69,7 +61,6 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     fetchUser();
   }, [chatid]);
 
-  // Fetch messages
   const fetchMessages = useCallback(async (before?: string) => {
     if (!room || !currentUser || !user || loadingOlder) return;
 
@@ -98,10 +89,8 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     const prevHeight = scroll?.scrollHeight ?? 0;
 
     if (before) {
-      // For pagination: prepend older messages
       setMessages((prev) => [...formatted, ...prev]);
     } else {
-      // For initial load: set all messages
       setMessages(formatted);
     }
 
@@ -138,94 +127,87 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
     }
   }, [room, currentUser, user, firstRenderDone, fetchMessages]);
 
-  // Socket connection and message handling
   useEffect(() => {
-    if (!room || !currentUser || !user || joined) return;
+    const onConnect = () => {
+      setSocketConnected(true);
+    };
+    
+    const onDisconnect = () => {
+      setSocketConnected(false);
+      setRoomJoined(false);
+    };
 
-    try {
-      console.log("🔌 Attempting to join room:", room, "as:", currentUser.name);
-      
-      // Make sure socket is connected first
-      getSocket();
+    const onMessage = (data: unknown) => {
+      const messageData = data as { sender: string; message: string; created_at?: string };
 
-      socket.emit("join-room", { room, username: currentUser.name });
-      setJoined(true);
-
-      const onMessage = (data: unknown) => {
-        console.log("📨 Received socket message:", data);
+      if (typeof messageData?.sender === 'string' && 
+          typeof messageData?.message === 'string') {
         
-        // Cast data to the expected type with type checking
-        const messageData = data as { sender: string; message: string; created_at?: string };
-
+        const newMessage: MessageType = {
+          sender: messageData.sender,
+          message: messageData.message,
+          created_at: messageData.created_at || new Date().toISOString(),
+        };
         
-        if (typeof messageData?.sender === 'string' && 
-            typeof messageData?.message === 'string') {
+        setMessages((prev) => {
+          const messageExists = prev.some(msg => 
+            msg.sender === newMessage.sender && 
+            msg.message === newMessage.message && 
+            Math.abs(new Date(msg.created_at).getTime() - new Date(newMessage.created_at).getTime()) < 2000
+          );
           
-          console.log("✅ Valid message from:", messageData.sender, "current user:", currentUser.name);
-          
-          // Only add to state if it's NOT from current user (to avoid duplicates)
-          if (messageData.sender !== currentUser.name) {
-            const newMessage: MessageType = {
-              sender: messageData.sender,
-              message: messageData.message,
-              created_at: messageData.created_at || new Date().toISOString(),
-            };
-            
-            console.log("➕ Adding message to state:", newMessage);
-            setMessages((prev) => [...prev, newMessage]);
-            
-            // Smooth scroll for incoming messages
-            requestAnimationFrame(() => scrollToBottom(true));
+          if (!messageExists) {
+            return [...prev, newMessage];
           } else {
-            console.log("🚫 Ignoring own message via socket");
+            return prev;
           }
-        } else {
-          console.log("❌ Invalid message format:", messageData);
-       }
-      };
+        });
+        
+        requestAnimationFrame(() => scrollToBottom(true));
+      }
+    };
 
-      const onConnect = () => {
-        console.log("🟢 Socket connected");
-      };
-      
-      const onDisconnect = () => {
-        console.log("🔴 Socket disconnected");
-      };
-
-      socket.on("message", onMessage);
-      socket.on("connect", onConnect);
-      socket.on("disconnect", onDisconnect);
-      
-      return () => { 
-        socket.off("message", onMessage);
-        socket.off("connect", onConnect);
-        socket.off("disconnect", onDisconnect);
-      };
-    } catch (err) {
-      console.warn("❌ Chat socket connection unavailable:", err);
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    socket.on("message", onMessage);
+    
+    if (socket.connected) {
+      setSocketConnected(true);
+    } else {
+      socket.connect();
     }
-  }, [room, currentUser, user, joined]);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("message", onMessage);
+    };
+  }, [currentUser?.name]); // Include currentUser.name in dependency
+
+  // Join room when ready
+  useEffect(() => {
+    if (room && currentUser && socketConnected && !roomJoined) {
+      socket.emit("join-room", { room, username: currentUser.name });
+      setRoomJoined(true);
+    }
+  }, [room, currentUser, socketConnected, roomJoined]);
 
   const handleSendMessage = async (message: string) => {
-    if (!currentUser || !user) return;
+    if (!currentUser || !user || !socketConnected) {
+      return;
+    }
 
     const timestamp = new Date().toISOString();
-    const msgData: MessageType = {
+    const msgData = {
       sender: currentUser.name || currentUser.id,
       message,
       created_at: timestamp,
+      room
     };
-
-    console.log("📤 Sending message:", msgData, "to room:", room);
     
-    // Add message to local state immediately (for sender)
-    setMessages((prev) => [...prev, msgData]);
+    // Emit to socket
+    socket.emit("message", msgData);
     
-    // Emit to socket (will be received by other users in the room)
-    socket.emit("message", { ...msgData, room });
-    
-    requestAnimationFrame(() => scrollToBottom(true));
-
     // Save to database
     try {
       const response = await fetch("/api/messages", {
@@ -240,19 +222,18 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
       });
       
       if (!response.ok) {
-        console.error("❌ Failed to save message to database");
+        console.error("Failed to save message to database");
       }
     } catch (err) {
-      console.error("❌ Error saving message:", err);
+      console.error("Error saving message:", err);
     }
   };
 
   if (!user || !chatid || !currentUser) return <div>Loading...</div>;
 
   return (
-
     <div className="flex flex-col h-full">
-      <Header imageUrl={user.image} name={user.name?? user.id} />
+      <Header imageUrl={user.image} name={user.name ?? user.id} />
       <div
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto p-4 mb-2 border rounded-lg bg-white text-black dark:bg-black dark:text-white"
@@ -293,5 +274,3 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
 };
 
 export default Page;
-
-
