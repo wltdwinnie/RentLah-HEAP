@@ -247,7 +247,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
             {/* Timestamp Header */}
             {shouldShowTimestampHeader(msg, messages[i - 1]) && (
               <div className="flex justify-center my-4">
-                <div className="bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded-full">
+                <div className="bg-gray-300 text-gray-600 text-xs px-3 py-1 rounded-full">
                   {getTimestampHeader(msg.created_at)}
                 </div>
               </div>
@@ -269,6 +269,7 @@ const Page = ({ params }: { params: Promise<{ chatid: string }> }) => {
         <ChatForm onSendMessage={handleSendMessage} />
       </div>
     </div>
+
   );
 };
 
