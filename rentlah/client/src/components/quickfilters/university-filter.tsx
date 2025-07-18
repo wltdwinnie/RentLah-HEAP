@@ -59,7 +59,7 @@ export function UniversityDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 gap-4",
+          "hover:cursor-pointer inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 gap-4",
           responsiveStyling,
           className
         )}
@@ -75,6 +75,7 @@ export function UniversityDropdown({
       <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
         {UNIVERSITIES.map((uni) => (
           <DropdownMenuItem
+            className="hover:cursor-pointer"
             key={uni.postalCode}
             onClick={() => handleSelect(uni.name + " (" + uni.shortname + ")")}
           >
