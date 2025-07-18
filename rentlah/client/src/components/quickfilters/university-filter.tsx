@@ -11,8 +11,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { GraduationCap } from "lucide-react";
 
 interface UniversityDropdownProps {
+  hasHat?: boolean;
   value?: string;
   onChange?: (university: string) => void;
   onSelect?: (university: string) => void;
@@ -20,6 +22,7 @@ interface UniversityDropdownProps {
 }
 
 export function UniversityDropdown({
+  hasHat,
   value = "Select University",
   onChange,
   onSelect,
@@ -51,10 +54,11 @@ export function UniversityDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-auto",
+          "inline-flex h-9 items-center justify-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-auto gap-4",
           className
         )}
       >
+        {hasHat ? <GraduationCap /> : null}
         {mounted
           ? universityDisplayUtils.getResponsiveDisplayText(selectedUniversity, isMobile)
           : universityDisplayUtils.getResponsiveDisplayText(value, isMobile)}
