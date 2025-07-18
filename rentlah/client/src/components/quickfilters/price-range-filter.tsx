@@ -55,7 +55,7 @@ export function PriceRangeFilter({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "w-[144px] justify-center inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+          "hover:cursor-pointer w-[144px] justify-center inline-flex h-9 items-center rounded-full border border-[hsl(var(--primary))] bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
           className
         )}
       >
@@ -66,7 +66,10 @@ export function PriceRangeFilter({
           <DropdownMenuItem
             key={index}
             onClick={() => handleSelect(range.min, range.max)}
-            className={currentRange === range ? "bg-accent" : ""}
+            className={cn(
+              "hover:cursor-pointer",
+              currentRange === range ? "bg-accent" : ""
+            )}
           >
             {range.label}
           </DropdownMenuItem>

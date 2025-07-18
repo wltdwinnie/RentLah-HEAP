@@ -193,7 +193,7 @@ export function useAddPropertyForm(user: string, GOOGLE_API_KEY: string) {
         universityTravelTimes: updatedForm.universityTravelTimes ? JSON.parse(updatedForm.universityTravelTimes) : undefined,
       };
       let res;
-      if (data.id) {
+      if (updatedForm.id) {
         // Update existing listing
         res = await fetch(`/api/listings/${data.id}`, {
           method: "PUT",
