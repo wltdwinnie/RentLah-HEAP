@@ -11,7 +11,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChatUser, ChatLayoutProps } from "@/app/chat/types/chat";
 
 const ChatLayout = ({ children }: ChatLayoutProps) => {
-  // All state hooks need to be at the top level, before any conditional logic
   const [chatOpen, setChatOpen] = useState(true);
   const [users, setUsers] = useState<ChatUser[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
@@ -19,13 +18,11 @@ const ChatLayout = ({ children }: ChatLayoutProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  // Show sidebar by default on desktop, hidden on mobile
   useEffect(() => {
     const handleResize = () => {
       setSidebarVisible(window.innerWidth >= 768);
     };
     
-    // Set initial state
     handleResize();
     
     window.addEventListener('resize', handleResize);

@@ -75,7 +75,7 @@ export function UniversityDropdown({
       <DropdownMenuContent className="rounded-xl bg-white text-black dark:bg-black dark:text-white">
         {UNIVERSITIES.map((uni) => (
           <DropdownMenuItem
-            className="hover:cursor-pointer"
+            className="hover:cursor-pointer hover:text-blue-500 hover:shadow-md transition duration-200"
             key={uni.postalCode}
             onClick={() => handleSelect(uni.name + " (" + uni.shortname + ")")}
           >
